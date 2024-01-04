@@ -3,7 +3,7 @@ import Navbar from "../navbar/Navbar.jsx";
 
 
 
-function Home(){
+const Home = () =>{
     return(
         <div>
             <Navbar/>
