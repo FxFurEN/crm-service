@@ -1,12 +1,10 @@
 import "../navbar/navbar.css";
-import Navbar from "../navbar/Navbar.jsx";
 
 
 
 const Home = () =>{
     return(
         <div>
-            <Navbar/>
             <main id="main" className="flexbox-col">
                 <h2>Lorem ipsum!</h2>
                 <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eum corporis, 

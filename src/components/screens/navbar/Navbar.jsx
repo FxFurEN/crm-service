@@ -1,74 +1,66 @@
 import './navbar.css';
 import { IonIcon } from '@ionic/react';
-import { searchOutline, homeOutline, folderOpenOutline, pieChartOutline, peopleOutline, chatbubblesOutline, settingsOutline, logoHackernews } from 'ionicons/icons';
+import { homeOutline, peopleOutline, settingsOutline, diamondOutline, appsOutline, barChartOutline } from 'ionicons/icons';
+import { Link, Outlet } from 'react-router-dom';
 
 const Navbar = () => {
   return (
-    <nav id="navbar">
-      <ul className="navbar-items flexbox-col">
+    <>
+      <nav id="navbar">
+        <ul className="navbar-items flexbox-col">
         <li className="navbar-logo flexbox-left">
-          <a className="navbar-item-inner flexbox">
-                <IonIcon icon={logoHackernews} />
-          </a>
-        </li>
-        <li className="navbar-item flexbox-left">
-          <a className="navbar-item-inner flexbox-left">
-            <div className="navbar-item-inner-icon-wrapper flexbox">
-              <IonIcon icon={searchOutline} />
-            </div>
-            <span className="link-text">Search</span>
-          </a>
-        </li>
-        <li className="navbar-item flexbox-left">
-          <a className="navbar-item-inner flexbox-left">
-            <div className="navbar-item-inner-icon-wrapper flexbox">
-              <IonIcon icon={homeOutline}></IonIcon>
-            </div>
-            <span className="link-text">Home</span>
-          </a>
-        </li>
-        <li className="navbar-item flexbox-left">
-          <a className="navbar-item-inner flexbox-left">
-            <div className="navbar-item-inner-icon-wrapper flexbox">
-              <IonIcon icon={folderOpenOutline}></IonIcon>
-            </div>
-            <span className="link-text">Projects</span>
-          </a>
-        </li>
-        <li className="navbar-item flexbox-left">
-          <a className="navbar-item-inner flexbox-left">
-            <div className="navbar-item-inner-icon-wrapper flexbox">
-              <IonIcon icon={pieChartOutline}></IonIcon>
-            </div>
-            <span className="link-text">Dashboard</span>
-          </a>
-        </li>
-        <li className="navbar-item flexbox-left">
-          <a className="navbar-item-inner flexbox-left">
-            <div className="navbar-item-inner-icon-wrapper flexbox">
-              <IonIcon icon={peopleOutline}></IonIcon>
-            </div>
-            <span className="link-text">Team</span>
-          </a>
-        </li>
-        <li className="navbar-item flexbox-left">
-          <a className="navbar-item-inner flexbox-left">
-            <div className="navbar-item-inner-icon-wrapper flexbox">
-              <IonIcon icon={chatbubblesOutline}></IonIcon>
-            </div>
-            <span className="link-text">Support</span>
-          </a>
-        </li>
-        <li className="navbar-item flexbox-left">
-          <a className="navbar-item-inner flexbox-left">
-            <div className="navbar-item-inner-icon-wrapper flexbox">
-              <IonIcon icon={settingsOutline}></IonIcon>
-            </div>
-            <span className="link-text">Settings</span>
-          </a>
-        </li>
-      </ul>
-    </nav>
+            <Link to='/home' className="navbar-item-inner flexbox">
+              <div className="navbar-item-inner-icon-wrapper flexbox">
+                <IonIcon icon={diamondOutline}></IonIcon>
+              </div>
+              <span className="link-text">CRM</span>
+            </Link>
+          </li>
+          <li className="navbar-item flexbox-left">
+            <Link to='/home' className="navbar-item-inner flexbox-left">
+              <div className="navbar-item-inner-icon-wrapper flexbox">
+                <IonIcon icon={homeOutline}></IonIcon>
+              </div>
+              <span className="link-text">Home</span>
+            </Link>
+          </li>
+          <li className="navbar-item flexbox-left">
+            <Link to='/clients' className="navbar-item-inner flexbox-left">
+              <div className="navbar-item-inner-icon-wrapper flexbox">
+                <IonIcon icon={peopleOutline}></IonIcon>
+              </div>
+              <span className="link-text">Клиенты</span>
+            </Link>
+          </li>
+          <li className="navbar-item flexbox-left">
+            <Link to='/report' className="navbar-item-inner flexbox-left">
+              <div className="navbar-item-inner-icon-wrapper flexbox">
+                <IonIcon icon={barChartOutline}></IonIcon>
+              </div>
+              <span className="link-text">Отчет</span>
+            </Link>
+          </li>
+          <li className="navbar-item flexbox-left">
+            <Link to='/inventory' className="navbar-item-inner flexbox-left">
+              <div className="navbar-item-inner-icon-wrapper flexbox">
+                <IonIcon icon={appsOutline}></IonIcon>
+              </div>
+              <span className="link-text">Склад</span>
+            </Link>
+          </li>
+          <li className="navbar-item flexbox-left">
+            <Link to='/settings' className="navbar-item-inner flexbox-left">
+              <div className="navbar-item-inner-icon-wrapper flexbox">
+                <IonIcon icon={settingsOutline}></IonIcon>
+              </div>
+              <span className="link-text">Настройки</span>
+            </Link>
+          </li>
+        </ul>
+      </nav>
+      <Outlet />
+    </>
+    
   );
 }
 
