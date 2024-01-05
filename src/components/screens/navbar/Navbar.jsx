@@ -8,12 +8,9 @@ const Navbar = () => {
     <>
       <nav id="navbar">
         <ul className="navbar-items flexbox-col">
-        <li className="navbar-logo flexbox-left">
+          <li className="navbar-logo flexbox-left">
             <Link to='/home' className="navbar-item-inner flexbox">
-              <div className="navbar-item-inner-icon-wrapper flexbox">
-                <IonIcon icon={diamondOutline}></IonIcon>
-              </div>
-              <span className="link-text">CRM</span>
+              <IonIcon icon={diamondOutline} />
             </Link>
           </li>
           <li className="navbar-item flexbox-left">
@@ -21,7 +18,7 @@ const Navbar = () => {
               <div className="navbar-item-inner-icon-wrapper flexbox">
                 <IonIcon icon={homeOutline}></IonIcon>
               </div>
-              <span className="link-text">Home</span>
+              <span className="link-text">Главная</span>
             </Link>
           </li>
           <li className="navbar-item flexbox-left">

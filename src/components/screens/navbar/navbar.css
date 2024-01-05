@@ -282,6 +282,10 @@ select {
 .navbar-logo > .navbar-item-inner:hover {
     background-color: transparent;
 }
+.navbar-logo > .navbar-item-inner > svg {
+    height: 2em;
+    fill: hsl(var(--white));
+}
 /* Navbar Items */
 .navbar-item {
     padding: 0 .5em;
