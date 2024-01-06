@@ -1,6 +1,6 @@
 import './navbar.css';
 import { IonIcon } from '@ionic/react';
-import { homeOutline, peopleOutline, settingsOutline, diamondOutline, appsOutline, barChartOutline } from 'ionicons/icons';
+import { homeOutline, peopleOutline, settingsOutline, diamondOutline, appsOutline, barChartOutline, archiveOutline } from 'ionicons/icons';
 import { Link, Outlet } from 'react-router-dom';
 
 const Navbar = () => {
@@ -8,9 +8,10 @@ const Navbar = () => {
     <>
       <nav id="navbar">
         <ul className="navbar-items flexbox-col">
-          <li className="navbar-logo flexbox-left">
+          <li className="navbar-logo flexbox">
             <Link to='/home' className="navbar-item-inner flexbox">
-              <IonIcon icon={diamondOutline} />
+              <IonIcon icon={diamondOutline} size="large"/>
+              <span className="link-text">Главная</span>
             </Link>
           </li>
           <li className="navbar-item flexbox-left">
@@ -19,6 +20,14 @@ const Navbar = () => {
                 <IonIcon icon={homeOutline}></IonIcon>
               </div>
               <span className="link-text">Главная</span>
+            </Link>
+          </li>
+          <li className="navbar-item flexbox-left">
+            <Link to='/orders' className="navbar-item-inner flexbox-left">
+              <div className="navbar-item-inner-icon-wrapper flexbox">
+                <IonIcon icon={archiveOutline}></IonIcon>
+              </div>
+              <span className="link-text">Заказы</span>
             </Link>
           </li>
           <li className="navbar-item flexbox-left">
@@ -55,6 +64,7 @@ const Navbar = () => {
           </li>
         </ul>
       </nav>
+      <div>123</div>
       <Outlet />
     </>
     

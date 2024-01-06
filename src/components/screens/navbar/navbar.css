@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;700&display=swap');
 :root {
     --primary: 237, 94%, 81%;
     --background: 266, 16%, 92%;
@@ -19,8 +20,9 @@
     /* misc */
     --transition-main: .175, .685, .32;
     /* Fonts */
-    --font-main: "Poppins";
+    --font-main: "Nunito";
 }
+
 
 /* ===========
     Variabels
@@ -243,7 +245,7 @@ select {
 #navbar {
     top: 0;
     padding: 0;
-    width: 5em;
+    width: 3.5em;
     height: 100vh;
     position: fixed;
     background-color: hsl(var(--background-secondary));
@@ -252,7 +254,7 @@ select {
     overflow-x: hidden;
 }
 #navbar:hover {
-    width: 16em;
+    width: 14em;
 }
 #navbar::-webkit-scrollbar-track {
     background-color: hsl(var(--background-secondary));
@@ -273,7 +275,7 @@ select {
 .navbar-logo {
     margin: 0 0 2em 0;
     width: 100%;
-    height: 5em;
+    height: 4em;
     background: hsl(var(--background-secondary-dark));
 }
 .navbar-logo > .navbar-item-inner {

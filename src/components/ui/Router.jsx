@@ -6,6 +6,7 @@ import Settings from '../screens/settings-page/Settings.jsx'
 import Inventory from '../screens/inventory-page/Inventory.jsx'
 import Report from '../screens/report-page/Report.jsx'
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
+import Orders from '../screens/orders-page/Orders.jsx'
 
 const Router = () => {
 
@@ -16,6 +17,7 @@ const Router = () => {
                <Route path="/home" element={<Home />} />
                <Route path="/clients" element={<Clients />} />
                <Route path="/report" element={<Report />} />
+               <Route path="/orders" element={<Orders />} />
                <Route path="/inventory" element={<Inventory />} />
                <Route path="/settings" element={<Settings />} />
                <Route element={<App/>} path="*"/>
