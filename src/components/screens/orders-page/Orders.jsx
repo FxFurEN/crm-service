@@ -1,8 +1,12 @@
+import "../navbar/navbar.css";
+import '../../../assets/styles/global.css';
+
+
 const Orders = () =>{
     return(
-        <div>
-            <h1>Orders</h1>
-        </div>
+        <main id="main" className="flexbox-col">
+            <h2>Заказы</h2>
+        </main>
     )
 }
 

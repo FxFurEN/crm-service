@@ -1,8 +1,11 @@
+import "../navbar/navbar.css";
+import '../../../assets/styles/global.css';
+
 const Report = () =>{
     return(
-        <div>
-            <h1>Report</h1>
-        </div>
+        <main id="main" className="flexbox-col">
+            <h2>Отчет</h2>
+        </main>
     )
 }
 

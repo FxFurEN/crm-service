@@ -1,8 +1,11 @@
+import "../navbar/navbar.css";
+import '../../../assets/styles/global.css';
+
 const Inventory = () =>{
     return(
-        <div>
-            <h1>Inventory</h1>
-        </div>
+        <main id="main" className="flexbox-col">
+            <h2>Склад</h2>
+        </main>
     )
 }
 
