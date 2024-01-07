@@ -194,22 +194,7 @@
   
   
 
-/* ======
-    Main
-   ====== */
 
-#main {
-    margin: 0 0 0 5em;
-    min-height: 150vh;
-}
-#main > h2 {
-    width: 80%;
-    max-width: 80%;
-}
-#main > p {
-    width: 80%;
-    max-width: 80%;
-}
 
 /* =============
     ::Selectors

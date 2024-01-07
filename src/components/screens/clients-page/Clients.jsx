@@ -1,9 +1,9 @@
-import "../navbar/navbar.css";
+import '../../../assets/styles/main.css';
 import '../../../assets/styles/global.css';
 
 const Clients = () =>{
     return(
-        <main id="main" className="flexbox-col">
+        <main id="main">
                 <h2>Клиенты</h2>
             </main>
     )

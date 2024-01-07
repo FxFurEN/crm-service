@@ -1,4 +1,5 @@
 import './navbar.css';
+import '../../../assets/styles/global.css';
 import { IonIcon } from '@ionic/react';
 import { homeOutline, peopleOutline, settingsOutline, diamondOutline, appsOutline, barChartOutline, archiveOutline, personOutline } from 'ionicons/icons';
 import { Link, Outlet } from 'react-router-dom';
@@ -68,8 +69,8 @@ const Navbar = () => {
         <div className="wrapper">
           <ul className="nav-links">
           <li className="navbar-item flexbox-left">
-            <Link to='/settings/profile' className="navbar-item-inner flexbox-left">
-            <span>Person</span>
+            <Link to='/settings' className="navbar-item-inner flexbox-left">
+            <span>Профиль</span>
               <div className="navbar-item-inner-icon-wrapper flexbox">
                 <IonIcon icon={personOutline}></IonIcon>
               </div>

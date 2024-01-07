@@ -1,10 +1,10 @@
-import "../navbar/navbar.css";
+import '../../../assets/styles/main.css';
 import '../../../assets/styles/global.css';
 
 
 const Home = () =>{
     return(
-            <main id="main" className="flexbox-col">
+            <main id="main">
                 <h2>Главная</h2>
             </main>
        
