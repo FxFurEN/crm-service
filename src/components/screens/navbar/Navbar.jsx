@@ -1,6 +1,6 @@
 import './navbar.css';
 import { IonIcon } from '@ionic/react';
-import { homeOutline, peopleOutline, settingsOutline, diamondOutline, appsOutline, barChartOutline, archiveOutline } from 'ionicons/icons';
+import { homeOutline, peopleOutline, settingsOutline, diamondOutline, appsOutline, barChartOutline, archiveOutline, personOutline } from 'ionicons/icons';
 import { Link, Outlet } from 'react-router-dom';
 
 const Navbar = () => {
@@ -11,7 +11,6 @@ const Navbar = () => {
           <li className="navbar-logo flexbox">
             <Link to='/home' className="navbar-item-inner flexbox">
               <IonIcon icon={diamondOutline} size="large"/>
-              <span className="link-text">Главная</span>
             </Link>
           </li>
           <li className="navbar-item flexbox-left">
@@ -63,8 +62,22 @@ const Navbar = () => {
             </Link>
           </li>
         </ul>
+        
       </nav>
-      <div>123</div>
+      <div className='nav-line'>
+        <div className="wrapper">
+          <ul className="nav-links">
+          <li className="navbar-item flexbox-left">
+            <Link to='/settings/profile' className="navbar-item-inner flexbox-left">
+            <span>Person</span>
+              <div className="navbar-item-inner-icon-wrapper flexbox">
+                <IonIcon icon={personOutline}></IonIcon>
+              </div>
+            </Link>
+          </li>
+          </ul>
+        </div>
+      </div>
       <Outlet />
     </>
     

@@ -7,6 +7,7 @@ import Inventory from '../screens/inventory-page/Inventory.jsx'
 import Report from '../screens/report-page/Report.jsx'
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import Orders from '../screens/orders-page/Orders.jsx'
+import Profile from '../screens/settings-page/you-profile/Profile.jsx'
 
 const Router = () => {
 
@@ -20,6 +21,7 @@ const Router = () => {
                <Route path="/orders" element={<Orders />} />
                <Route path="/inventory" element={<Inventory />} />
                <Route path="/settings" element={<Settings />} />
+               <Route path="/settings/profile" element={<Profile />} />
                <Route element={<App/>} path="*"/>
              </Route>
          </Routes>
