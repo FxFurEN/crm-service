@@ -69,7 +69,7 @@ const Navbar = () => {
         <div className="wrapper">
           <ul className="nav-links">
           <li className="navbar-item flexbox-left">
-            <Link to='/settings' className="navbar-item-inner flexbox-left">
+            <Link to='/settings/profile' className="navbar-item-inner flexbox-left">
             <span>Профиль</span>
               <div className="navbar-item-inner-icon-wrapper flexbox">
                 <IonIcon icon={personOutline}></IonIcon>
