@@ -92,21 +92,35 @@ a:visited {
     Buttons
    ========= */
 
-button {
-    padding: .8em 1.2em;
-    border: 1px solid hsl(var(--black));
+   button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 10px 15px;
+    gap: 15px;
     background-color: hsl(var(--background));
-    font-size: var(--paragraph);
+    outline-offset: -3px;
+    border-radius: 5px;
+    border: none;
     cursor: pointer;
-    outline: none;
-}
-button:focus {
-    box-shadow:
-            0 0 0 2px hsl(var(--black)),
-            0 0 0 3px hsl(var(--white));
-    border: 1px solid transparent;
-}
-
+    transition: 400ms;
+  }
+  
+  button .text {
+    color: white;
+    font-weight: 700;
+    font-size: 1.5em;
+    transition: 400ms;
+  }
+  
+  button {
+    transition: 400ms;
+  }
+  
+  button:hover {
+    background-color: hsl(var(--background-secondary));
+  }
+  
 /* =======
     Lists
    ======= */
