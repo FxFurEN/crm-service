@@ -46,6 +46,7 @@ html, body {
 h1, h2, h3, h4, h5, h6 {
     margin: 0;
     color: var(--white);
+    text-decoration: none;
 }
 /* Font Size */
 h1 {
@@ -77,12 +78,14 @@ h3, h4, h5, h6 {
 p {
     margin: 0;
     font-size: var(--paragraph);
+    text-decoration: none;
 }
 /* Links */
 a {
     color: hsla(var(--primary), 1);
     font-size: var(--paragraph);
     text-decoration: underline;
+    text-decoration: none;
 }
 a:visited {
     color: hsla(var(--white), 1);
