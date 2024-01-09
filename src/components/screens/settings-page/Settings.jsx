@@ -15,7 +15,7 @@ const Settings = () =>{
                 <div className={styleTable.row}>
                     <div className={styleTable.cell}>
                     <h4>Компания</h4>
-                    <Link to='/settings/company'>
+                    <Link to='/settings/general/company'>
                         <button className="button">   
                             <IonIcon slot="start" size="large" color='light' icon={cubeOutline}></IonIcon>
                             <p className="text" >Общее</p>
@@ -44,7 +44,7 @@ const Settings = () =>{
 
                 <div className={styleTable.cell}>
                     <h4>Заказы</h4>
-                    <Link to='/settings/defaults'>
+                    <Link to='/settings/general/orders'>
                             <button className="button">   
                                 <IonIcon slot="start" size="large" color='light' icon={albumsOutline}></IonIcon>
                                 <p className="text" >Общее</p>
@@ -74,7 +74,7 @@ const Settings = () =>{
                             </button>
                     </Link>
                 </div>
-                <div >
+                <div className={styleTable.cell}>
                     <h4>Платежи</h4>
                     <Link to='/settings/reference/accounts'>
                             <button className="button">   
