@@ -4,7 +4,6 @@ import '../../../../../assets/styles/main.css';
 const PaymentMethods = () =>{
     return(
         <main id="main">
-            <h2>Методы оплаты</h2>
         </main>
     )
 }

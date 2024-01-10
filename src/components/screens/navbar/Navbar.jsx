@@ -23,7 +23,7 @@ const Navbar = () => {
     ['/settings/statuses', 'Статусы'],
     ['/settings/services', 'Услуги'],
     ['/settings/notifications', 'Уведомления'],
-    ['/settings/reference/accounts', 'Счета'],
+    ['/settings/reference/accounts', 'Статьи движения денежных средств'],
     ['/settings/paymentMethods', 'Способы оплаты'],
     ['/settings/fields/order', 'Поля заказов'],
     ['/settings/fields/client', 'Поля клиентов'],

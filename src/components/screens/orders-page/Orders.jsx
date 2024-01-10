@@ -6,7 +6,6 @@ import '../../../assets/styles/global.css';
 const Orders = () =>{
     return(
         <main id="main">
-            <h2>Заказы</h2>
                 <div className={style.wrapper}>
                 
                 <div className={style.table} style={{ boxShadow: '0 10px 13px 2px rgba(0, 0, 0, 0.2)' }}>

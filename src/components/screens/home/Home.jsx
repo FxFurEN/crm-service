@@ -5,7 +5,6 @@ import '../../../assets/styles/global.css';
 const Home = () =>{
     return(
             <main id="main">
-                <h2>Главная</h2>
             </main>
        
     )

@@ -4,7 +4,6 @@ import '../../../assets/styles/global.css';
 const Report = () =>{
     return(
         <main id="main">
-            <h2>Отчет</h2>
         </main>
     )
 }

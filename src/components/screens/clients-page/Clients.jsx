@@ -4,7 +4,6 @@ import '../../../assets/styles/global.css';
 const Clients = () =>{
     return(
         <main id="main">
-                <h2>Клиенты</h2>
             </main>
     )
 }
