@@ -93,13 +93,13 @@ const Settings = () =>{
             <div className={styleTable.row}>
                 <div className={styleTable.cell}>
                     <h4>Формы</h4>
-                    <Link to='/settings/ticketTypes'>
+                    <Link to='/settings/orderType'>
                             <button className="button">   
                                 <IonIcon slot="start" size="large" color='light' icon={prismOutline}></IonIcon>
                                 <p className="text" >Типы заказа</p>
                             </button>
                     </Link>
-                    <Link to='/settings/clientTypes'>
+                    <Link to='/settings/clientType'>
                             <button className="button">   
                                 <IonIcon slot="start" size="large" color='light' icon={prismOutline}></IonIcon>
                                 <p className="text" >Типы клиентов</p>

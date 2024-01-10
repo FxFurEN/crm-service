@@ -1,5 +1,5 @@
-import '../../../../assets/styles/global.css';
-import '../../../../assets/styles/main.css';
+import '../../../../../assets/styles/global.css';
+import '../../../../../assets/styles/main.css';
 
 const Integrations = () =>{
     return(
