@@ -9,7 +9,6 @@ const Settings = () =>{
     return(
         
         <main id="main">
-            <h2>Настройки</h2>
             <>
             <div className={styleTable.table}>
                 <div className={styleTable.row}>

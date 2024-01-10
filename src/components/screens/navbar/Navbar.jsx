@@ -123,13 +123,13 @@ const Navbar = () => {
       </nav>
       <div className='nav-line'>
         <div className="wrapper">
-        <li className="navbar-item flexbox-left " style={{ paddingLeft: '5em' }}>
-          <Link to={currentPage}>
+        <li className="navbar-item flexbox-left " style={{ paddingLeft: '5em', width: 'auto', height: 'auto'}}>
+          <Link to={currentPage} >
             {getPageSpans(currentPage)}
           </Link>
           </li> 
           <ul className="nav-links">
-          <li className="navbar-item flexbox-left">
+          <li className="navbar-item flexbox-left" >
             <Link to='/settings/profile' className="navbar-item-inner flexbox-left">
             <span>Профиль</span>
               <div className="navbar-item-inner-icon-wrapper flexbox">
