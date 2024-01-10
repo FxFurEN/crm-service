@@ -76,7 +76,7 @@ const Settings = () =>{
                 </div>
                 <div className={styleTable.cell}>
                     <h4>Платежи</h4>
-                    <Link to='/settings/reference/accounts'>
+                    <Link to='/settings/accounts'>
                             <button className="button">   
                                 <IonIcon slot="start" size="large" color='light' icon={cashOutline}></IonIcon>
                                 <p className="text" >Статьи движения денежных средств</p>

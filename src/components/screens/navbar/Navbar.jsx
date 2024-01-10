@@ -23,7 +23,7 @@ const Navbar = () => {
     ['/settings/statuses', 'Статусы'],
     ['/settings/services', 'Услуги'],
     ['/settings/notifications', 'Уведомления'],
-    ['/settings/reference/accounts', 'Статьи движения денежных средств'],
+    ['/settings/accounts', 'Статьи движения денежных средств'],
     ['/settings/paymentMethods', 'Способы оплаты'],
     ['/settings/fields/order', 'Поля заказов'],
     ['/settings/fields/client', 'Поля клиентов'],
@@ -44,10 +44,14 @@ const Navbar = () => {
       currentPath += `/${part}`;
       const pageName = russianPageNames.get(currentPath) || additionalPageNames.get(currentPath);
       const isClickable = russianPageNames.has(currentPath) || currentPath === '/settings';
+      const isCurrentPage = currentPath === path;
+      
       return (
         <span key={index}>
           {isClickable ? (
-            <Link to={currentPath} style={{ cursor: 'pointer' }}>{pageName || part}</Link>
+            <Link to={currentPath} className={isCurrentPage ? '' : 'hover-navbar'} style={{ cursor: isCurrentPage ? 'text' : 'pointer' }}>
+              {pageName || part}
+            </Link>
           ) : (
             <span style={{ cursor: 'text' }}>{pageName !== undefined ? pageName : part}</span>
           )}
@@ -119,7 +123,7 @@ const Navbar = () => {
       </nav>
       <div className='nav-line'>
         <div className="wrapper">
-        <li className="navbar-item flexbox-left hover-navbar" style={{ paddingLeft: '5em' }}>
+        <li className="navbar-item flexbox-left " style={{ paddingLeft: '5em' }}>
           <Link to={currentPage}>
             {getPageSpans(currentPage)}
           </Link>

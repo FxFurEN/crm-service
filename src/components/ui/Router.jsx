@@ -44,7 +44,7 @@ const Router = () => {
                <Route path="/settings/statuses" element={<Statuses />} />
                <Route path='/settings/services' element={<Services />} />
                <Route path='/settings/notifications' element={<Notifications />} />
-               <Route path='/settings/reference/accounts' element={<Accounts />} />
+               <Route path='/settings/accounts' element={<Accounts />} />
                <Route path='/settings/paymentMethods' element={<PaymentMethods />} />
                <Route path='/settings/fields/order' element={<FieldOrders />} />
                <Route path='/settings/fields/client' element={<FieldClients />} />

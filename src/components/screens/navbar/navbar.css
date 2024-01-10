@@ -142,8 +142,15 @@
     background: hsl(var(--background-secondary-light));
     box-shadow: 0 17px 30px -10px hsla(var(--black), .25);
 }
-.hover-navbar:hover { 
-    background: hsl(var(--background-secondary-light));
+.hover-navbar {
+    width: 50%;
+    height: 50%;
+    border-radius: .25em;
+    transition: all .2s cubic-bezier(var(--transition-main), 1);
+
+  }
+.hover-navbar:hover {
+    text-shadow: 0 0 10px hsl(var(--white));
   }
 .navbar-item-inner-icon-wrapper {
     width: calc(5rem - 1em - 8px);
