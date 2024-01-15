@@ -8,7 +8,7 @@ function Example() {
 
     return (
         <main id="main">
-            <IonSearchbar showCancelButton="never" debounce={550} class="custom"></IonSearchbar>
+            <IonSearchbar showCancelButton="never" debounce={1000} class="custom"></IonSearchbar>
         </main>
             
     );
