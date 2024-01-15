@@ -11,7 +11,7 @@ function Example() {
         <main id="main">
             <div>
                 <div>
-                    <IonSearchbar showCancelButton="never" debounce={500} class="custom"></IonSearchbar>
+                    <IonSearchbar showCancelButton="never" debounce={1000} class="custom"></IonSearchbar>
                 </div>        
             </div>
             <div>
