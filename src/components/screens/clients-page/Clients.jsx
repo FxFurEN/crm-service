@@ -1,13 +1,16 @@
 import '../../../assets/styles/main.css';
 import '../../../assets/styles/global.css';
+import '../../../assets/styles/searchBar.css';
 
+import {IonSearchbar } from '@ionic/react';
 
-const Clients = () =>{
-    return(
+function Example() {
+
+    return (
         <main id="main">
-           фывфывф
-            </main>
-    )
+            <IonSearchbar showCancelButton="never" debounce={1000} class="custom"></IonSearchbar>
+        </main>
+            
+    );
 }
-
-export default Clients
+export default Example;

@@ -6,7 +6,7 @@
     display: flex;
     flex-direction: column;
     margin: 0 0 0 5em;
-    padding-top: 5em;
+    padding-top: 11vh;
 }
 #main > h2 {
     width: 80%;
