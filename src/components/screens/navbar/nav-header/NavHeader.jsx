@@ -1,5 +1,5 @@
 import { Link, useLocation } from 'react-router-dom';
-import { IonIcon } from '@ionic/react';
+import { IonIcon, IonBreadcrumb, IonBreadcrumbs } from '@ionic/react';
 import { personOutline } from 'ionicons/icons';
 
 
@@ -35,41 +35,58 @@ const NavHeader = () => {
     ['/settings/general', 'Общие'],
     ['/settings/fields', 'Поле'],
     ['/settings/reference', 'Справочники'],
+    ['/settings/fields', 'Поле'],
   ]);
 
   const getPageSpans = (path) => {
     const pathParts = path.split('/').filter(part => part !== ''); 
     let currentPath = '';
-    return pathParts.map((part, index) => {
+    const breadcrumbElements = [];
+  
+    pathParts.forEach((part, index) => {
       currentPath += `/${part}`;
       const pageName = russianPageNames.get(currentPath) || additionalPageNames.get(currentPath);
-      const isClickable = russianPageNames.has(currentPath) || currentPath === '/settings';
+      const isClickable = russianPageNames.has(currentPath);
       const isCurrentPage = currentPath === path;
-      
-      return (
-        <span key={index}>
-          {isClickable ? (
-            <Link to={currentPath} className={isCurrentPage ? '' : 'hover-navbar'} style={{ cursor: isCurrentPage ? 'text' : 'pointer' }}>
-              {pageName || part}
-            </Link>
-          ) : (
-            <span style={{ cursor: 'text' }}>{pageName !== undefined ? pageName : part}</span>
-          )}
-          {index < pathParts.length - 1 && <span> /</span>} {}
-        </span>
-      );
+  
+      breadcrumbElements.push({
+        path: currentPath,
+        pageName: pageName || part,
+        isClickable: isClickable,
+        isCurrentPage: isCurrentPage
+      });
     });
+  
+    return breadcrumbElements;
   };
-
-
+  
+  
+  const breadcrumbs = getPageSpans(currentPage);
 
     return(
         <div className='nav-line'>
         <div className="wrapper">
         <li className="navbar-item flexbox-left " style={{ paddingLeft: '5em', width: 'auto', height: 'auto'}}>
-          <Link to={currentPage} >
-            {getPageSpans(currentPage)}
-          </Link>
+            <IonBreadcrumbs>
+                {breadcrumbs.map((breadcrumb, index) => (
+                    <IonBreadcrumb key={index} href={breadcrumb.isClickable ? breadcrumb.path : undefined}>
+                    {breadcrumb.isClickable ? (
+                        <Link
+                        to={breadcrumb.path}
+                        style={{
+                            color: breadcrumb.isCurrentPage ? 'white' : 'gray',
+                            cursor: 'pointer',textDecoration: 'none', 
+                            transition: 'color 0.3s ease', }}
+                        className={breadcrumb.isClickable ? 'hover-navbar' : ''} 
+                        >
+                        {breadcrumb.pageName}
+                        </Link>
+                    ) : (
+                        <span style={{ color: 'gray', cursor: 'text' }}>{breadcrumb.pageName}</span>
+                    )}
+                    </IonBreadcrumb>
+                ))}
+            </IonBreadcrumbs>
           </li> 
           <ul className="nav-links">
           <li className="navbar-item flexbox-left" >
