@@ -1,17 +1,19 @@
 import '../../../assets/styles/main.css';
 import '../../../assets/styles/global.css';
-import style from '../../../assets/styles/addbutton.module.css';
+import '../../../assets/styles/addbutton.css';
 import '@ionic/react/css/core.css';
 
-import { IonIcon } from '@ionic/react';
+import { IonFab, IonFabButton, IonIcon } from '@ionic/react';
 import { addOutline } from 'ionicons/icons';
 
 
 const Clients = () =>{
     return(
-        <button className={style.Btn}>
-            <IonIcon icon={addOutline} size='large' className={style.logoIcon} />
-         </button>
+        <IonFab className='ion-posting-buuton'> 
+            <IonFabButton >
+                <IonIcon icon={addOutline} size='large'/>
+            </IonFabButton>
+        </IonFab>
     )
 }
 
