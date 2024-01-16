@@ -10,7 +10,7 @@ const Settings = () =>{
         
         <main id="main">
             <>
-            <div className={styleTable.table}>
+            <div className={styleTable.table} style={{margin: "1em 0 40px 0px",}}>
                 <div className={styleTable.row}>
                     <div className={styleTable.cell}>
                     <h4>Компания</h4>
