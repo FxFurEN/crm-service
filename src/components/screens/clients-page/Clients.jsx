@@ -1,16 +1,13 @@
 import { useState } from 'react';
-import { IonSearchbar } from '@ionic/react';
-
-
 import '../../../assets/styles/main.css';
 import '../../../assets/styles/global.css';
-import '../../../assets/styles/searchBar.css';
 import style from  '../../../assets/styles/table.module.css';
 
 import AddButton from '../addButton/AddButton';
+import SearchBox from '../searchBox/SearchBox';
 
 function Clients() {
-    const [data] = useState([
+    const initialData = [
         {
           name: 'Рома Аегси Хиро',
           phone: '+375(**)**-**-**',
@@ -191,33 +188,22 @@ function Clients() {
               email: 'email2@example.com',
               type: 'Юр.лицо',
           },
-      ]);
+      ];
     
-      const [searchText, setSearchText] = useState('');
-    
-      const filteredData = data.filter(
-        (item) =>
-          item.name.toLowerCase().includes(searchText.toLowerCase()) ||
-          item.phone.includes(searchText) ||
-          item.email.toLowerCase().includes(searchText.toLowerCase()) ||
-          item.type.toLowerCase().includes(searchText.toLowerCase())
-      );
-    
-      const handleInput = (ev) => {
-        setSearchText(ev.target.value);
-      };
+        const [data] = useState(initialData);
+        const [filteredData, setFilteredData] = useState(initialData);
+
+        const fields = ['name', 'phone', 'email', 'type'];
+
+        const handleFilter = (filteredResults) => {
+            setFilteredData(filteredResults);
+        };
 
     return (
         <main id="main">
             <div>
                 <div>
-                    <IonSearchbar
-                        showCancelButton="never"
-                        debounce={500}
-                        class="custom"
-                        value={searchText}
-                        onIonInput={handleInput}
-                    ></IonSearchbar>
+                    <SearchBox fields={fields} data={data} onFilter={handleFilter} />
                 </div>
             </div>
             <div>
