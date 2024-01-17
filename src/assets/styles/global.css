@@ -148,7 +148,6 @@ input {
     padding: .8em 1.2em;
     font-size: var(--paragraph);
     background-color: hsl(var(--grooble));
-    border: 2px solid hsl(var(--grooble));
     outline: none;
 }
 textarea {
@@ -156,16 +155,14 @@ textarea {
     font-size: var(--paragraph);
     font-family: var(--font-main);
     background-color: hsl(var(--grooble));
-    border: 2px solid hsl(var(--grooble));
+
     outline: none;
 }
 input, textarea {
     transition: all .2s ease-in-out;
 }
 input:hover, input:focus, textarea:hover, textarea:focus {
-    box-shadow:
-            0 0 0 2px hsl(var(--black)),
-            0 0 0 3px hsl(var(--white));
+   
     border: 2px solid transparent;
 }
 select {

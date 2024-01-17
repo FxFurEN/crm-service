@@ -1,4 +1,4 @@
-// NewClients.jsx
+import '../../../assets/styles/modal-wind.css';
 import { useRef, useState } from 'react';
 import {
   IonButtons,
@@ -62,26 +62,46 @@ const NewClients = ({ isOpen, onClose, addClient }) => {
           </IonHeader>
           <IonContent className="ion-padding">
             <IonItem>
-              <IonInput label="Введите имя" labelPlacement="stacked" ref={inputName} type="text" placeholder="Имя" />
+              <IonInput 
+                label="ФИО" 
+                labelPlacement="floating"
+                ref={inputName} 
+                type="text" 
+                placeholder="Имя"
+                class="custom"
+                 />
             </IonItem>
             <IonItem>
               <IonInput
-                label="Введите телефон"
-                labelPlacement="stacked"
+                label="Телефон"
+                labelPlacement="floating"
                 ref={inputPhone}
                 type="tel"
-                placeholder="Телефон"
+                placeholder="888-888-8888"
+                class="custom"
+                
               />
             </IonItem>
             <IonItem>
-              <IonInput label="Введите почту" labelPlacement="stacked" ref={inputEmail} type="email" placeholder="Почта" />
+              <IonInput 
+                label="Почта" 
+                labelPlacement="floating" 
+                ref={inputEmail} 
+                type="email" 
+                placeholder="email@domain.com"
+                class="custom"
+                 />
+                
             </IonItem>
             <IonItem>
               <IonSelect
                 label="Тип клиента"
                 labelPlacement="floating"
                 ref={selectType}
-                style={{ paddingLeft: '2vh', width: '2' }}
+                class="custom"
+                className="custom-alert"
+                interface='popover'
+                
               >
                 <IonSelectOption value="Физ.лицо">Физ лицо</IonSelectOption>
                 <IonSelectOption value="Юр.лицо">Юр лицо</IonSelectOption>
