@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import '../../../assets/styles/main.css';
 import '../../../assets/styles/global.css';
@@ -191,18 +191,26 @@ function Clients() {
               type: 'Юр.лицо',
           },
       ];
-    
-        const [data] = useState(initialData);
-        const [filteredData, setFilteredData] = useState(initialData);
+
+        const [filteredData, setFilteredData] = useState([...initialData]);
+        const [clientList, setClientList] = useState([...initialData]);
         const [isNewClientsModalOpen, setIsNewClientsModalOpen] = useState(false);
         const navigate = useNavigate();
 
         const fields = ['name', 'phone', 'email', 'type'];
 
+
+        useEffect(() => {
+            setFilteredData(clientList);
+        }, [clientList]);
+
         const handleFilter = (filteredResults) => {
             setFilteredData(filteredResults);
         };
 
+        const addClient = (newClient) => {
+            setClientList((prevList) => [...prevList, newClient]);
+          };
 
         const openNewClientsModal = () => {
             setIsNewClientsModalOpen(true);
@@ -218,7 +226,7 @@ function Clients() {
         <main id="main">
             <div>
                 <div>
-                    <SearchBox fields={fields} data={data} onFilter={handleFilter} />
+                    <SearchBox fields={fields} data={clientList} onFilter={handleFilter} />
                 </div>
             </div>
             <div>
@@ -259,7 +267,7 @@ function Clients() {
             </div>
             <div>
                 <AddButton onClick={openNewClientsModal} />
-                <NewClients isOpen={isNewClientsModalOpen} onClose={closeNewClientsModal} />
+                <NewClients isOpen={isNewClientsModalOpen} onClose={closeNewClientsModal}  addClient={addClient} />
             </div>
         </main>
     );

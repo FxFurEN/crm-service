@@ -8,12 +8,12 @@ const SearchBox = ({ fields, data, onFilter }) => {
     const handleInput = (ev) => {
       const query = ev.target.value.toLowerCase();
       setSearchText(query);
-      
-      const filteredResults = data.filter(item =>
-        fields.some(field =>
-          item[field].toLowerCase().includes(query)
-        )
-      );
+  
+      const filteredResults = query
+        ? data.filter((item) =>
+            fields.some((field) => item[field].toLowerCase().includes(query))
+          )
+        : data;
   
       onFilter(filteredResults);
     };

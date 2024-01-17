@@ -1,7 +1,5 @@
-import { useState, useRef } from 'react';
-import '../../../assets/styles/main.css';
-import '../../../assets/styles/global.css';
-
+// NewClients.jsx
+import { useRef, useState } from 'react';
 import {
   IonButtons,
   IonButton,
@@ -12,21 +10,29 @@ import {
   IonTitle,
   IonItem,
   IonInput,
-  IonSelect, 
-  IonSelectOption
+  IonSelect,
+  IonSelectOption,
 } from '@ionic/react';
 
-
-const NewClients = ({ isOpen, onClose }) => {
+const NewClients = ({ isOpen, onClose, addClient }) => {
   const modal = useRef(null);
-  const input = useRef(null);
+  const inputName = useRef(null);
+  const inputPhone = useRef(null);
+  const inputEmail = useRef(null);
+  const selectType = useRef(null);
 
-  const [message, setMessage] = useState(
-    'This modal example uses triggers to automatically open a modal when the button is clicked.'
-  );
+  const [message, setMessage] = useState('');
 
   function confirm() {
-    modal.current?.dismiss(input.current?.value, 'confirm');
+    const newClient = {
+      name: inputName.current?.value || '',
+      phone: inputPhone.current?.value || '',
+      email: inputEmail.current?.value || '',
+      type: selectType.current?.value || '',
+    };
+
+    addClient(newClient); // Add the new client to the list
+    modal.current?.dismiss(null, 'confirm'); // Dismiss the modal
   }
 
   function onWillDismiss(ev) {
@@ -38,60 +44,52 @@ const NewClients = ({ isOpen, onClose }) => {
 
   return (
     <main id="main">
-            <IonContent className="ion-padding">
-                <p>{message}</p>
-                <IonModal ref={modal} trigger="open-modal" onWillDismiss={(ev) => onWillDismiss(ev)}>
-                    <IonHeader>
-                    <IonToolbar>
-                        <IonButtons slot="start">
-                        <IonButton onClick={() => modal.current?.dismiss()}>Отмена</IonButton>
-                        </IonButtons>
-                        <IonTitle>Клиент</IonTitle>
-                        <IonButtons slot="end">
-                        <IonButton strong={true} onClick={() => confirm()}>
-                            Добавить
-                        </IonButton>
-                        </IonButtons>
-                    </IonToolbar>
-                    </IonHeader>
-                    <IonContent className="ion-padding">
-                    <IonItem>
-                        <IonInput
-                        label="Введите имя"
-                        labelPlacement="stacked"
-                        ref={input}
-                        type="text"
-                        placeholder="Имя"
-                        />
-                    </IonItem>
-                    <IonItem>
-                        <IonInput
-                        label="Введите телефон"
-                        labelPlacement="stacked"
-                        ref={input}
-                        type="tel"
-                        placeholder="Телефон"
-                        />
-                    </IonItem>
-                    <IonItem>
-                        <IonInput
-                        label="Введите почту"
-                        labelPlacement="stacked"
-                        ref={input}
-                        type="email" 
-                        placeholder="Почта"
-                        />
-                    </IonItem>
-                        <IonSelect 
-                        label="Тип клиента" 
-                        labelPlacement="floating" 
-                        style={{paddingLeft: '2vh', Width: '2'}}>
-                            <IonSelectOption value="apple">Физ лицо</IonSelectOption>
-                            <IonSelectOption value="banana">Юр лицо</IonSelectOption>
-                        </IonSelect>
-                    </IonContent>
-                </IonModal>
-            </IonContent>
+      <IonContent className="ion-padding">
+        <p>{message}</p>
+        <IonModal ref={modal} trigger="open-modal" onWillDismiss={(ev) => onWillDismiss(ev)}>
+          <IonHeader>
+            <IonToolbar>
+              <IonButtons slot="start">
+                <IonButton onClick={() => modal.current?.dismiss()}>Отмена</IonButton>
+              </IonButtons>
+              <IonTitle>Клиент</IonTitle>
+              <IonButtons slot="end">
+                <IonButton strong={true} onClick={() => confirm()}>
+                  Добавить
+                </IonButton>
+              </IonButtons>
+            </IonToolbar>
+          </IonHeader>
+          <IonContent className="ion-padding">
+            <IonItem>
+              <IonInput label="Введите имя" labelPlacement="stacked" ref={inputName} type="text" placeholder="Имя" />
+            </IonItem>
+            <IonItem>
+              <IonInput
+                label="Введите телефон"
+                labelPlacement="stacked"
+                ref={inputPhone}
+                type="tel"
+                placeholder="Телефон"
+              />
+            </IonItem>
+            <IonItem>
+              <IonInput label="Введите почту" labelPlacement="stacked" ref={inputEmail} type="email" placeholder="Почта" />
+            </IonItem>
+            <IonItem>
+              <IonSelect
+                label="Тип клиента"
+                labelPlacement="floating"
+                ref={selectType}
+                style={{ paddingLeft: '2vh', width: '2' }}
+              >
+                <IonSelectOption value="Физ.лицо">Физ лицо</IonSelectOption>
+                <IonSelectOption value="Юр.лицо">Юр лицо</IonSelectOption>
+              </IonSelect>
+            </IonItem>
+          </IonContent>
+        </IonModal>
+      </IonContent>
     </main>
   );
 };
