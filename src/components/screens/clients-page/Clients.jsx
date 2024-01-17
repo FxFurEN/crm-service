@@ -1,12 +1,19 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { IonButton, IonIcon,  } from '@ionic/react';
+import {filterOutline, cloudUploadOutline, cloudDownloadOutline } from 'ionicons/icons';
+
 import '../../../assets/styles/main.css';
 import '../../../assets/styles/global.css';
 import style from  '../../../assets/styles/table.module.css';
+import '../../../assets/styles/addbutton.css';
+import '../../../assets/styles/button-ion.css';
 
 import AddButton from '../addButton/AddButton';
 import SearchBox from '../searchBox/SearchBox';
 import NewClients from '../addClients/NewClients';
+
+
 
 function Clients() {
     const initialData = [
@@ -225,9 +232,18 @@ function Clients() {
     return (
         <main id="main">
             <div>
-                <div>
+                <div style={{display: "flex", justifyContent: "space-between"}}>
                     <SearchBox fields={fields} data={clientList} onFilter={handleFilter} />
-                </div>
+                    <IonButton fill="clear">
+                        <IonIcon slot="icon-only" color="white" icon={filterOutline}></IonIcon>
+                    </IonButton>
+                    <IonButton fill="clear">
+                        <IonIcon slot="icon-only" icon={cloudUploadOutline}></IonIcon>
+                    </IonButton>
+                    <IonButton fill="clear">
+                        <IonIcon slot="icon-only" icon={cloudDownloadOutline}></IonIcon>
+                    </IonButton>
+                </div>    
             </div>
             <div>
                 <div className={style.wrapper}>
