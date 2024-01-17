@@ -12,6 +12,8 @@ import {
   IonTitle,
   IonItem,
   IonInput,
+  IonSelect, 
+  IonSelectOption
 } from '@ionic/react';
 
 
@@ -42,12 +44,12 @@ const NewClients = ({ isOpen, onClose }) => {
                     <IonHeader>
                     <IonToolbar>
                         <IonButtons slot="start">
-                        <IonButton onClick={() => modal.current?.dismiss()}>Cancel</IonButton>
+                        <IonButton onClick={() => modal.current?.dismiss()}>Отмена</IonButton>
                         </IonButtons>
-                        <IonTitle>Welcome</IonTitle>
+                        <IonTitle>Клиент</IonTitle>
                         <IonButtons slot="end">
                         <IonButton strong={true} onClick={() => confirm()}>
-                            Confirm
+                            Добавить
                         </IonButton>
                         </IonButtons>
                     </IonToolbar>
@@ -55,13 +57,38 @@ const NewClients = ({ isOpen, onClose }) => {
                     <IonContent className="ion-padding">
                     <IonItem>
                         <IonInput
-                        label="Enter your name"
+                        label="Введите имя"
                         labelPlacement="stacked"
                         ref={input}
                         type="text"
-                        placeholder="Your name"
+                        placeholder="Имя"
                         />
                     </IonItem>
+                    <IonItem>
+                        <IonInput
+                        label="Введите телефон"
+                        labelPlacement="stacked"
+                        ref={input}
+                        type="tel"
+                        placeholder="Телефон"
+                        />
+                    </IonItem>
+                    <IonItem>
+                        <IonInput
+                        label="Введите почту"
+                        labelPlacement="stacked"
+                        ref={input}
+                        type="email" 
+                        placeholder="Почта"
+                        />
+                    </IonItem>
+                        <IonSelect 
+                        label="Тип клиента" 
+                        labelPlacement="floating" 
+                        style={{paddingLeft: '2vh', Width: '2'}}>
+                            <IonSelectOption value="apple">Физ лицо</IonSelectOption>
+                            <IonSelectOption value="banana">Юр лицо</IonSelectOption>
+                        </IonSelect>
                     </IonContent>
                 </IonModal>
             </IonContent>
