@@ -9,10 +9,14 @@
     },
     {
         "label": "Source 3",
-        "value": 52
+        "value": 62
     },
     {
         "label": "Source 4",
-        "value": 62
+        "value": 58
+    },
+    {
+        "label": "Source 5",
+        "value": 21
     }
 ]

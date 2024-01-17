@@ -22,6 +22,29 @@ const Home = () =>{
                                     }
                                 ]
                             }}/>
+                            <Doughnut
+                                data={{
+                                    labels: sourceData.map(data => data.label),
+                                    datasets: [
+                                        {
+                                            label: 'Количество',
+                                            data: sourceData.map(data => data.value),
+                                        }
+                                    ]
+                                }}
+                            />
+                            <Line
+                                data={{
+                                    labels: sourceData.map(data => data.label),
+                                    datasets: [
+                                        {
+                                            label: 'Количество',
+                                            data: sourceData.map(data => data.value),
+                                        }
+                                    ]
+                                }}
+                            
+                            />
                     </div>
                     
                     
