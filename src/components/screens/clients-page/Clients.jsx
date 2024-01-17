@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { IonButton, IonIcon,  } from '@ionic/react';
 import {filterOutline, cloudUploadOutline, cloudDownloadOutline } from 'ionicons/icons';
 
@@ -22,13 +21,12 @@ function Clients() {
           phone: '+375(**)**-**-**',
           email: '-',
           type: 'Физ.лицо',
-        }
+        },      
       ];
 
         const [filteredData, setFilteredData] = useState([...initialData]);
         const [clientList, setClientList] = useState([...initialData]);
         const [isNewClientsModalOpen, setIsNewClientsModalOpen] = useState(false);
-        const navigate = useNavigate();
 
         const fields = ['name', 'phone', 'email', 'type'];
 
@@ -47,15 +45,14 @@ function Clients() {
 
         const openNewClientsModal = () => {
             setIsNewClientsModalOpen(true);
-            navigate('/clients/new');
           };
         
           const closeNewClientsModal = () => {
             setIsNewClientsModalOpen(false);
-            navigate('/clients');
           };
 
     return (
+    <>
         <main id="main">
             <div>
                 <div style={{display: "flex", justifyContent: "space-between"}}>
@@ -71,8 +68,8 @@ function Clients() {
                     </IonButton>
                 </div>    
             </div>
-            <div>
-                <div className={style.wrapper}>
+            <div style={{ flex: 1, overflow: 'auto' }}>
+                <div className={style.wrapper} >
                     <div className={style.table} style={{ boxShadow: '0 10px 13px 2px rgba(0, 0, 0, 0.2)' }}>
                         <div className={style.row + ' ' + style.header}>
                             <div className={style.cell}>
@@ -112,6 +109,7 @@ function Clients() {
                 <NewClients isOpen={isNewClientsModalOpen} onClose={closeNewClientsModal}  addClient={addClient} />
             </div>
         </main>
+    </>
     );
 }
 

@@ -53,66 +53,69 @@ const Orders = () => {
   };
 
   return (
-    <main id="main">
-      <div>
-        <div style={{ display: "flex", justifyContent: "space-between" }}>
-          <SearchBox fields={fields} data={orderList} onFilter={handleFilter} />
-          <IonButton fill="clear">
-            <IonIcon slot="icon-only" color="white" icon={filterOutline}></IonIcon>
-          </IonButton>
-          <IonButton fill="clear">
-            <IonIcon slot="icon-only" icon={cloudUploadOutline}></IonIcon>
-          </IonButton>
-          <IonButton fill="clear">
-            <IonIcon slot="icon-only" icon={cloudDownloadOutline}></IonIcon>
-          </IonButton>
-        </div>
-      </div>
-      <div>
-        <div className={style.wrapper}>
-          <div className={style.table} style={{ boxShadow: '0 10px 13px 2px rgba(0, 0, 0, 0.2)' }}>
-
-            <div className={style.row + ' ' + style.header}>
-              <div className={style.cell}>
-                Заказ
-              </div>
-              <div className={style.cell}>
-                Обновлен
-              </div>
-              <div className={style.cell}>
-                Статус
-              </div>
-              <div className={style.cell}>
-                Срок
-              </div>
-              <div className={style.cell}>
-                Клиент
-              </div>
-              <div className={style.cell}>
-                Исполнитель
-              </div>
-              <div className={style.cell}>
-                Наименование услуги
-              </div>
-            </div>
-
-            {filteredData.map((item, index) => (
-                <div className={style.row} key={index}>
-                    {fields.map((field, fieldIndex) => (
-                    <div className={style.cell} data-title={field} key={fieldIndex}>
-                        {item[field]}
-                    </div>
-                    ))}
-                </div>
-            ))}
+    <>
+      <main id="main">
+        <div>
+          <div style={{ display: "flex", justifyContent: "space-between" }}>
+            <SearchBox fields={fields} data={orderList} onFilter={handleFilter} />
+            <IonButton fill="clear">
+              <IonIcon slot="icon-only" color="white" icon={filterOutline}></IonIcon>
+            </IonButton>
+            <IonButton fill="clear">
+              <IonIcon slot="icon-only" icon={cloudUploadOutline}></IonIcon>
+            </IonButton>
+            <IonButton fill="clear">
+              <IonIcon slot="icon-only" icon={cloudDownloadOutline}></IonIcon>
+            </IonButton>
           </div>
         </div>
-      </div>
-      <div>
-        <AddButton onClick={openNewOrdersModal} />
-        <NewOrders isOpen={isNewOrdersModalOpen} onClose={closeNewOrdersModal} addOrders={addOrders} />
-      </div>
-    </main>
+        <div style={{ flex: 1, overflow: 'auto' }}>  
+          <div className={style.wrapper} >
+            <div className={style.table} style={{ boxShadow: '0 10px 13px 2px rgba(0, 0, 0, 0.2)' }}>
+
+              <div className={style.row + ' ' + style.header}>
+                <div className={style.cell}>
+                  Заказ
+                </div>
+                <div className={style.cell}>
+                  Обновлен
+                </div>
+                <div className={style.cell}>
+                  Статус
+                </div>
+                <div className={style.cell}>
+                  Срок
+                </div>
+                <div className={style.cell}>
+                  Клиент
+                </div>
+                <div className={style.cell}>
+                  Исполнитель
+                </div>
+                <div className={style.cell}>
+                  Наименование услуги
+                </div>
+              </div>
+
+              {filteredData.map((item, index) => (
+                  <div className={style.row} key={index}>
+                      {fields.map((field, fieldIndex) => (
+                      <div className={style.cell} data-title={field} key={fieldIndex}>
+                          {item[field]}
+                      </div>
+                      ))}
+                  </div>
+              ))}
+            </div>
+          </div>
+        </div>
+          <div>
+            <AddButton onClick={openNewOrdersModal} />
+            <NewOrders isOpen={isNewOrdersModalOpen} onClose={closeNewOrdersModal} addOrders={addOrders} />
+          </div>
+      </main>
+    </>
+    
   );
 }
 

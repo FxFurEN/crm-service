@@ -6,9 +6,9 @@
     width: auto;
     display: flex;
     flex-direction: column;
+    height: 100%;
     margin: 0 0 0 4em;
     padding-top: 11vh;
-    overflow-y: auto;
 }
 #main > h2 {
     width: 80%;
