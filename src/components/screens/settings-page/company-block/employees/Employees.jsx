@@ -1,11 +1,11 @@
 import '../../../../../assets/styles/global.css';
 import '../../../../../assets/styles/main.css';
 
-const Integrations = () =>{
+const Employees = () =>{
     return(
         <main id="main">
         </main>
     )
 }
 
-export default Integrations
+export default Employees

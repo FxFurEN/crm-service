@@ -1,8 +1,8 @@
 import '../../../assets/styles/main.css';
 import '../../../assets/styles/global.css';
 import { IonIcon } from '@ionic/react';
-import { cubeOutline, personOutline, documentOutline, gitNetworkOutline, albumsOutline, listOutline, 
-    pencilOutline, notificationsOutline, cashOutline, cardOutline, bookmarksOutline, prismOutline } from 'ionicons/icons';
+import { cubeOutline, personOutline, documentOutline, albumsOutline, listOutline, 
+    pencilOutline, peopleOutline, bookmarksOutline, prismOutline } from 'ionicons/icons';
 import { Link, Outlet } from 'react-router-dom';
 import styleTable from '../../../assets/styles/table.module.css';
 const Settings = () =>{
@@ -10,7 +10,7 @@ const Settings = () =>{
         
         <main id="main">
             <>
-            <div className={styleTable.table} style={{margin: "1em 0 40px 0px",}}>
+            <div className={styleTable.table} style={{margin: "1em 0 40px 0px", justifyContent: "center", alignItems: "center", display: "flex"}}>
                 <div className={styleTable.row}>
                     <div className={styleTable.cell}>
                     <h4>Компания</h4>
@@ -33,10 +33,10 @@ const Settings = () =>{
                             <p className="text" >Документы</p>
                         </button>
                     </Link>
-                    <Link to='/settings/integrations'>
+                    <Link to='/settings/employees'>
                         <button className="button">   
-                            <IonIcon slot="start" size="large" color='light' icon={gitNetworkOutline}></IonIcon>
-                            <p className="text" >Интеграции</p>
+                            <IonIcon slot="start" size="large" color='light' icon={peopleOutline}></IonIcon>
+                            <p className="text" >Сотрудники</p>
                         </button>
                     </Link>
                 </div>
@@ -63,32 +63,7 @@ const Settings = () =>{
                     </Link>
                 </div>
             </div>
-            <div className={styleTable.row}>
-                <div className={styleTable.cell}>
-                    <h4>Клиенты</h4>
-                    <Link to='/settings/notifications'>
-                            <button className="button">   
-                                <IonIcon slot="start" size="large" color='light' icon={notificationsOutline}></IonIcon>
-                                <p className="text" >Уведомления</p>
-                            </button>
-                    </Link>
-                </div>
-                <div className={styleTable.cell}>
-                    <h4>Платежи</h4>
-                    <Link to='/settings/accounts'>
-                            <button className="button">   
-                                <IonIcon slot="start" size="large" color='light' icon={cashOutline}></IonIcon>
-                                <p className="text" >Статьи движения денежных средств</p>
-                            </button>
-                    </Link>
-                    <Link to='/settings/paymentMethods'>
-                            <button className="button">   
-                                <IonIcon slot="start" size="large" color='light' icon={cardOutline}></IonIcon>
-                                <p className="text" >Методы оплаты</p>
-                            </button>
-                    </Link>
-                </div>
-            </div>
+            
             <div className={styleTable.row}>
                 <div className={styleTable.cell}>
                     <h4>Формы</h4>
