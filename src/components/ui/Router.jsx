@@ -39,6 +39,7 @@ import TypeClients from '../screens/settings-page/forms-block/type-clients/TypeC
 import Handbooks from '../screens/settings-page/forms-block/handbooks/Handbooks.jsx'
 import NewClients from '../screens/addClients/NewClients.jsx';
 import Employees from '../screens/settings-page/company-block/employees/Employees.jsx';
+import Shop from '../screens/shop-page/Shop.jsx';
 
 
 setupIonicReact({ mode: 'md' });  
@@ -53,6 +54,7 @@ const Router = () => {
                 <Route path="/report" element={<Report />} />
                 <Route path="/orders" element={<Orders />} />
                 <Route path="/inventory" element={<Inventory />} />
+                <Route path="/shop" element={<Shop />} />
                 <Route path="/settings" element={<Settings />} />
 
                 <Route path="/clients/new" element={<NewClients />} />

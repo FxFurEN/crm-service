@@ -1,7 +1,7 @@
 import './navbar.css';
 import '../../../assets/styles/global.css';
 import { IonIcon } from '@ionic/react';
-import { homeOutline, peopleOutline, settingsOutline, diamondOutline, appsOutline, barChartOutline, archiveOutline} from 'ionicons/icons';
+import { homeOutline, peopleOutline, settingsOutline, diamondOutline, appsOutline, barChartOutline, archiveOutline, bagHandleOutline} from 'ionicons/icons';
 import { Link, Outlet} from 'react-router-dom';
 import NavHeader from './nav-header/NavHeader';
 
@@ -53,6 +53,14 @@ const Navbar = () => {
                 <IonIcon icon={appsOutline}></IonIcon>
               </div>
               <span className="link-text">Склад</span>
+            </Link>
+          </li>
+          <li className="navbar-item flexbox-left">
+            <Link to='/shop' className="navbar-item-inner flexbox-left">
+              <div className="navbar-item-inner-icon-wrapper flexbox">
+                <IonIcon icon={bagHandleOutline}></IonIcon>
+              </div>
+              <span className="link-text">Магазин</span>
             </Link>
           </li>
           <li className="navbar-item flexbox-left">
