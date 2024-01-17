@@ -4,5 +4,6 @@
 }
 ion-fab-button{
   --border-radius: 15px;
-  --background: rebeccapurple;
+  --background: white;
+  --color: black;
 }
