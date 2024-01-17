@@ -10,7 +10,7 @@ import { addOutline } from 'ionicons/icons';
 const Clients = () =>{
     return(
         <IonFab className='ion-posting-buuton'> 
-            <IonFabButton >
+            <IonFabButton id="open-modal" expand="block">
                 <IonIcon icon={addOutline} size='large'/>
             </IonFabButton>
         </IonFab>

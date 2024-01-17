@@ -41,6 +41,7 @@ import TypeOrders from '../screens/settings-page/forms-block/type-orders/TypeOrd
 import FieldClients from '../screens/settings-page/forms-block/field-clients/FieldClients.jsx'
 import TypeClients from '../screens/settings-page/forms-block/type-clients/TypeClients.jsx'
 import Handbooks from '../screens/settings-page/forms-block/handbooks/Handbooks.jsx'
+import NewClients from '../screens/addClients/NewClients.jsx';
 
 
 setupIonicReact({ mode: 'md' });  
@@ -57,6 +58,8 @@ const Router = () => {
                 <Route path="/orders" element={<Orders />} />
                 <Route path="/inventory" element={<Inventory />} />
                 <Route path="/settings" element={<Settings />} />
+
+                <Route path="/clients/new" element={<NewClients />} />
 
                 <Route path="/settings/general/company" element={<GeneralCompany />} />
                 <Route path="/settings/profile" element={<Profile />} />

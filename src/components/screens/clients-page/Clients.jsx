@@ -1,10 +1,12 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import '../../../assets/styles/main.css';
 import '../../../assets/styles/global.css';
 import style from  '../../../assets/styles/table.module.css';
 
 import AddButton from '../addButton/AddButton';
 import SearchBox from '../searchBox/SearchBox';
+import NewClients from '../addClients/NewClients';
 
 function Clients() {
     const initialData = [
@@ -192,12 +194,25 @@ function Clients() {
     
         const [data] = useState(initialData);
         const [filteredData, setFilteredData] = useState(initialData);
+        const [isNewClientsModalOpen, setIsNewClientsModalOpen] = useState(false);
+        const navigate = useNavigate();
 
         const fields = ['name', 'phone', 'email', 'type'];
 
         const handleFilter = (filteredResults) => {
             setFilteredData(filteredResults);
         };
+
+
+        const openNewClientsModal = () => {
+            setIsNewClientsModalOpen(true);
+            navigate('/clients/new');
+          };
+        
+          const closeNewClientsModal = () => {
+            setIsNewClientsModalOpen(false);
+            navigate('/clients');
+          };
 
     return (
         <main id="main">
@@ -243,7 +258,8 @@ function Clients() {
                 </div>
             </div>
             <div>
-                <AddButton/>
+                <AddButton onClick={openNewClientsModal} />
+                <NewClients isOpen={isNewClientsModalOpen} onClose={closeNewClientsModal} />
             </div>
         </main>
     );
