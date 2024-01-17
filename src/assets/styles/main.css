@@ -3,9 +3,10 @@
    ====== */
 
 #main {
+    width: auto;
     display: flex;
     flex-direction: column;
-    margin: 0 0 0 5em;
+    margin: 0 0 0 4em;
     padding-top: 11vh;
     overflow-y: auto;
 }

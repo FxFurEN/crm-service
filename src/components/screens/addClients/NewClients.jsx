@@ -21,7 +21,6 @@ const NewClients = ({ isOpen, onClose, addClient }) => {
   const inputEmail = useRef(null);
   const selectType = useRef(null);
 
-  const [message, setMessage] = useState('');
 
   function confirm() {
     const newClient = {
@@ -31,21 +30,19 @@ const NewClients = ({ isOpen, onClose, addClient }) => {
       type: selectType.current?.value || '',
     };
 
-    addClient(newClient); // Add the new client to the list
-    modal.current?.dismiss(null, 'confirm'); // Dismiss the modal
+    addClient(newClient);
+    modal.current?.dismiss(null, 'confirm'); 
   }
 
   function onWillDismiss(ev) {
     if (ev.detail.role === 'confirm') {
-      setMessage(`Hello, ${ev.detail.data}!`);
+      onClose();
     }
-    onClose();
+    
   }
 
   return (
-    <main id="main">
       <IonContent className="ion-padding">
-        <p>{message}</p>
         <IonModal ref={modal} trigger="open-modal" onWillDismiss={(ev) => onWillDismiss(ev)}>
           <IonHeader>
             <IonToolbar>
@@ -110,7 +107,6 @@ const NewClients = ({ isOpen, onClose, addClient }) => {
           </IonContent>
         </IonModal>
       </IonContent>
-    </main>
   );
 };
 

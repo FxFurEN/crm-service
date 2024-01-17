@@ -7,13 +7,13 @@
   }
   
   .wrapper {
-    margin: 0 0 0 -2vh;
+    margin: 0 0 0 -0.3vh;
     width: 100%;
   }
   
   .table {
     margin: 1em 0 40px 10px;
-    width: 100%;
+    width: auto;
     display: table;
     color: #ffffff;
     
