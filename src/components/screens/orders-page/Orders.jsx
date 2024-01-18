@@ -70,44 +70,52 @@ const Orders = () => {
           </div>
         </div>
         <div style={{ flex: 1, overflow: 'auto' }}>  
-          <div className={style.wrapper} >
-            <div className={style.table} style={{ boxShadow: '0 10px 13px 2px rgba(0, 0, 0, 0.2)' }}>
+        <div className={style.wrapper}>
+                        <div className={`${style.Rtable} ${style['Rtable--5cols']} ${style['Rtable--collapse']}`}>
+                            <div className={`${style['Rtable-row']} ${style['Rtable-row--head']}`}>
+                                <div className={`${style['Rtable-cell']} ${style['first-cell']} ${style['column-heading']}`}>
+                                  Заказ
+                                </div>
+                                <div className={`${style['Rtable-cell']} ${style['second-cell']} ${style['column-heading']}`}>
+                                    Обновлен
+                                </div>
+                                <div className={`${style['Rtable-cell']} ${style['third-cell']} ${style['column-heading']}`}>
+                                    Статус
+                                </div>
+                                <div className={`${style['Rtable-cell']} ${style['fourth-cell']} ${style['column-heading']}`}>
+                                    Срок
+                                </div>
+                                <div className={`${style['Rtable-cell']} ${style['fourth-cell']} ${style['column-heading']}`}>
+                                    Клиент
+                                </div>
+                                <div className={`${style['Rtable-cell']} ${style['fourth-cell']} ${style['column-heading']}`}>
+                                    Исполнитель
+                                </div>
+                                <div className={`${style['Rtable-cell']} ${style['fourth-cell']} ${style['column-heading']}`}>
+                                  Наименование услуги
+                                </div>
+                            </div>
 
-              <div className={style.row + ' ' + style.header}>
-                <div className={style.cell}>
-                  Заказ
+                            {filteredData.map((item, index) => (
+                              <div className={style['Rtable-row']} key={index}>
+                                  {Object.keys(item).map((field, fieldIndex) => (
+                                      <div
+                                          className={`${style['Rtable-cell']} ${
+                                              fieldIndex === 0 ? style['first-cell'] : fieldIndex === 1 ? style['second-cell'] :
+                                              fieldIndex === 2 ? style['third-cell'] : style['fourth-cell']
+                                          }`}
+                                          key={fieldIndex}
+                                      >
+                                          {fieldIndex === 0 && <div className={style['Rtable-cell--heading']}>{field}</div>}
+                                          <div className={`${style['Rtable-cell--content']} `}>
+                                              {item[field]}
+                                          </div>
+                                      </div>
+                                  ))}
+                              </div>
+                          ))}
+                    </div>
                 </div>
-                <div className={style.cell}>
-                  Обновлен
-                </div>
-                <div className={style.cell}>
-                  Статус
-                </div>
-                <div className={style.cell}>
-                  Срок
-                </div>
-                <div className={style.cell}>
-                  Клиент
-                </div>
-                <div className={style.cell}>
-                  Исполнитель
-                </div>
-                <div className={style.cell}>
-                  Наименование услуги
-                </div>
-              </div>
-
-              {filteredData.map((item, index) => (
-                  <div className={style.row} key={index}>
-                      {fields.map((field, fieldIndex) => (
-                      <div className={style.cell} data-title={field} key={fieldIndex}>
-                          {item[field]}
-                      </div>
-                      ))}
-                  </div>
-              ))}
-            </div>
-          </div>
         </div>
           <div>
             <AddButton onClick={openNewOrdersModal} />
