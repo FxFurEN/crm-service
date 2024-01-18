@@ -13,110 +13,105 @@ import {Bar, Doughnut, Line} from 'react-chartjs-2';
 
 
 const Home = () =>{
-    const chartStyle = {
-        width: '100%', // Укажите желаемую ширину
-        height: '300px', // Укажите желаемую высоту
-      };
-
-
     return(
             <main id="main">
                 <div style={{ flex: 1, overflow: 'auto' }}>
-                <div className={style.wrapper} >
-                    <div className={style.table}>
-                        <div className={style.row}>
-                            <div className={style.cell}>
-                                <IonCard>
-                                    <IonCardHeader>
-                                        <IonCardTitle>Card Title</IonCardTitle>
-                                        <IonCardSubtitle>Card Subtitle</IonCardSubtitle>
-                                    </IonCardHeader>
-                                    <IonCardContent>
-                                        <Bar
-                                        data={{
-                                            labels: sourceData.map(data => data.label),
-                                            datasets: [
-                                                {
-                                                    label: 'Количество',
-                                                    data: sourceData.map(data => data.value),
-                                                }
-                                            ],
-                                        }}
-                                        
-                                        />
-                                    </IonCardContent>
-                                </IonCard> 
-                            </div>
-                            <div className={style.cell}>
-                                <IonCard>
-                                    <IonCardHeader>
-                                        <IonCardTitle>Card Title</IonCardTitle>
-                                        <IonCardSubtitle>Card Subtitle</IonCardSubtitle>
-                                    </IonCardHeader>
-                                    <IonCardContent>
-                                        <Doughnut 
-                                            data={{
-                                                
-                                                labels: sourceData.map(data => data.label),
-                                                datasets: [
-                                                    {
-                                                        label: 'Количество',
-                                                        data: sourceData.map(data => data.value),
-                                                    }
-                                                ]
-                                            }}
-                                            
-                                        />
-                                    </IonCardContent>
-                                </IonCard> 
+                        <div className={style.wrapper}>
+                                <div className={`${style.Rtable} ${style['Rtable--5cols']} ${style['Rtable--collapse']}`}>
+                                    <div className={`${style['Rtable-row']} ${style['Rtable-row--head']}`}>
+                                        <div className={`${style['Rtable-cell']} ${style['first-cell']} `}>
+                                            <IonCard>
+                                                <IonCardHeader>
+                                                    <IonCardTitle>Card Title</IonCardTitle>
+                                                    <IonCardSubtitle>Card Subtitle</IonCardSubtitle>
+                                                </IonCardHeader>
+                                                <IonCardContent>
+                                                    <Bar
+                                                    data={{
+                                                        labels: sourceData.map(data => data.label),
+                                                        datasets: [
+                                                            {
+                                                                label: 'Количество',
+                                                                data: sourceData.map(data => data.value),
+                                                            }
+                                                        ],
+                                                    }}
+                                                    
+                                                    />
+                                                </IonCardContent>
+                                            </IonCard> 
+                                        </div>
+                                        <div className={`${style['Rtable-cell']} ${style['second-cell']}`}>
+                                        <IonCard>
+                                                <IonCardHeader>
+                                                    <IonCardTitle>Card Title</IonCardTitle>
+                                                    <IonCardSubtitle>Card Subtitle</IonCardSubtitle>
+                                                </IonCardHeader>
+                                                <IonCardContent>
+                                                    <Line
+                                                    data={{
+                                                        labels: sourceData.map(data => data.label),
+                                                        datasets: [
+                                                            {
+                                                                label: 'Количество',
+                                                                data: sourceData.map(data => data.value),
+                                                            }
+                                                        ],
+                                                    }}
+                                                    
+                                                    />
+                                                </IonCardContent>
+                                            </IonCard> 
+                                        </div>
+                                </div>
+                                <div className={`${style['Rtable-row']} ${style['Rtable-row--head']}`}>
+                                        <div className={`${style['Rtable-cell']} ${style['first-cell']} `}>
+                                            <IonCard>
+                                                <IonCardHeader>
+                                                    <IonCardTitle>Card Title</IonCardTitle>
+                                                    <IonCardSubtitle>Card Subtitle</IonCardSubtitle>
+                                                </IonCardHeader>
+                                                <IonCardContent>
+                                                    <Bar
+                                                    data={{
+                                                        labels: sourceData.map(data => data.label),
+                                                        datasets: [
+                                                            {
+                                                                label: 'Количество',
+                                                                data: sourceData.map(data => data.value),
+                                                            }
+                                                        ],
+                                                    }}
+                                                    
+                                                    />
+                                                </IonCardContent>
+                                            </IonCard> 
+                                        </div>
+                                        <div className={`${style['Rtable-cell']} ${style['second-cell']}`}>
+                                        <IonCard>
+                                                <IonCardHeader>
+                                                    <IonCardTitle>Card Title</IonCardTitle>
+                                                    <IonCardSubtitle>Card Subtitle</IonCardSubtitle>
+                                                </IonCardHeader>
+                                                <IonCardContent>
+                                                    <Line
+                                                    data={{
+                                                        labels: sourceData.map(data => data.label),
+                                                        datasets: [
+                                                            {
+                                                                label: 'Количество',
+                                                                data: sourceData.map(data => data.value),
+                                                            }
+                                                        ],
+                                                    }}
+                                                    
+                                                    />
+                                                </IonCardContent>
+                                            </IonCard> 
+                                        </div>
+                                </div>
                             </div>
                         </div>
-                            <div className={style.row} >
-                                <div className={style.cell}>
-                                    <IonCard>
-                                        <IonCardHeader>
-                                            <IonCardTitle>Card Title</IonCardTitle>
-                                            <IonCardSubtitle>Card Subtitle</IonCardSubtitle>
-                                        </IonCardHeader>
-                                        <IonCardContent>
-                                            <Line
-                                                data={{
-                                                    labels: sourceData.map(data => data.label),
-                                                    datasets: [
-                                                        {
-                                                            label: 'Количество',
-                                                            data: sourceData.map(data => data.value),
-                                                        }
-                                                    ]
-                                                }}
-                                            
-                                            />
-                                        </IonCardContent>
-                                    </IonCard> 
-                                </div>
-                                <div className={style.cell}>
-                                    <IonCard>
-                                        <IonCardHeader>
-                                            <IonCardTitle>Card Title</IonCardTitle>
-                                            <IonCardSubtitle>Card Subtitle</IonCardSubtitle>
-                                        </IonCardHeader>
-                                        <IonCardContent>
-                                            <Bar 
-                                            data={{
-                                                labels: sourceData.map(data => data.label),
-                                                datasets: [
-                                                    {
-                                                        label: 'Количество',
-                                                        data: sourceData.map(data => data.value),
-                                                    }
-                                                ]
-                                            }}/>
-                                        </IonCardContent>
-                                    </IonCard>  
-                                </div>
-                            </div>
-                        </div>
-                    </div>
                 </div>
             </main>
        
