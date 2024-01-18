@@ -81,16 +81,16 @@ function Clients() {
                             {/* Применение стилей к строке заголовка */}
                             <div className={`${style['Rtable-row']} ${style['Rtable-row--head']}`}>
                                 {/* Применение стилей к каждой ячейке заголовка */}
-                                <div className={`${style['Rtable-cell']} ${style['date-cell']} ${style['column-heading']}`}>
+                                <div className={`${style['Rtable-cell']} ${style['first-cell']} ${style['column-heading']}`}>
                                     Имя
                                 </div>
-                                <div className={`${style['Rtable-cell']} ${style['topic-cell']} ${style['column-heading']}`}>
+                                <div className={`${style['Rtable-cell']} ${style['second-cell']} ${style['column-heading']}`}>
                                     Телефон
                                 </div>
-                                <div className={`${style['Rtable-cell']} ${style['access-link-cell']} ${style['column-heading']}`}>
+                                <div className={`${style['Rtable-cell']} ${style['third-cell']} ${style['column-heading']}`}>
                                     Почта
                                 </div>
-                                <div className={`${style['Rtable-cell']} ${style['replay-link-cell']} ${style['column-heading']}`}>
+                                <div className={`${style['Rtable-cell']} ${style['fourth-cell']} ${style['column-heading']}`}>
                                     Тип клиента
                                 </div>
                             </div>
@@ -98,28 +98,26 @@ function Clients() {
                             {filteredData.map((item, index) => (
                             <div className={style['Rtable-row']} key={index}>
                                 {/* Применение стилей к каждой ячейке */}
-                                <div className={`${style['Rtable-cell']} ${style['date-cell']}`}>
-                                    <div className={style['Rtable-cell--heading']}>Имя</div>
-                                    <div className={`${style['Rtable-cell--content']} ${style['date-content']}`}>
-                                        <span className={style['webinar-date']}> 
+                                <div className={`${style['Rtable-cell']} ${style['first-cell']}`}>
+                                    <div className={`${style['Rtable-cell--content']} `}>
                                             {item.name}
-                                        </span>
                                     </div>
                                 </div>
-                                <div className={`${style['Rtable-cell']} ${style['topic-cell']}`}>
-                                    <div className={`${style['Rtable-cell--content']} ${style['title-content']}`}>
+                                <div className={`${style['Rtable-cell']} ${style['second-cell']}`}>
+                                <div className={style['Rtable-cell--heading']}>Телефон</div>
+                                    <div className={`${style['Rtable-cell--content']} `}>
                                         {item.phone}
                                     </div>
                                 </div>
-                                <div className={`${style['Rtable-cell']} ${style['access-link-cell']}`}>
+                                <div className={`${style['Rtable-cell']} ${style['third-cell']}`}>
                                     <div className={style['Rtable-cell--heading']}>Почта</div>
-                                    <div className={`${style['Rtable-cell--content']} ${style['access-link-content']}`}>
+                                    <div className={`${style['Rtable-cell--content']} `}>
                                         {item.email}
                                     </div>
                                 </div>
-                                <div className={`${style['Rtable-cell']} ${style['replay-link-cell']}`}>
+                                <div className={`${style['Rtable-cell']} ${style['fourth-cell']}`}>
                                     <div className={style['Rtable-cell--heading']}>Тип Клиента</div>
-                                    <div className={`${style['Rtable-cell--content']} ${style['replay-link-content']}`}>
+                                    <div className={`${style['Rtable-cell--content']}`}>
                                         {item.type}
                                     </div>
                                 </div>
