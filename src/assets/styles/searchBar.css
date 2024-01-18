@@ -5,7 +5,7 @@ ion-searchbar.custom {
     --icon-color: #fff;
     --clear-button-color: #fff;
     --border-radius: 4px;
-    
+    margin: 0 0 0 -0.5em;
   }
   
   ion-searchbar.ios.custom {
