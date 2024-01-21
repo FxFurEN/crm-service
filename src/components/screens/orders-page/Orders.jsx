@@ -30,6 +30,8 @@ const Orders = () => {
   const [isNewOrdersModalOpen, setIsNewOrdersModalOpen] = useState(false);
 
   const fields = ['id', 'updated', 'status', 'deadline', 'client', 'performer', 'serviceName'];
+  const columnLabels = ['Заказ', 'Обновлен', 'Статус', 'Срок', 'Клиент', 'Исполнитель', 'Наименование товара'];
+
 
   useEffect(() => {
     setFilteredData(orderList);
@@ -69,53 +71,40 @@ const Orders = () => {
             </IonButton>
           </div>
         </div>
-        <div style={{ flex: 1, overflow: 'auto' }}>  
-        <div className={style.wrapper}>
-                        <div className={`${style.Rtable} ${style['Rtable--5cols']} ${style['Rtable--collapse']}`}>
-                            <div className={`${style['Rtable-row']} ${style['Rtable-row--head']}`}>
-                                <div className={`${style['Rtable-cell']} ${style['first-cell']} ${style['column-heading']}`}>
-                                  Заказ
-                                </div>
-                                <div className={`${style['Rtable-cell']} ${style['second-cell']} ${style['column-heading']}`}>
-                                    Обновлен
-                                </div>
-                                <div className={`${style['Rtable-cell']} ${style['third-cell']} ${style['column-heading']}`}>
-                                    Статус
-                                </div>
-                                <div className={`${style['Rtable-cell']} ${style['fourth-cell']} ${style['column-heading']}`}>
-                                    Срок
-                                </div>
-                                <div className={`${style['Rtable-cell']} ${style['fourth-cell']} ${style['column-heading']}`}>
-                                    Клиент
-                                </div>
-                                <div className={`${style['Rtable-cell']} ${style['fourth-cell']} ${style['column-heading']}`}>
-                                    Исполнитель
-                                </div>
-                                <div className={`${style['Rtable-cell']} ${style['fourth-cell']} ${style['column-heading']}`}>
-                                  Наименование услуги
-                                </div>
-                            </div>
+        <div style={{ flex: 1, overflow: 'auto' }}> 
+          <div className={style.table}>
+            <div className={`${style.tableHead} ${style.row}`}>
+              {fields.map((field, index) => {
+                const label = columnLabels[index];
+                return (
+                  <div
+                    className={`${style.column}`}
+                    data-label={label}
+                    key={index}
+                  >
+                    {label}
+                  </div>
+                );
+              })}
+            </div>
 
-                            {filteredData.map((item, index) => (
-                              <div className={style['Rtable-row']} key={index}>
-                                  {Object.keys(item).map((field, fieldIndex) => (
-                                      <div
-                                          className={`${style['Rtable-cell']} ${
-                                              fieldIndex === 0 ? style['first-cell'] : fieldIndex === 1 ? style['second-cell'] :
-                                              fieldIndex === 2 ? style['third-cell'] : style['fourth-cell']
-                                          }`}
-                                          key={fieldIndex}
-                                      >
-                                          {fieldIndex === 0 && <div className={style['Rtable-cell--heading']}>{field}</div>}
-                                          <div className={`${style['Rtable-cell--content']} `}>
-                                              {item[field]}
-                                          </div>
-                                      </div>
-                                  ))}
-                              </div>
-                          ))}
+            {filteredData.map((item, rowIndex) => (
+              <div className={style.row} key={rowIndex}>
+                {fields.map((field, colIndex) => {
+                  const label = columnLabels[colIndex];
+                  return (
+                    <div
+                      className={`${style.column}`}
+                      data-label={label}
+                      key={colIndex}
+                    >
+                      {item[field]}
                     </div>
-                </div>
+                  );
+                })}
+              </div>
+            ))}
+          </div>
         </div>
           <div>
             <AddButton onClick={openNewOrdersModal} />
