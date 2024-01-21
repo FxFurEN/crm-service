@@ -51,12 +51,12 @@ const NewOrders = ({ isOpen, onClose, addOrders }) => {
           <IonHeader>
             <IonToolbar>
               <IonButtons slot="start">
-                <IonButton onClick={() => modalRef.current?.dismiss()}>Cancel</IonButton>
+                <IonButton onClick={() => modalRef.current?.dismiss()}>Отмена</IonButton>
               </IonButtons>
-              <IonTitle>New Order</IonTitle>
+              <IonTitle>Новый заказ</IonTitle>
               <IonButtons slot="end">
                 <IonButton strong={true} onClick={() => confirm()}>
-                  Add
+                  Добавить
                 </IonButton>
               </IonButtons>
             </IonToolbar>
@@ -64,17 +64,7 @@ const NewOrders = ({ isOpen, onClose, addOrders }) => {
           <IonContent className="ion-padding">
             <IonItem>
               <IonInput
-                label="Order"
-                labelPlacement="floating"
-                ref={inputOrder}
-                type="number"
-                placeholder="Order"
-                class="custom"
-              />
-            </IonItem>
-            <IonItem>
-              <IonInput
-                label="Updated"
+                label="Дата создания"
                 labelPlacement="floating"
                 ref={inputUpdated}
                 type="text"
@@ -84,7 +74,7 @@ const NewOrders = ({ isOpen, onClose, addOrders }) => {
             </IonItem>
             <IonItem>
               <IonInput
-                label="Status"
+                label="Статус"
                 labelPlacement="floating"
                 ref={inputStatus}
                 type="text"
@@ -94,7 +84,7 @@ const NewOrders = ({ isOpen, onClose, addOrders }) => {
             </IonItem>
             <IonItem>
               <IonInput
-                label="Deadline"
+                label="Срок"
                 labelPlacement="floating"
                 ref={inputDeadline}
                 type="text"
@@ -104,7 +94,7 @@ const NewOrders = ({ isOpen, onClose, addOrders }) => {
             </IonItem>
             <IonItem>
               <IonInput
-                label="Client"
+                label="Клиент"
                 labelPlacement="floating"
                 ref={inputClient}
                 type="text"
@@ -114,7 +104,7 @@ const NewOrders = ({ isOpen, onClose, addOrders }) => {
             </IonItem>
             <IonItem>
               <IonInput
-                label="Performer"
+                label="Исполнитель"
                 labelPlacement="floating"
                 ref={inputPerformer}
                 type="text"
@@ -124,7 +114,7 @@ const NewOrders = ({ isOpen, onClose, addOrders }) => {
             </IonItem>
             <IonItem>
               <IonInput
-                label="Service Name"
+                label="Наименование товара"
                 labelPlacement="floating"
                 ref={inputServiceName}
                 type="text"
