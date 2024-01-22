@@ -1,7 +1,7 @@
 ion-item  {
     --background:  hsl(var(--background));
     --color: #gray;
-    --border-color: white;
+    --border-style: none;
   }
 
 ion-item-divider  {
