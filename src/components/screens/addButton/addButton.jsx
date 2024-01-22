@@ -7,7 +7,7 @@ import { IonFab, IonFabButton, IonIcon } from '@ionic/react';
 import { addOutline } from 'ionicons/icons';
 
 
-const Clients = () =>{
+const AddButton = () =>{
     return(
         <IonFab className='ion-posting-buuton'> 
             <IonFabButton id="open-modal" expand="block">
@@ -17,4 +17,4 @@ const Clients = () =>{
     )
 }
 
-export default Clients
+export default CliAddButtonents
