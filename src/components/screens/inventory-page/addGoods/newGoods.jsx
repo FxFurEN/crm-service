@@ -65,7 +65,7 @@ const NewGoods = ({ isOpen, onClose, addGoods, categories }) => {
             labelPlacement="floating"
             ref={inputArticle}
             type="text"
-            placeholder="Имя"
+            placeholder="Артикуль"
             class="custom"
           />
         </IonItem>
@@ -91,7 +91,7 @@ const NewGoods = ({ isOpen, onClose, addGoods, categories }) => {
             labelPlacement="floating"
             ref={inputName}
             type="text"
-            placeholder="Имя"
+            placeholder="Название"
             class="custom"
           />
         </IonItem>
@@ -100,8 +100,8 @@ const NewGoods = ({ isOpen, onClose, addGoods, categories }) => {
             label="Количество"
             labelPlacement="floating"
             ref={inputAmount}
-            type="text"
-            placeholder="Имя"
+            type="number"
+            placeholder="Количество"
             class="custom"
           />
         </IonItem>
@@ -110,8 +110,8 @@ const NewGoods = ({ isOpen, onClose, addGoods, categories }) => {
             label="Цена"
             labelPlacement="floating"
             ref={inputPrice}
-            type="text"
-            placeholder="Имя"
+            type="number"
+            placeholder="Цена"
             class="custom"
           />
         </IonItem>
@@ -120,8 +120,8 @@ const NewGoods = ({ isOpen, onClose, addGoods, categories }) => {
             label="Себестоимость"
             labelPlacement="floating"
             ref={inputCostPrice}
-            type="text"
-            placeholder="Имя"
+            type="number"
+            placeholder="Себестоимость"
             class="custom"
           />
         </IonItem>
