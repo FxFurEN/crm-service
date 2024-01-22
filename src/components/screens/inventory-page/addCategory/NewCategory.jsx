@@ -13,7 +13,8 @@ import {
 } from '@ionic/react';
 
 const NewCategory = ({ isOpen, onClose, addCategory }) => {
-  const modal = useRef(null);
+  
+  const category_modal = useRef(null);
   const inputNameCategory = useRef(null);
 
 
@@ -23,7 +24,7 @@ const NewCategory = ({ isOpen, onClose, addCategory }) => {
     };
 
     addCategory(newCategory);
-    modal.current?.dismiss(null, 'confirm'); 
+    category_modal.current?.dismiss(null, 'confirm'); 
   }
 
   function onWillDismiss(ev) {
@@ -35,13 +36,13 @@ const NewCategory = ({ isOpen, onClose, addCategory }) => {
 
   return (
       <IonContent className="ion-padding">
-        <IonModal ref={modal} trigger="open-modal" onWillDismiss={(ev) => onWillDismiss(ev)}>
+        <IonModal ref={category_modal} trigger="open-category-modal" onWillDismiss={(ev) => onWillDismiss(ev)}>
           <IonHeader>
             <IonToolbar>
               <IonButtons slot="start">
-                <IonButton onClick={() => modal.current?.dismiss()}>Отмена</IonButton>
+                <IonButton onClick={() => category_modal.current?.dismiss()}>Отмена</IonButton>
               </IonButtons>
-              <IonTitle>Клиент</IonTitle>
+              <IonTitle>категория</IonTitle>
               <IonButtons slot="end">
                 <IonButton strong={true} onClick={() => confirm()}>
                   Добавить

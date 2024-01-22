@@ -37,10 +37,10 @@ import TypeOrders from '../screens/settings-page/forms-block/type-orders/TypeOrd
 import FieldClients from '../screens/settings-page/forms-block/field-clients/FieldClients.jsx'
 import TypeClients from '../screens/settings-page/forms-block/type-clients/TypeClients.jsx'
 import Handbooks from '../screens/settings-page/forms-block/handbooks/Handbooks.jsx'
-import NewClients from '../screens/addClients/NewClients.jsx';
+import NewClients from '../screens/clients-page/addClients/NewClients.jsx';
 import Employees from '../screens/settings-page/company-block/employees/Employees.jsx';
 import Shop from '../screens/shop-page/Shop.jsx';
-import NewOrders from '../screens/addOrders/NewOrders.jsx';
+import NewOrders from '../screens/orders-page/addOrders/NewOrders.jsx';
 import NewCategory from '../screens/inventory-page/addCategory/NewCategory.jsx';
 
 

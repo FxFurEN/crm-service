@@ -1,4 +1,4 @@
-import '../../../assets/styles/modal-wind.css';
+import '../../../../assets/styles/modal-wind.css';
 import { useRef, useState } from 'react';
 import {
   IonButtons,

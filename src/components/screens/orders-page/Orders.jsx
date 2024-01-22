@@ -10,7 +10,7 @@ import '../../../assets/styles/button-ion.css';
 
 import AddButton from '../addButton/AddButton';
 import SearchBox from '../searchBox/SearchBox';
-import NewOrders from '../addOrders/NewOrders'; // Import NewOrders component
+import NewOrders from './addOrders/NewOrders'; // Import NewOrders component
 
 const Orders = () => {
   const initialData = [

@@ -10,7 +10,7 @@ import '../../../assets/styles/button-ion.css';
 
 import AddButton from '../addButton/AddButton';
 import SearchBox from '../searchBox/SearchBox';
-import NewClients from '../addClients/NewClients';
+import NewClients from './addClients/NewClients';
 
 function Clients() {
   const initialData = [
