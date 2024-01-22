@@ -41,6 +41,7 @@ import NewClients from '../screens/addClients/NewClients.jsx';
 import Employees from '../screens/settings-page/company-block/employees/Employees.jsx';
 import Shop from '../screens/shop-page/Shop.jsx';
 import NewOrders from '../screens/addOrders/NewOrders.jsx';
+import NewCategory from '../screens/inventory-page/addCategory/NewCategory.jsx';
 
 
 setupIonicReact({ mode: 'md' });  
@@ -60,6 +61,7 @@ const Router = () => {
 
                 <Route path="/clients/new" element={<NewClients />} />
                 <Route path="/orders/new" element={<NewOrders />} />
+                <Route path="/inventory/category/new" element={<NewCategory />} />
 
                 <Route path="/settings/general/company" element={<GeneralCompany />} />
                 <Route path="/settings/profile" element={<Profile />} />
