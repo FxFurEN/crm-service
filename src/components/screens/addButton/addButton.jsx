@@ -17,4 +17,4 @@ const AddButton = () =>{
     )
 }
 
-export default CliAddButtonents
+export default AddButton
