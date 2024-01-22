@@ -1,0 +1,11 @@
+ion-item  {
+    --background:  hsl(var(--background));
+    --color: #gray;
+    --border-color: white;
+  }
+
+ion-item-divider  {
+    --background:  hsl(var(--background));
+    --color: gray;
+    --border-color: white;
+  }
