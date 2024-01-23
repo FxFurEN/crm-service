@@ -3,20 +3,24 @@ import { IonSearchbar } from '@ionic/react';
 import '../../../assets/styles/searchBar.css';
 
 const SearchBox = ({ fields, data, onFilter }) => {
-    const [searchText, setSearchText] = useState('');
+  const [searchText, setSearchText] = useState('');
 
-    const handleInput = (ev) => {
-      const query = ev.target.value.toLowerCase();
-
-      const filteredResults = query
-        ? data.filter((item) =>
-            fields.some((field) => item[field].toLowerCase().includes(query))
-          )
-        : data;
+  const handleInput = (ev) => {
+    const query = ev.target.value.toLowerCase();
   
-      setSearchText(query);
-      onFilter(filteredResults);
-    };
+    const filteredResults = query
+      ? data.filter((item) =>
+          fields.some((field) => {
+            const fieldValue = item[field.toLowerCase()];
+            return fieldValue && fieldValue.toLowerCase().includes(query);
+          })
+        )
+      : data;
+  
+    setSearchText(query);
+    onFilter(filteredResults);
+  };
+  
 
   return (
     <IonSearchbar
