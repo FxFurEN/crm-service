@@ -80,7 +80,11 @@ const NewGoods = ({ isOpen, onClose, addGoods, categories }) => {
           >
             {categories.map((category, index) => (
               <IonSelectOption key={index} value={category.name}>
-                {category.name}
+                {Object.keys(category).map((field, fieldIndex) => (
+                  <div key={fieldIndex}>
+                    {category[field] !== undefined ? category[field] : ''}
+                  </div>
+                ))}
               </IonSelectOption>
             ))}
           </IonSelect>

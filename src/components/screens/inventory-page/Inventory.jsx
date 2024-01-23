@@ -17,30 +17,31 @@ const Inventory = () =>{
     const [categories, setCategories] = useState([]);
   const [goods, setGoods] = useState([]);
 
-  const loadCategories = () => {
-    crmAPI.loadCategories()
-      .then(response => {
-        setCategories(response.data);
-      })
-      .catch(error => {
-        console.error('Error loading categories:', error);
-      });
+  const loadCategories = async () => {
+    try {
+      const response = await crmAPI.loadCategories();
+      setCategories(response.data);
+    } catch (error) {
+      console.error('Error loading categories:', error);
+    }
   };
-
-  const loadGoods = () => {
-    crmAPI.loadGoods()
-      .then(response => {
-        setGoods(response.data);
-      })
-      .catch(error => {
-        console.error('Error loading goods:', error);
-      });
+  
+  const loadGoods = async () => {
+    try {
+      const response = await crmAPI.loadGoods();
+      setGoods(response.data);
+    } catch (error) {
+      console.error('Error loading goods:', error);
+    }
   };
+  
 
   useEffect(() => {
     loadCategories();
     loadGoods();
   }, []);
+
+  
 
   const addCategory = (newCategory) => {
     crmAPI.addCategory(newCategory)
@@ -81,6 +82,8 @@ const Inventory = () =>{
         setIsNewGoodsModalOpen(false);
       };
 
+      const columnLabels = ['Артикул', 'Название', 'Количество', 'Цена', 'Себестоимость', 'Категория'];
+
 
     return(
         
@@ -114,47 +117,31 @@ const Inventory = () =>{
                     <div className={style.row}>
                         <div className={style.column}>
                             {categories.map((category, index) => (
-                                <IonItem key={index}>
-                                    <IonLabel>{category.name}</IonLabel>
-                                </IonItem>
+                                <div className={style.row} key={index}>
+                                    {Object.keys(category).map((field, fieldIndex) => (
+                                        <div className={style.column} key={fieldIndex}>
+                                            {category[field] !== undefined ? category[field] : ''}
+                                        </div>
+                                    ))}
+                                </div>
                             ))}
                         </div>
                         <div className={style.column}>
                              <div className={style.table}>
                                 <div className={style.tableHead}>
-                                    <div className={style.column}>
-                                        Артикул
-                                    </div>
-                                    <div className={style.column}>
-                                        Название
-                                    </div>
-                                    <div className={style.column}>
-                                        Количество
-                                    </div>
-                                    <div className={style.column}>
-                                        Цена
-                                    </div>
-                                    <div className={style.column}>
-                                        Себестоимость
-                                    </div>
+                                    {columnLabels.map((label, index) => (
+                                        <div className={style.column} key={index}>
+                                            {label}
+                                        </div>
+                                    ))}
                                 </div>
                                 {goods.map((item, index) => (
                                     <div className={style.row} key={index}>
-                                        <div className={style.column}>
-                                            {item.article}
-                                        </div>
-                                        <div className={style.column}>
-                                            {item.name}
-                                        </div>
-                                        <div className={style.column}>
-                                            {item.amount}
-                                        </div>
-                                        <div className={style.column}>
-                                            {item.price}
-                                        </div>
-                                        <div className={style.column}>
-                                            {item.costPrice}
-                                        </div>
+                                        {Object.keys(item).map((field, fieldIndex) => (
+                                            <div className={style.column} key={fieldIndex}>
+                                                {item[field]}
+                                            </div>
+                                        ))}
                                     </div>
                                 ))}
                              </div>
