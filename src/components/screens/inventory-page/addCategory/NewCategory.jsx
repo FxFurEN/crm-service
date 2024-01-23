@@ -13,10 +13,8 @@ import {
 } from '@ionic/react';
 
 const NewCategory = ({ isOpen, onClose, addCategory }) => {
-  
   const category_modal = useRef(null);
   const inputNameCategory = useRef(null);
-
 
   function confirm() {
     const newCategory = {
@@ -24,14 +22,13 @@ const NewCategory = ({ isOpen, onClose, addCategory }) => {
     };
 
     addCategory(newCategory);
-    category_modal.current?.dismiss(null, 'confirm'); 
+    category_modal.current?.dismiss(null, 'confirm');
   }
 
   function onWillDismiss(ev) {
     if (ev.detail.role === 'confirm') {
       onClose();
     }
-    
   }
 
   return (

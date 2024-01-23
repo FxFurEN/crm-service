@@ -6,19 +6,31 @@ const instance = axios.create({
 
 export const crmAPI = {
     getAllOrders() {
-      return instance.get('/loadOrders');
+      return instance.get('/crm/loadOrders');
     },
     addOrder(formData) {
-      return instance.post('/addOrder', formData);
+      return instance.post('/crm/addOrder', formData);
     },
    
     getAllClientsData() {
-        return instance.get('/loadClientsData');
+        return instance.get('/crm/loadClientsData');
       },
     addClient(formData) {
-        return instance.post('/addClient', formData);
+        return instance.post('/crm/addClient', formData);
     },
     loadClientTypes() {
-        return instance.get('/loadClientTypes');
+        return instance.get('/crm/loadClientTypes');
+    },
+    loadCategories() {
+        return instance.get('/crm/loadCategories');
+    },
+    addCategory(formData) {
+        return instance.post('/crm/addCategory', formData);
+    },
+    loadGoods() {
+        return instance.get('/crm/loadGoods');
+    },
+    addGoods(formData) {
+        return instance.post('/crm/addGoods', formData);
     },
 }

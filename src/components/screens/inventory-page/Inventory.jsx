@@ -1,5 +1,5 @@
-import { useState} from 'react';
-
+import { useState, useEffect } from 'react';
+import { crmAPI } from '../../../api/api';
 import { IonButton, IonIcon, IonItem, IonLabel } from '@ionic/react';
 import {filterOutline, cloudUploadOutline, cloudDownloadOutline, add } from 'ionicons/icons';
 
@@ -14,26 +14,53 @@ import NewCategory from './addCategory/NewCategory';
 import NewGoods from './addGoods/NewGoods';
 
 const Inventory = () =>{
-    const [categories, setCategories] = useState([
-        { name: 'Дерево' },
-      ]);
-      const [goods, setGoods] = useState([
-        {
-          article: '23231312',
-          category: 'Дерево',
-          name: 'брусок',
-          amount: '87',
-          price: '1,99',
-          costPrice: '1,48',
-        },
-      ]);
+    const [categories, setCategories] = useState([]);
+  const [goods, setGoods] = useState([]);
 
-    const addCategory = (newCategory) => {
-        setCategories((prevCategories) => [...prevCategories, newCategory]);
-    };
-    const addGoods = (newGoods) => {
-        setGoods((prevGoods) => [...prevGoods, newGoods]);
-      };
+  const loadCategories = () => {
+    crmAPI.loadCategories()
+      .then(response => {
+        setCategories(response.data);
+      })
+      .catch(error => {
+        console.error('Error loading categories:', error);
+      });
+  };
+
+  const loadGoods = () => {
+    crmAPI.loadGoods()
+      .then(response => {
+        setGoods(response.data);
+      })
+      .catch(error => {
+        console.error('Error loading goods:', error);
+      });
+  };
+
+  useEffect(() => {
+    loadCategories();
+    loadGoods();
+  }, []);
+
+  const addCategory = (newCategory) => {
+    crmAPI.addCategory(newCategory)
+      .then(response => {
+        loadCategories();
+      })
+      .catch(error => {
+        console.error('Error adding category:', error);
+      });
+  };
+
+  const addGoods = (newGoods) => {
+    crmAPI.addGoods(newGoods)
+      .then(response => {
+        loadGoods();
+      })
+      .catch(error => {
+        console.error('Error adding goods:', error);
+      });
+  };
 
       const [isNewCategoryModal, setIsNewCategoryModalOpen] = useState(false);
       const [isNewGoodsModal, setIsNewGoodsModalOpen] = useState(false);
