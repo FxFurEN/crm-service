@@ -1,5 +1,6 @@
 import '../../../../assets/styles/modal-wind.css';
-import { useRef, useState } from 'react';
+import { crmAPI } from '../../../../api/api';
+import { useRef, useState, useEffect } from 'react';
 import {
   IonButtons,
   IonButton,
@@ -20,19 +21,39 @@ const NewClients = ({ isOpen, onClose, addClient }) => {
   const inputPhone = useRef(null);
   const inputEmail = useRef(null);
   const selectType = useRef(null);
+  
+  const [clientTypes, setClientTypes] = useState([]);
+
+  useEffect(() => {
+    crmAPI.loadClientTypes()
+      .then(response => {
+        setClientTypes(response.data);
+      })
+      .catch(error => {
+        console.error('Error loading client types:', error);
+      });
+  }, []);
 
 
-  function confirm() {
-    const newClient = {
-      name: inputName.current?.value || '',
-      phone: inputPhone.current?.value || '',
-      email: inputEmail.current?.value || '',
-      type: selectType.current?.value || '',
-    };
-
-    addClient(newClient);
-    modal.current?.dismiss(null, 'confirm'); 
+  async function confirm() {
+    try {
+      const selectedType = clientTypes.find(type => type.typeclientid === selectType.current?.value);
+  
+      const newClient = {
+        FioClient: inputName.current?.value || '',
+        PhoneNumber: inputPhone.current?.value || '',
+        Mail: inputEmail.current?.value || '',
+        TypeClientID: selectedType ? selectedType.typeclientid : null,
+      };
+  
+      await addClient(newClient);
+      modal.current?.dismiss(null, 'confirm');
+    } catch (error) {
+      console.error('Error adding client:', error);
+    }
   }
+  
+  
 
   function onWillDismiss(ev) {
     if (ev.detail.role === 'confirm') {
@@ -98,10 +119,12 @@ const NewClients = ({ isOpen, onClose, addClient }) => {
                 class="custom"
                 className="custom-alert"
                 interface='popover'
-                
               >
-                <IonSelectOption value="Физ.лицо">Физ лицо</IonSelectOption>
-                <IonSelectOption value="Юр.лицо">Юр лицо</IonSelectOption>
+                {clientTypes.map((type, index) => (
+                  <IonSelectOption key={index} value={type.typeclientid}>
+                    {type.nametype}
+                  </IonSelectOption>
+                ))}
               </IonSelect>
             </IonItem>
           </IonContent>

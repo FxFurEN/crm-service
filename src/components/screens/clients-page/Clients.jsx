@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { IonButton, IonIcon } from '@ionic/react';
 import { filterOutline, cloudUploadOutline, cloudDownloadOutline } from 'ionicons/icons';
+import { crmAPI } from '../../../api/api';
 
 import '../../../assets/styles/main.css';
 import '../../../assets/styles/global.css';
@@ -13,37 +14,41 @@ import SearchBox from '../searchBox/SearchBox';
 import NewClients from './addClients/NewClients';
 
 function Clients() {
-  const initialData = [
-    {
-      name: 'Рома Аегси Хиро',
-      phone: '+375(**)**-**-**',
-      email: '-',
-      type: 'Физ.лицо',
-    },
-    {
-      name: 'Рома Аегси Хиро',
-      phone: '+375(**)**-**-**',
-      email: '-',
-      type: 'Физ.лицо',
-    },
-  ];
-
-  const [filteredData, setFilteredData] = useState([...initialData]);
-  const [clientList, setClientList] = useState([...initialData]);
+  const [filteredData, setFilteredData] = useState([]);
+  const [clientList, setClientList] = useState([]);
   const [isNewClientsModalOpen, setIsNewClientsModalOpen] = useState(false);
 
-  const fields = ['name', 'phone', 'email', 'type'];
+  const fields = ['FioClient', 'PhoneNumber', 'Mail', 'TypeClientID'];
+  const columnLabels = ['Клиент', 'Номер телефона', 'Почта', 'Тип клиента'];  
 
   useEffect(() => {
-    setFilteredData(clientList);
-  }, [clientList]);
+    loadClientData();
+  }, []);
+
+  const loadClientData = () => {
+    crmAPI.getAllClientsData() 
+      .then(response => {
+        setClientList(response.data);
+        setFilteredData(response.data);
+      })
+      .catch(error => {
+        console.error(error);
+      });
+  };
 
   const handleFilter = (filteredResults) => {
     setFilteredData(filteredResults);
   };
 
   const addClient = (newClient) => {
-    setClientList((prevList) => [...prevList, newClient]);
+    crmAPI.addClient(newClient)
+      .then(response => {
+        loadClientData();
+        closeNewClientsModal();
+      })
+      .catch(error => {
+        console.error(error);
+      });
   };
 
   const openNewClientsModal = () => {
@@ -54,7 +59,7 @@ function Clients() {
     setIsNewClientsModalOpen(false);
   };
 
-  const columnLabels = ['Клиент', 'Номер телефона', 'Почта', 'Тип клиента'];
+  
 
   return (
     <>
@@ -78,7 +83,7 @@ function Clients() {
             <div className={`${style.tableHead} ${style.row}`}>
               {fields.map((field, index) => (
                 <div
-                  className={`${style.column} ${index === 0 ? style['first-cell'] : ''}`}
+                  className={`${style.column}`}
                   data-label={columnLabels[index]}
                   key={index}
                 >
@@ -89,13 +94,13 @@ function Clients() {
 
             {filteredData.map((item, rowIndex) => (
               <div className={style.row} key={rowIndex}>
-                {fields.map((field, colIndex) => (
+                {fields.map((field, index) => (
                   <div
-                    className={`${style.column} ${colIndex === 0 ? style['first-cell'] : ''}`}
-                    data-label={columnLabels[colIndex]}
-                    key={colIndex}
+                    className={`${style.column}`}
+                    data-label={columnLabels[index]}
+                    key={index}
                   >
-                    {item[field]}
+                    {item[field.toLowerCase()]}
                   </div>
                 ))}
               </div>
