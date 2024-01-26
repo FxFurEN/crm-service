@@ -10,6 +10,9 @@ ion-item-divider  {
     --color: gray;
     --border-color: white;
   }
+ion-item-group  {
+  margin:0 0 5vh 0;
+  }
 
 ion-input.custom{
     --background: hsl(var(--background-secondary));
@@ -19,16 +22,6 @@ ion-input.custom{
     --placeholder-color: #ddd;
     --placeholder-opacity: 0.8;
   
-}
-ion-button.custom {
-  height: clamp(40px, 50%, 60px);
-  width: clamp(300px, 50%, 450px);
-  margin:5vh 0 0 2vh;
-  --color:black;
-  --background: white;
-  --background-hover: white;
-  --background-activated: white;
-  --background-focused: white;
 }
 ion-button.custom {
   height: clamp(40px, 50%, 60px);
