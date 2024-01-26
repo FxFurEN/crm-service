@@ -1,6 +1,6 @@
 import '../../../assets/styles/main.css';
 import '../../../assets/styles/global.css';
-import './report.css';
+import '../../../assets/styles/ion-style.css';
 import { IonItem, IonItemDivider, IonItemGroup, IonLabel } from '@ionic/react';
 import { caretForwardOutline } from 'ionicons/icons';
 

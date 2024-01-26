@@ -1,0 +1,42 @@
+ion-item  {
+    --background:  hsl(var(--background));
+    --color: white;
+    --border-style: none;
+    --padding-bottom: 10px;
+  }
+
+ion-item-divider  {
+    --background:  hsl(var(--background));
+    --color: gray;
+    --border-color: white;
+  }
+
+ion-input.custom{
+    --background: hsl(var(--background-secondary));
+    --border-radius: 10px;
+    width: clamp(300px, 50%, 450px);
+    --color: #fff;
+    --placeholder-color: #ddd;
+    --placeholder-opacity: 0.8;
+  
+}
+ion-button.custom {
+  height: clamp(40px, 50%, 60px);
+  width: clamp(300px, 50%, 450px);
+  margin:5vh 0 0 2vh;
+  --color:black;
+  --background: white;
+  --background-hover: white;
+  --background-activated: white;
+  --background-focused: white;
+}
+ion-button.custom {
+  height: clamp(40px, 50%, 60px);
+  width: clamp(300px, 50%, 450px);
+  margin:5vh 0 0 2vh;
+  --color:black;
+  --background: white;
+  --background-hover: white;
+  --background-activated: white;
+  --background-focused: white;
+}
