@@ -6,7 +6,7 @@ import '../../../assets/styles/main.css';
 import style from  '../../../assets/styles/table.module.css';
 import '../../../assets/styles/global.css';
 import '../../../assets/styles/addbutton.css';
-import '../../../assets/styles/button-ion.css';
+import '../../../assets/styles/ion-style.css';
 
 import AddButton from '../addButton/AddButton';
 import SearchBox from '../searchBox/SearchBox';

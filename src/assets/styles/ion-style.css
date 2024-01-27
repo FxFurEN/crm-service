@@ -23,10 +23,14 @@ ion-input.custom-input{
     --placeholder-opacity: 0.8;
   
 }
+
+ion-button {
+  --color: white;
+}
+
 ion-button.custom {
   height: clamp(40px, 50%, 60px);
   width: clamp(300px, 50%, 450px);
-  margin:5vh 0 0 2vh;
   --color:black;
   --background: white;
   --background-hover: white;
