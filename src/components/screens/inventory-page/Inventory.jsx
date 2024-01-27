@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { crmAPI } from '../../../api/api';
+import { crmAPI } from '../../../service/api';
 import { IonButton, IonIcon, IonItem, IonLabel, IonGrid, IonRow, IonCol, IonText} from '@ionic/react';
 import {filterOutline, cloudUploadOutline, cloudDownloadOutline, add } from 'ionicons/icons';
 

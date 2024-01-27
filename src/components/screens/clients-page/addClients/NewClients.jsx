@@ -1,5 +1,5 @@
 import '../../../../assets/styles/modal-wind.css';
-import { crmAPI } from '../../../../api/api';
+import { crmAPI } from '../../../../service/api';
 import { useRef, useState, useEffect } from 'react';
 import {
   IonButtons,

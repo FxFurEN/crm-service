@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { IonButton, IonIcon } from '@ionic/react';
 import { filterOutline, cloudUploadOutline, cloudDownloadOutline } from 'ionicons/icons';
-import { crmAPI } from '../../../api/api';
+import { crmAPI } from '../../../service/api';
 
 import '../../../assets/styles/main.css';
 import '../../../assets/styles/global.css';
