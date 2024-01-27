@@ -2,13 +2,16 @@ import '../../../../../assets/styles/global.css';
 import '../../../../../assets/styles/main.css';
 import '../../../../../assets/styles/ion-style.css';
 
-import { IonItemGroup, IonItem, IonInput, IonButton } from '@ionic/react';
+import { IonItemGroup, IonItem, IonInput, IonButton, IonItemDivider, IonLabel } from '@ionic/react';
 
 const Profile = () =>{
     return(
         <main id="main">
             <>
                 <IonItemGroup>
+                    <IonItemDivider сlass="custom ">
+                        <IonLabel>Информация</IonLabel>
+                    </IonItemDivider>
                     <IonItem class="custom">
                         <IonInput 
                             label="ФИО" 
@@ -30,17 +33,22 @@ const Profile = () =>{
                             class="custom-input"
                         ></IonInput>
                     </IonItem>
-                    <IonButton class="custom">Сохранить</IonButton>
-                </IonItemGroup>
-                <IonItemGroup>
-                    <IonItem >
-                        <IonInput 
-                            label="Новый пароль" 
-                            labelPlacement="stacked" 
-                            class="custom-input"
-                        ></IonInput>
+                    <IonItem class="custom">
+                        <IonButton class="custom">Сохранить</IonButton>
                     </IonItem>
-                    <IonButton class="custom">Сохранить</IonButton>
+                    
+                </IonItemGroup>
+                    <IonItemDivider сlass="custom">
+                        <IonLabel>Безопасность</IonLabel>
+                    </IonItemDivider>
+                <IonItemGroup>
+                    <IonItem class="custom" >
+                        <IonButton class="custom">Установить новый пароль</IonButton>
+                    </IonItem>
+                    <IonItem class="custom" >
+                        <IonButton class="custom">Завершить все сессии кроме текущей</IonButton>
+                    </IonItem>
+                   
                 </IonItemGroup>
             </>
            

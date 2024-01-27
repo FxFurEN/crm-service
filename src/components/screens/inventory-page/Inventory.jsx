@@ -91,7 +91,7 @@ const Inventory = () =>{
             <IonGrid>
                 <IonRow>
                   <IonCol>
-                    <IonItem className='custom'>
+                    <IonItem>
                       <IonLabel >Все категории</IonLabel> 
                       <IonButton fill="clear" onClick={openNewCategoryModal} id="open-category-modal">
                         <IonIcon slot="icon-only" color="white" icon={add} size='large'></IonIcon>

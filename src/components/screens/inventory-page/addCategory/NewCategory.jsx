@@ -48,7 +48,7 @@ const NewCategory = ({ isOpen, onClose, addCategory }) => {
             </IonToolbar>
           </IonHeader>
           <IonContent className="ion-padding">
-            <IonItem>
+            <IonItem className="custom">
               <IonInput 
                 label="Название" 
                 labelPlacement="floating"

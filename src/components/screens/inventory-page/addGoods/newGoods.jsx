@@ -59,7 +59,7 @@ const NewGoods = ({ isOpen, onClose, addGoods, categories }) => {
         </IonToolbar>
       </IonHeader>
       <IonContent className="ion-padding">
-        <IonItem>
+        <IonItem className="custom">
           <IonInput
             label="Артикул"
             labelPlacement="floating"
@@ -69,7 +69,7 @@ const NewGoods = ({ isOpen, onClose, addGoods, categories }) => {
             class="custom"
           />
         </IonItem>
-        <IonItem>
+        <IonItem className="custom">  
           <IonSelect
             label="Категория"
             labelPlacement="floating"
@@ -89,7 +89,7 @@ const NewGoods = ({ isOpen, onClose, addGoods, categories }) => {
             ))}
           </IonSelect>
         </IonItem>
-        <IonItem>
+        <IonItem className="custom">
           <IonInput
             label="Название"
             labelPlacement="floating"
@@ -99,7 +99,7 @@ const NewGoods = ({ isOpen, onClose, addGoods, categories }) => {
             class="custom"
           />
         </IonItem>
-        <IonItem>
+        <IonItem className="custom">
           <IonInput
             label="Количество"
             labelPlacement="floating"
@@ -109,7 +109,7 @@ const NewGoods = ({ isOpen, onClose, addGoods, categories }) => {
             class="custom"
           />
         </IonItem>
-        <IonItem>
+        <IonItem className="custom">
           <IonInput
             label="Цена"
             labelPlacement="floating"
@@ -119,7 +119,7 @@ const NewGoods = ({ isOpen, onClose, addGoods, categories }) => {
             class="custom"
           />
         </IonItem>
-        <IonItem>
+        <IonItem className="custom">
           <IonInput
             label="Себестоимость"
             labelPlacement="floating"

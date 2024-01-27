@@ -1,15 +1,25 @@
-ion-item.custom  {
-    --background:  hsl(var(--background));
-    --color: white;
-    --border-style: none;
-    --padding-bottom: 10px;
-  }
 
-ion-item-divider.custom   {
+ion-item.custom  {
+    --color: black;
+}
+
+ion-item-divider .custom   {
     --background:  hsl(var(--background));
     --color: gray;
     --border-color: white;
-  }
+}
+ion-item  {
+  --background:  hsl(var(--background));
+  --color: white;
+  --border-style: none;
+  --padding-bottom: 10px;
+}
+
+ion-item-divider   {
+  --background:  hsl(var(--background));
+  --color: gray;
+  --border-color: white;
+}
 ion-item-group.custom   {
   margin:0 0 5vh 0;
   }

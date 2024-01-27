@@ -79,7 +79,7 @@ const NewClients = ({ isOpen, onClose, addClient }) => {
             </IonToolbar>
           </IonHeader>
           <IonContent className="ion-padding">
-            <IonItem>
+            <IonItem className="custom">
               <IonInput 
                 label="ФИО" 
                 labelPlacement="floating"
@@ -89,7 +89,7 @@ const NewClients = ({ isOpen, onClose, addClient }) => {
                 class="custom"
                  />
             </IonItem>
-            <IonItem>
+            <IonItem className="custom">
               <IonInput
                 label="Телефон"
                 labelPlacement="floating"
@@ -100,7 +100,7 @@ const NewClients = ({ isOpen, onClose, addClient }) => {
                 
               />
             </IonItem>
-            <IonItem>
+            <IonItem className="custom">
               <IonInput 
                 label="Почта" 
                 labelPlacement="floating" 
@@ -111,7 +111,7 @@ const NewClients = ({ isOpen, onClose, addClient }) => {
                  />
                 
             </IonItem>
-            <IonItem>
+            <IonItem className="custom">
               <IonSelect
                 label="Тип клиента"
                 labelPlacement="floating"
