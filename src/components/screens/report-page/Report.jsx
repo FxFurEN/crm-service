@@ -13,7 +13,7 @@ const Report = () =>{
                         <IonLabel>Финансы</IonLabel>
                     </IonItemDivider>
 
-                    <IonItem button detail={true} detailIcon={caretForwardOutline}>
+                    <IonItem  tton detail={true} detailIcon={caretForwardOutline}>
                         <IonLabel>Прибыль по заказам</IonLabel>
                     </IonItem>
                     <IonItem button detail={true} detailIcon={caretForwardOutline}>

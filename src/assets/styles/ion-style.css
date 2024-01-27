@@ -4,8 +4,7 @@ ion-item.custom  {
 }
 
 ion-item-divider .custom   {
-    --background:  hsl(var(--background));
-    --color: gray;
+    --color: white;
     --border-color: white;
 }
 ion-item  {
@@ -44,6 +43,15 @@ ion-button.custom {
   --color:black;
   --background: white;
   --background-hover: white;
+  --background-activated: white;
+  --background-focused: white;
+}
+
+ion-button.dark-button{
+  width: clamp(200px, 20%, 450px);
+  --color:white;
+  --background: hsl(var(--background));
+  --background-hover: hsl(var(--background-secondary));
   --background-activated: white;
   --background-focused: white;
 }
