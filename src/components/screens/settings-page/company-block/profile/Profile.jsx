@@ -9,25 +9,25 @@ const Profile = () =>{
         <main id="main">
             <>
                 <IonItemGroup>
-                    <IonItem >
+                    <IonItem class="custom">
                         <IonInput 
                             label="ФИО" 
                             labelPlacement="stacked" 
-                            class="custom"
+                            class="custom-input"
                         ></IonInput>
                     </IonItem>
-                    <IonItem >
+                    <IonItem class="custom">
                         <IonInput 
                             label="Телефн" 
                             labelPlacement="stacked" 
-                            class="custom"
+                            class="custom-input"
                         ></IonInput>
                     </IonItem>
-                    <IonItem >
+                    <IonItem class="custom">
                         <IonInput 
                             label="Почта" 
                             labelPlacement="stacked" 
-                            class="custom"
+                            class="custom-input"
                         ></IonInput>
                     </IonItem>
                     <IonButton class="custom">Сохранить</IonButton>
@@ -37,7 +37,7 @@ const Profile = () =>{
                         <IonInput 
                             label="Новый пароль" 
                             labelPlacement="stacked" 
-                            class="custom"
+                            class="custom-input"
                         ></IonInput>
                     </IonItem>
                     <IonButton class="custom">Сохранить</IonButton>

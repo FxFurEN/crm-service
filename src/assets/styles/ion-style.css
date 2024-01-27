@@ -1,20 +1,20 @@
-ion-item  {
+ion-item.custom  {
     --background:  hsl(var(--background));
     --color: white;
     --border-style: none;
     --padding-bottom: 10px;
   }
 
-ion-item-divider  {
+ion-item-divider.custom   {
     --background:  hsl(var(--background));
     --color: gray;
     --border-color: white;
   }
-ion-item-group  {
+ion-item-group.custom   {
   margin:0 0 5vh 0;
   }
 
-ion-input.custom{
+ion-input.custom-input{
     --background: hsl(var(--background-secondary));
     --border-radius: 10px;
     width: clamp(300px, 50%, 450px);

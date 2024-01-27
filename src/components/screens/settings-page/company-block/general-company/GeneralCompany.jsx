@@ -9,33 +9,33 @@ const General = () =>{
         <main id="main">
             <>
                 <IonItemGroup>
-                    <IonItem >
+                    <IonItem class="custom" >
                         <IonInput 
                             label="Название компании" 
                             labelPlacement="stacked" 
-                            class="custom"
+                            class="custom-input"
                         ></IonInput>
                     </IonItem>
-                    <IonItem >
+                    <IonItem class="custom">
                         <IonInput 
                             label="Реквизиты" 
                             labelPlacement="stacked" 
-                            class="custom"
+                            class="custom-input"
                         ></IonInput>
                     </IonItem>
-                    <IonItem >
+                    <IonItem class="custom">
                         <IonInput 
                             label="Адрес" 
                             labelPlacement="stacked" 
-                            class="custom"
+                            class="custom-input"
                         ></IonInput>
                     </IonItem>
 
-                    <IonItem >
+                    <IonItem class="custom" >
                         <IonInput 
                             label="Валюта" 
                             labelPlacement="stacked" 
-                            class="custom"
+                            class="custom-input"
                         ></IonInput>
                     </IonItem>
                     <IonButton class="custom">Сохранить</IonButton>
