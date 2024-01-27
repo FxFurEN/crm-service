@@ -38,7 +38,10 @@ const General = () =>{
                             class="custom-input"
                         ></IonInput>
                     </IonItem>
-                    <IonButton class="custom">Сохранить</IonButton>
+                    <IonItem class="custom" >
+                        <IonButton class="custom">Сохранить</IonButton>
+                    </IonItem>
+                    
                 </IonItemGroup>
             </>
            

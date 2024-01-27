@@ -11,7 +11,7 @@ const Settings = () =>{
         
         <main id="main">
             <>
-                <IonGrid >
+                <IonGrid style={{ flex: 1, overflow: 'auto' }}>
                     <IonRow>
                         <IonCol size="auto">
                             <h4>Компания</h4>
