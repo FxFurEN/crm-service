@@ -91,7 +91,7 @@ const Inventory = () =>{
             <IonGrid>
                 <IonRow>
                   <IonCol>
-                    <IonItem >
+                    <IonItem className='custom'>
                       <IonLabel >Все категории</IonLabel> 
                       <IonButton fill="clear" onClick={openNewCategoryModal} id="open-category-modal">
                         <IonIcon slot="icon-only" color="white" icon={add} size='large'></IonIcon>
@@ -101,7 +101,7 @@ const Inventory = () =>{
                 </IonRow>
                   {categories.map((category, index) => (
                     <IonRow key={index}>
-                      <IonItem>
+                      <IonItem className='custom'>
                       {Object.keys(category).map((field, fieldIndex) => (
                         <IonCol key={fieldIndex}>
                             {category[field] !== undefined ? category[field] : ''}
