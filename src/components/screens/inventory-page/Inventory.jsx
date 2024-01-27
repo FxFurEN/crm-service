@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { crmAPI } from '../../../api/api';
-import { IonButton, IonIcon, IonItem, IonLabel } from '@ionic/react';
+import { IonButton, IonIcon, IonItem, IonLabel, IonGrid, IonRow, IonCol, IonText} from '@ionic/react';
 import {filterOutline, cloudUploadOutline, cloudDownloadOutline, add } from 'ionicons/icons';
 
 
@@ -86,71 +86,74 @@ const Inventory = () =>{
 
 
     return(
-        
         <main id="main">
-            <div className={style.table}>
-                    <div className={style.row}>
-                        <div className={style.column}>
-                                <IonItem>
-                                    <IonLabel>Все категории</IonLabel>
-                                    <IonButton fill="clear" onClick={openNewCategoryModal} id="open-category-modal">
-                                        <IonIcon slot="icon-only" color="white" icon={add} size='large'></IonIcon>
-                                    </IonButton> 
-                                    
-                                </IonItem>
-                        </div>                                                                                                                                                                                                                                            
-                        <div className={style.column}>
-                            <div style={{display: "flex", justifyContent: "space-between"}}>
-                                <SearchBox  />
-                                <IonButton fill="clear">
-                                    <IonIcon slot="icon-only" color="white" icon={filterOutline}></IonIcon>
-                                </IonButton>
-                                <IonButton fill="clear">
-                                    <IonIcon slot="icon-only" icon={cloudUploadOutline}></IonIcon>
-                                </IonButton>
-                                <IonButton fill="clear">
-                                    <IonIcon slot="icon-only" icon={cloudDownloadOutline}></IonIcon>
-                                </IonButton>
-                            </div>                                                                                                                                                                                                                                                
-                        </div>
-                    </div>
-                    <div className={style.row}>
-                        <div className={style.column}>
-                            {categories.map((category, index) => (
-                                <div className={style.row} key={index}>
-                                    {Object.keys(category).map((field, fieldIndex) => (
-                                        <div className={style.column} key={fieldIndex}>
-                                            {category[field] !== undefined ? category[field] : ''}
-                                        </div>
-                                    ))}
-                                </div>
-                            ))}
-                        </div>
-                        <div className={style.column}>
-                             <div className={style.table}>
-                                <div className={style.tableHead}>
-                                    {columnLabels.map((label, index) => (
-                                        <div className={style.column} key={index}>
+          <div style={{display: "flex"}}>
+            <IonGrid>
+                <IonRow>
+                  <IonCol>
+                    <IonItem >
+                      <IonLabel >Все категории</IonLabel> 
+                      <IonButton fill="clear" onClick={openNewCategoryModal} id="open-category-modal">
+                        <IonIcon slot="icon-only" color="white" icon={add} size='large'></IonIcon>
+                      </IonButton>             
+                    </IonItem>
+                  </IonCol>
+                </IonRow>
+                  {categories.map((category, index) => (
+                    <IonRow key={index}>
+                      <IonItem>
+                      {Object.keys(category).map((field, fieldIndex) => (
+                        <IonCol key={fieldIndex}>
+                            {category[field] !== undefined ? category[field] : ''}
+                        </IonCol>
+                      ))}
+                      </IonItem>
+                    </IonRow>
+                  ))}
+            </IonGrid>
+            <IonGrid>
+                <IonRow>
+                  <div style={{display: "flex"}}>
+                    <SearchBox  />
+                    <IonButton fill="clear">
+                        <IonIcon slot="icon-only" color="white" icon={filterOutline}></IonIcon>
+                    </IonButton>
+                    <IonButton fill="clear">
+                          <IonIcon slot="icon-only" icon={cloudUploadOutline}></IonIcon>
+                    </IonButton>
+                    <IonButton fill="clear">
+                        <IonIcon slot="icon-only" icon={cloudDownloadOutline}></IonIcon>
+                    </IonButton>
+                  </div>
+                </IonRow>
+                <IonGrid>
+                  <IonRow className={style.tableHead}>
+                  {columnLabels.map((label, index) => (
+                                        <IonCol 
+                                          data-label={columnLabels[index]}
+                                          className={style.column} 
+                                          key={index}
+                                        >
                                             {label}
-                                        </div>
+                                        </IonCol>
                                     ))}
-                                </div>
-                                {goods.map((item, index) => (
-                                    <div className={style.row} key={index}>
-                                        {Object.keys(item).map((field, fieldIndex) => (
-                                            <div className={style.column} key={fieldIndex}>
+                  </IonRow>
+                  {goods.map((item, index) => (
+                    <IonRow key={index}>
+                      {Object.keys(item).map((field, fieldIndex) => (
+                                            <IonCol 
+                                              data-label={columnLabels[index]}
+                                              className={style.column} 
+                                              key={fieldIndex}
+                                            >
                                                 {item[field]}
-                                            </div>
+                                            </IonCol>
                                         ))}
-                                    </div>
-                                ))}
-                             </div>
-                        </div>
-                    </div>
-                </div>
-            <div>
-
-            </div>
+                    </IonRow>
+                  ))}
+                </IonGrid>
+            </IonGrid>
+          </div>
             <div>
                 <AddButton onClick={openNewGoodsModal}/>
                 <NewGoods isOpen={isNewGoodsModal} onClose={closeNewGoodsModal} addGoods={addGoods} categories={categories}/>
