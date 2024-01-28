@@ -27,13 +27,12 @@ const NavHeader = () => {
     ['/settings/orderType', 'Типы заказов'],
     ['/settings/clientType', 'Типы клиентов'],
     ['/settings/handbooks', 'Справочники'],
+    ['/settings/documents', 'Документы'],
   ]);
   const additionalPageNames = new Map([
     ['/settings/general', 'Общие'],
-    ['/settings/fields', 'Поле'],
     ['/settings/reference', 'Справочники'],
     ['/settings/fields', 'Поле'],
-    ['/settings/documents', 'Документы'],
   ]);
 
   const getPageSpans = (path) => {
@@ -60,45 +59,49 @@ const NavHeader = () => {
   
   
   const breadcrumbs = getPageSpans(currentPage);
+  console.log('Current Page:', currentPage);
+  console.log('Breadcrumbs:', breadcrumbs);
 
-    return(
-        <div className='nav-line'>
-        <div className="wrapper">
+  return (
+    <div className='nav-line'>
+      <div className="wrapper">
         <li className="navbar-item flexbox-left " style={{ paddingLeft: '5em', width: 'auto', height: 'auto'}}>
-            <IonBreadcrumbs>
-                {breadcrumbs.map((breadcrumb, index) => (
-                    <IonBreadcrumb key={index} href={breadcrumb.isClickable ? breadcrumb.path : undefined}>
-                    {breadcrumb.isClickable ? (
-                        <Link
-                        to={breadcrumb.path}
-                        style={{
-                            color: breadcrumb.isCurrentPage ? 'white' : 'gray',
-                            cursor: 'pointer',textDecoration: 'none', 
-                            transition: 'color 0.3s ease', }}
-                        className={breadcrumb.isClickable ? 'hover-navbar' : ''} 
-                        >
-                        {breadcrumb.pageName}
-                        </Link>
-                    ) : (
-                        <span style={{ color: 'gray', cursor: 'text' }}>{breadcrumb.pageName}</span>
-                    )}
-                    </IonBreadcrumb>
-                ))}
-            </IonBreadcrumbs>
-          </li> 
-          <ul className="nav-links">
+          <IonBreadcrumbs>
+            {breadcrumbs.map((breadcrumb, index) => (
+              <IonBreadcrumb key={index} href={breadcrumb.isClickable ? breadcrumb.path : undefined}>
+                {breadcrumb.isCurrentPage ? (
+                  <span style={{ color: 'white', cursor: 'text' }}>{breadcrumb.pageName}</span>
+                ) : (
+                  <Link
+                    to={breadcrumb.path}
+                    style={{
+                      color: 'gray',
+                      cursor: 'pointer',
+                      textDecoration: 'none',
+                      transition: 'color 0.3s ease',
+                    }}
+                    className={breadcrumb.isClickable ? 'hover-navbar' : ''} 
+                  >
+                    {breadcrumb.pageName}
+                  </Link>
+                )}
+              </IonBreadcrumb>
+            ))}
+          </IonBreadcrumbs>
+        </li> 
+        <ul className="nav-links">
           <li className="navbar-item flexbox-left" >
             <Link to='/settings/profile' className="navbar-item-inner flexbox-left">
-            <span>Профиль</span>
+              <span>Профиль</span>
               <div className="navbar-item-inner-icon-wrapper flexbox">
                 <IonIcon icon={personOutline}></IonIcon>
               </div>
             </Link>
           </li>
-          </ul>
-        </div>
+        </ul>
       </div>
-    )
+    </div>
+  );
 }
 
 
