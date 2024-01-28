@@ -2,6 +2,7 @@ import '../../../../../assets/styles/global.css';
 import '../../../../../assets/styles/main.css';
 import { IonItem, IonLabel, IonItemGroup, IonItemDivider } from '@ionic/react';
 import { caretForwardOutline } from 'ionicons/icons';
+import { Link} from 'react-router-dom';
 
 const Documents = () =>{
     return(
@@ -10,9 +11,12 @@ const Documents = () =>{
                 <IonItemDivider>
                         <IonLabel>Заказы</IonLabel>
                 </IonItemDivider>
-                <IonItem button detail={true} detailIcon={caretForwardOutline}>
-                    <IonLabel>Акт выполненных работ</IonLabel>
-                </IonItem>
+                <Link to='/settings/documents/statementOfWork'>
+                    <IonItem button detail={true} detailIcon={caretForwardOutline}>
+                        <IonLabel>Акт выполненных работ</IonLabel>
+                    </IonItem>
+                </Link>
+                
                 <IonItem button detail={true} detailIcon={caretForwardOutline}>
                     <IonLabel>Гарантийная квитация</IonLabel>
                 </IonItem>

@@ -17,7 +17,7 @@ const NavHeader = () => {
     ['/shop', 'Магазин'],
     ['/settings', 'Настройки'],
     ['/settings/profile', 'Профиль'],
-    ['/settings/documents', 'Документы'],
+    ['/settings/documents/statementOfWork', 'Акт выполненных работ'],
     ['/settings/general/company', 'Компания'],
     ['/settings/general/orders', 'Общие заказы'],
     ['/settings/statuses', 'Статусы'],
@@ -33,6 +33,7 @@ const NavHeader = () => {
     ['/settings/fields', 'Поле'],
     ['/settings/reference', 'Справочники'],
     ['/settings/fields', 'Поле'],
+    ['/settings/documents', 'Документы'],
   ]);
 
   const getPageSpans = (path) => {
