@@ -59,9 +59,6 @@ const NavHeader = () => {
   
   
   const breadcrumbs = getPageSpans(currentPage);
-  console.log('Current Page:', currentPage);
-  console.log('Breadcrumbs:', breadcrumbs);
-
   return (
     <div className='nav-line'>
       <div className="wrapper">
