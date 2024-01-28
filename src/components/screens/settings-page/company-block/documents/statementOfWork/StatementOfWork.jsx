@@ -1,15 +1,12 @@
 import '../../../../../../assets/styles/global.css';
 import '../../../../../../assets/styles/main.css';
 import { Editor } from '@tinymce/tinymce-react';
-import env from "react-dotenv";
 
 const StatementOfWork = () =>{
-    const apiKey = env.API_KEY;
-
     return(
         <main id='main' style={{color: 'black'}}>
            <Editor
-                apiKey={apiKey}
+                apiKey={import.meta.env.VITE_TINYMCE_API_KEY}
                 init={{
                     plugins: 'ai tinycomments mentions anchor autolink charmap codesample emoticons image link lists media searchreplace table visualblocks wordcount checklist mediaembed casechange export formatpainter pageembed permanentpen footnotes advtemplate advtable advcode editimage tableofcontents mergetags powerpaste tinymcespellchecker autocorrect a11ychecker typography inlinecss',
                     toolbar: 'undo redo | blocks fontfamily fontsize | bold italic underline strikethrough | link image media table mergetags | align lineheight | tinycomments | checklist numlist bullist indent outdent | emoticons charmap | removeformat',
