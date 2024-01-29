@@ -1,11 +1,11 @@
 import { Link, useLocation } from 'react-router-dom';
 import { IonIcon, IonBreadcrumb, IonBreadcrumbs } from '@ionic/react';
 import { personOutline } from 'ionicons/icons';
-
+import '../../../../assets/styles/ion-style.css'
 
 const NavHeader = () => {
 
-    const location = useLocation();
+  const location = useLocation();
   const currentPage = location.pathname;
 
   const russianPageNames = new Map([
@@ -62,29 +62,24 @@ const NavHeader = () => {
   return (
     <div className='nav-line'>
       <div className="wrapper">
-        <li className="navbar-item flexbox-left " style={{ paddingLeft: '5em', width: 'auto', height: 'auto'}}>
-          <IonBreadcrumbs>
-            {breadcrumbs.map((breadcrumb, index) => (
-              <IonBreadcrumb key={index} href={breadcrumb.isClickable ? breadcrumb.path : undefined}>
-                {breadcrumb.isCurrentPage ? (
-                  <span style={{ color: 'white', cursor: 'text' }}>{breadcrumb.pageName}</span>
-                ) : (
-                  <Link
-                    to={breadcrumb.path}
-                    style={{
-                      color: 'gray',
-                      cursor: 'pointer',
-                      textDecoration: 'none',
-                      transition: 'color 0.3s ease',
-                    }}
-                    className={breadcrumb.isClickable ? 'hover-navbar' : ''} 
-                  >
-                    {breadcrumb.pageName}
-                  </Link>
-                )}
-              </IonBreadcrumb>
-            ))}
-          </IonBreadcrumbs>
+        <li className="flexbox-left " style={{ paddingLeft: '5em', width: 'auto', height: 'auto'}}>
+        <IonBreadcrumbs>
+          {breadcrumbs.map((breadcrumb, index) => (
+            <IonBreadcrumb key={index}>
+              {breadcrumb.isCurrentPage ? (
+                breadcrumb.pageName
+              ) : (
+                <Link
+                  to={breadcrumb.path} 
+                  className={breadcrumb.isClickable} 
+                  style={{ color: breadcrumb.isClickable ? 'gray' : 'gray' }}
+                >
+                  {breadcrumb.pageName}
+                </Link>
+              )}
+            </IonBreadcrumb>
+          ))}
+        </IonBreadcrumbs>
         </li> 
         <ul className="nav-links">
           <li className="navbar-item flexbox-left" >
