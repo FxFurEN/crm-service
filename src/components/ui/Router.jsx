@@ -43,6 +43,7 @@ import Shop from '../screens/shop-page/Shop.jsx';
 import NewOrders from '../screens/orders-page/addOrders/NewOrders.jsx';
 import NewCategory from '../screens/inventory-page/addCategory/NewCategory.jsx';
 import StatementOfWork from '../screens/settings-page/company-block/documents/statementOfWork/StatementOfWork.jsx';
+import FieldsHandBooks from '../screens/settings-page/forms-block/handbooks/FieldsHandBook/FieldsHandBook.jsx';
 
 
 setupIonicReact({ mode: 'md' });  
@@ -77,6 +78,7 @@ const Router = () => {
                 <Route path='/settings/orderType' element={<TypeOrders />} />
                 <Route path='/settings/clientType' element={<TypeClients />} />
                 <Route path='/settings/handbooks' element={<Handbooks />} />
+                <Route path='/settings/handbooks/:id' element={<FieldsHandBooks />} />
 
                 <Route path="*" element={<App/>} />
               </Route>

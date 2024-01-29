@@ -1,12 +1,13 @@
 import SearchBox from '../../../searchBox/SearchBox';
 import { IonItem, IonItemGroup, IonLabel, IonIcon } from '@ionic/react';
 import { pencilOutline } from 'ionicons/icons';
+import { Link } from 'react-router-dom';
 
 
 const Handbooks = () =>{
     const data = [
-        { name: '1'  },
-        { name: '2'}
+        { id: '1', name: 'Handbook 1' },
+        { id: '2', name: 'Handbook 2'}
       ];
 
     return(
@@ -20,11 +21,13 @@ const Handbooks = () =>{
                     <IonLabel>Имя</IonLabel>
                     <IonLabel style={{textAlign: 'right'}}>Действие</IonLabel>
                 </IonItem>
-                 {data.map((item, index) => (
-                    <IonItem button key={index}>
-                        <IonLabel>{item.name}</IonLabel>
-                        <IonIcon icon={pencilOutline} color="white" style={{textAlign: 'right'}} />
-                    </IonItem>
+                {data.map((item, index) => (
+                        <Link to={`../settings/handbooks/${item.id}`} key={index}>
+                            <IonItem button>
+                                <IonLabel>{item.name}</IonLabel>
+                                <IonIcon icon={pencilOutline} color="white" style={{textAlign: 'right'}} />
+                            </IonItem>
+                        </Link>
                 ))}
             </IonItemGroup>
             </div>
