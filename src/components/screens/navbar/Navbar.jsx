@@ -7,16 +7,26 @@ import NavHeader from './nav-header/NavHeader';
 import { useEffect, useState } from 'react';
 
 const Navbar = ({ visibility = {} }) => {
-  const { isSkladVisible, isMagazinVisible, isOrdersVisible } = visibility;
   const [showSklad, setShowSklad] = useState(true);
   const [showMagazin, setShowMagazin] = useState(true);
   const [showOrders, setShowOrders] = useState(true);
 
   useEffect(() => {
-    setShowSklad(isSkladVisible);
-    setShowMagazin(isMagazinVisible);
-    setShowOrders(isOrdersVisible);
-  }, [isSkladVisible, isMagazinVisible, isOrdersVisible]);
+    // Загружаем состояние из localStorage при монтировании компонента
+    const storedVisibility = JSON.parse(localStorage.getItem('visibility')) || {};
+    setShowSklad(storedVisibility.isSkladVisible ?? true);
+    setShowMagazin(storedVisibility.isMagazinVisible ?? true);
+    setShowOrders(storedVisibility.isOrdersVisible ?? true);
+  }, []);
+
+  useEffect(() => {
+    // Обновляем компонент при изменении значений
+    setShowSklad(visibility.isSkladVisible);
+    setShowMagazin(visibility.isMagazinVisible);
+    setShowOrders(visibility.isOrdersVisible);
+  }, [visibility]);
+
+  
 
   return (
     <>

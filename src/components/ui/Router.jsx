@@ -45,17 +45,32 @@ import NewCategory from '../screens/inventory-page/addCategory/NewCategory.jsx';
 import StatementOfWork from '../screens/settings-page/company-block/documents/statementOfWork/StatementOfWork.jsx';
 import FieldsHandBooks from '../screens/settings-page/forms-block/handbooks/FieldsHandBook/FieldsHandBook.jsx';
 import Modules from '../screens/settings-page/company-block/modules/Modules.jsx';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 
 setupIonicReact({ mode: 'md' });  
 const Router = () => {
-
   const [visibility, setVisibility] = useState({
     isSkladVisible: true,
     isMagazinVisible: true,
     isOrdersVisible: true,
   });
+
+  useEffect(() => {
+    // Загружаем состояние из localStorage при монтировании компонента
+    const storedVisibility = JSON.parse(localStorage.getItem('visibility')) || {};
+    setVisibility({
+      isSkladVisible: storedVisibility.isSkladVisible ?? true,
+      isMagazinVisible: storedVisibility.isMagazinVisible ?? true,
+      isOrdersVisible: storedVisibility.isOrdersVisible ?? true,
+    });
+  }, []);
+
+  const handleSetVisibility = (newVisibility) => {
+    // Обновляем состояние видимости в родительском компоненте и сохраняем в localStorage
+    setVisibility(newVisibility);
+    localStorage.setItem('visibility', JSON.stringify(newVisibility));
+  };
 
 
     return (
@@ -77,7 +92,7 @@ const Router = () => {
 
                 <Route path="/settings/general/company" element={<GeneralCompany />} />
                 <Route path="/settings/profile" element={<Profile />} />
-                <Route path="/settings/modules" element={<Modules setVisibility={setVisibility} />} />
+                <Route path="/settings/modules" element={<Modules setVisibility={handleSetVisibility} />} />
                 <Route path="/settings/documents" element={<Documents />} />
                 <Route path="/settings/documents/statementOfWork" element={<StatementOfWork/>} />
                 <Route path="/settings/employees" element={<Employees/>} />
