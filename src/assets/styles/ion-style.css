@@ -61,3 +61,28 @@ ion-breadcrumb {
   --color-active: white;
   --color-hover: White;
 }
+ion-searchbar.custom {
+  --background: hsl(var(--background));
+  --color: #fff;
+  --placeholder-color: #fff;
+  --icon-color: #fff;
+  --clear-button-color: #fff;
+  --border-radius: 4px;
+  margin: 0 0 0 -0.5em;
+}
+
+ion-searchbar.ios.custom {
+  --cancel-button-color: #19422d;
+}
+
+ion-searchbar.md.custom {
+  --cancel-button-color: #fff;
+}
+
+ion-searchbar.modal-search {
+  --color: black;
+  --placeholder-color: #fff;
+  --icon-color: black;
+  --clear-button-color: #fff;
+  --border-radius: 4px;
+}
