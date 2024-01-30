@@ -3,9 +3,9 @@ import './App.css'
 function App() {
 
   return (
-    <div>
+    <main id='main'>
       <h1>404 Not Found</h1>
-    </div>
+    </main>
   )
 }
 
