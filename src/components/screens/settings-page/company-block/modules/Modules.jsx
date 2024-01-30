@@ -1,53 +1,35 @@
-import { IonButton, IonGrid, IonItem, IonItemGroup, IonToggle } from "@ionic/react"
-import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from 'react-redux';
+import { IonButton, IonGrid, IonItem, IonItemGroup, IonToggle } from "@ionic/react";
+import { setVisibility, selectVisibility } from '../../../../../redux/visibilitySlice'; // Замените на правильный путь
 
-const Modules = ({ setVisibility }) => {
-    const [isSkladVisible, setIsSkladVisible] = useState(true);
-  const [isMagazinVisible, setIsMagazinVisible] = useState(true);
-  const [isOrdersVisible, setIsOrdersVisible] = useState(true);
-
-  useEffect(() => {
-    // Загружаем состояние из localStorage при монтировании компонента
-    const storedVisibility = JSON.parse(localStorage.getItem('visibility')) || {};
-    setIsSkladVisible(storedVisibility.isSkladVisible ?? true);
-    setIsMagazinVisible(storedVisibility.isMagazinVisible ?? true);
-    setIsOrdersVisible(storedVisibility.isOrdersVisible ?? true);
-  }, []);
+const Modules = () => {
+  const dispatch = useDispatch();
+  const { isSkladVisible, isMagazinVisible, isOrdersVisible } = useSelector(selectVisibility);
 
   const handleSaveClick = () => {
-    // Сохраняем состояние в localStorage при изменении
-    const visibility = {
-      isSkladVisible,
-      isMagazinVisible,
-      isOrdersVisible,
-    };
-    localStorage.setItem('visibility', JSON.stringify(visibility));
+    dispatch(setVisibility({ isSkladVisible, isMagazinVisible, isOrdersVisible }));
+  };
 
-    // Обновляем видимость в родительском компоненте
-    setVisibility(visibility);
-  };
-  
-    return (
-      <main id="main">
-        <IonGrid>
-          <IonItemGroup>
-            <IonItem>
-              <IonToggle checked={isSkladVisible} onIonChange={() => setIsSkladVisible(!isSkladVisible)}>Склад</IonToggle>
-            </IonItem>
-            <IonItem>
-              <IonToggle checked={isMagazinVisible} onIonChange={() => setIsMagazinVisible(!isMagazinVisible)}>Магазин</IonToggle>
-            </IonItem>
-            <IonItem>
-              <IonToggle checked={isOrdersVisible} onIonChange={() => setIsOrdersVisible(!isOrdersVisible)}>Заказы</IonToggle>
-            </IonItem>
-            <IonItem>
-              <IonButton className="custom" onClick={handleSaveClick}>Сохранить</IonButton>
-            </IonItem>
-          </IonItemGroup>
-        </IonGrid>
-      </main>
-    );
-  };
-  
-  export default Modules;
-  
+  return (
+    <main id="main">
+      <IonGrid>
+        <IonItemGroup>
+          <IonItem>
+            <IonToggle checked={isSkladVisible} onIonChange={() => dispatch(setVisibility({ isSkladVisible: !isSkladVisible }))}>Склад</IonToggle>
+          </IonItem>
+          <IonItem>
+            <IonToggle checked={isMagazinVisible} onIonChange={() => dispatch(setVisibility({ isMagazinVisible: !isMagazinVisible }))}>Магазин</IonToggle>
+          </IonItem>
+          <IonItem>
+            <IonToggle checked={isOrdersVisible} onIonChange={() => dispatch(setVisibility({ isOrdersVisible: !isOrdersVisible }))}>Заказы</IonToggle>
+          </IonItem>
+          <IonItem>
+            <IonButton className="custom" onClick={handleSaveClick}>Сохранить</IonButton>
+          </IonItem>
+        </IonItemGroup>
+      </IonGrid>
+    </main>
+  );
+};
+
+export default Modules;

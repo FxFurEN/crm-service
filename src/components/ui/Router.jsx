@@ -45,72 +45,54 @@ import NewCategory from '../screens/inventory-page/addCategory/NewCategory.jsx';
 import StatementOfWork from '../screens/settings-page/company-block/documents/statementOfWork/StatementOfWork.jsx';
 import FieldsHandBooks from '../screens/settings-page/forms-block/handbooks/FieldsHandBook/FieldsHandBook.jsx';
 import Modules from '../screens/settings-page/company-block/modules/Modules.jsx';
-import { useEffect, useState } from 'react';
+
+import { Provider } from 'react-redux';
+import store from '../../redux/store'; 
 
 
 setupIonicReact({ mode: 'md' });  
 const Router = () => {
-  const [visibility, setVisibility] = useState({
-    isSkladVisible: true,
-    isMagazinVisible: true,
-    isOrdersVisible: true,
-  });
-
-  useEffect(() => {
-    // Загружаем состояние из localStorage при монтировании компонента
-    const storedVisibility = JSON.parse(localStorage.getItem('visibility')) || {};
-    setVisibility({
-      isSkladVisible: storedVisibility.isSkladVisible ?? true,
-      isMagazinVisible: storedVisibility.isMagazinVisible ?? true,
-      isOrdersVisible: storedVisibility.isOrdersVisible ?? true,
-    });
-  }, []);
-
-  const handleSetVisibility = (newVisibility) => {
-    // Обновляем состояние видимости в родительском компоненте и сохраняем в localStorage
-    setVisibility(newVisibility);
-    localStorage.setItem('visibility', JSON.stringify(newVisibility));
-  };
-
-
     return (
-      <IonApp>
-        <BrowserRouter>
-          <Routes>
-            <Route path="/" element={<Navbar visibility={visibility} />} >
-                <Route path="/home" element={<Home />} />
-                <Route path="/clients" element={<Clients />} />
-                <Route path="/report" element={<Report />} />
-                <Route path="/orders" element={<Orders />} />
-                <Route path="/inventory" element={<Inventory />} />
-                <Route path="/shop" element={<Shop />} />
-                <Route path="/settings" element={<Settings />} />
+      <Provider store={store}>
+          <IonApp>
+            <BrowserRouter>
+              <Routes>
+                <Route path="/" element={<Navbar/>} >
+                    <Route path="/home" element={<Home />} />
+                    <Route path="/clients" element={<Clients />} />
+                    <Route path="/report" element={<Report />} />
+                    <Route path="/orders" element={<Orders />} />
+                    <Route path="/inventory" element={<Inventory />} />
+                    <Route path="/shop" element={<Shop />} />
+                    <Route path="/settings" element={<Settings />} />
 
-                <Route path="/clients/new" element={<NewClients />} />
-                <Route path="/orders/new" element={<NewOrders />} />
-                <Route path="/inventory/category/new" element={<NewCategory />} />
+                    <Route path="/clients/new" element={<NewClients />} />
+                    <Route path="/orders/new" element={<NewOrders />} />
+                    <Route path="/inventory/category/new" element={<NewCategory />} />
 
-                <Route path="/settings/general/company" element={<GeneralCompany />} />
-                <Route path="/settings/profile" element={<Profile />} />
-                <Route path="/settings/modules" element={<Modules setVisibility={handleSetVisibility} />} />
-                <Route path="/settings/documents" element={<Documents />} />
-                <Route path="/settings/documents/statementOfWork" element={<StatementOfWork/>} />
-                <Route path="/settings/employees" element={<Employees/>} />
-                <Route path="/settings/general/orders" element={<GeneralOrders />} />
-                <Route path="/settings/statuses" element={<Statuses />} />
-                <Route path='/settings/services' element={<Services />} />
-                <Route path='/settings/fields/order' element={<FieldOrders />} />
-                <Route path='/settings/fields/client' element={<FieldClients />} />
-                <Route path='/settings/orderType' element={<TypeOrders />} />
-                <Route path='/settings/clientType' element={<TypeClients />} />
-                <Route path='/settings/handbooks' element={<Handbooks />} />
-                <Route path='/settings/handbooks/:id' element={<FieldsHandBooks />} />
+                    <Route path="/settings/general/company" element={<GeneralCompany />} />
+                    <Route path="/settings/profile" element={<Profile />} />
+                    <Route path="/settings/modules" element={<Modules />} />
+                    <Route path="/settings/documents" element={<Documents />} />
+                    <Route path="/settings/documents/statementOfWork" element={<StatementOfWork/>} />
+                    <Route path="/settings/employees" element={<Employees/>} />
+                    <Route path="/settings/general/orders" element={<GeneralOrders />} />
+                    <Route path="/settings/statuses" element={<Statuses />} />
+                    <Route path='/settings/services' element={<Services />} />
+                    <Route path='/settings/fields/order' element={<FieldOrders />} />
+                    <Route path='/settings/fields/client' element={<FieldClients />} />
+                    <Route path='/settings/orderType' element={<TypeOrders />} />
+                    <Route path='/settings/clientType' element={<TypeClients />} />
+                    <Route path='/settings/handbooks' element={<Handbooks />} />
+                    <Route path='/settings/handbooks/:id' element={<FieldsHandBooks />} />
 
-                <Route path="*" element={<App/>} />
-              </Route>
-          </Routes>
-        </BrowserRouter>
-      </IonApp>
+                    <Route path="*" element={<App/>} />
+                  </Route>
+              </Routes>
+            </BrowserRouter>
+          </IonApp>
+      </Provider>
+      
          
     )
 }

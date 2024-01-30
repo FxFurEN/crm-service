@@ -1,12 +1,14 @@
 import { createSlice } from '@reduxjs/toolkit';
 
+const initialState = {
+  isSkladVisible: true,
+  isMagazinVisible: true,
+  isOrdersVisible: true,
+};
+
 const visibilitySlice = createSlice({
   name: 'visibility',
-  initialState: {
-    isSkladVisible: true,
-    isMagazinVisible: true,
-    isOrdersVisible: true,
-  },
+  initialState,
   reducers: {
     setVisibility: (state, action) => {
       return {

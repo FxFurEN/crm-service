@@ -4,27 +4,11 @@ import { IonIcon } from '@ionic/react';
 import { homeOutline, peopleOutline, settingsOutline, diamondOutline, appsOutline, barChartOutline, archiveOutline, bagHandleOutline} from 'ionicons/icons';
 import { Link, Outlet} from 'react-router-dom';
 import NavHeader from './nav-header/NavHeader';
-import { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
+import { selectVisibility } from '../../../redux/visibilitySlice';
 
-const Navbar = ({ visibility = {} }) => {
-  const [showSklad, setShowSklad] = useState(true);
-  const [showMagazin, setShowMagazin] = useState(true);
-  const [showOrders, setShowOrders] = useState(true);
-
-  useEffect(() => {
-    // Загружаем состояние из localStorage при монтировании компонента
-    const storedVisibility = JSON.parse(localStorage.getItem('visibility')) || {};
-    setShowSklad(storedVisibility.isSkladVisible ?? true);
-    setShowMagazin(storedVisibility.isMagazinVisible ?? true);
-    setShowOrders(storedVisibility.isOrdersVisible ?? true);
-  }, []);
-
-  useEffect(() => {
-    // Обновляем компонент при изменении значений
-    setShowSklad(visibility.isSkladVisible);
-    setShowMagazin(visibility.isMagazinVisible);
-    setShowOrders(visibility.isOrdersVisible);
-  }, [visibility]);
+const Navbar = () => {
+  const { isSkladVisible, isMagazinVisible, isOrdersVisible } = useSelector(selectVisibility);
 
   
 
@@ -45,7 +29,7 @@ const Navbar = ({ visibility = {} }) => {
               <span className="link-text">Главная</span>
             </Link>
           </li>
-          {showOrders && (
+          {isOrdersVisible && (
           <li className="navbar-item flexbox-left">
             <Link to='/orders' className="navbar-item-inner flexbox-left">
               <div className="navbar-item-inner-icon-wrapper flexbox">
@@ -71,7 +55,7 @@ const Navbar = ({ visibility = {} }) => {
               <span className="link-text">Отчет</span>
             </Link>
           </li>
-          {showSklad && (
+          {isSkladVisible && (
           <li className="navbar-item flexbox-left">
             <Link to='/inventory' className="navbar-item-inner flexbox-left">
               <div className="navbar-item-inner-icon-wrapper flexbox">
@@ -81,7 +65,7 @@ const Navbar = ({ visibility = {} }) => {
             </Link>
           </li>
           )}
-          {showMagazin && (
+          {isMagazinVisible && (
           <li className="navbar-item flexbox-left">
             <Link to='/shop' className="navbar-item-inner flexbox-left">
               <div className="navbar-item-inner-icon-wrapper flexbox">
@@ -99,6 +83,7 @@ const Navbar = ({ visibility = {} }) => {
               <span className="link-text">Настройки</span>
             </Link>
           </li>
+
         </ul>
       </nav>
       <NavHeader/>
