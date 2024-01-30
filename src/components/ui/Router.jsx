@@ -1,5 +1,8 @@
 import { setupIonicReact, IonApp} from '@ionic/react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
+import { Provider } from 'react-redux';
+import { PersistGate } from 'redux-persist/integration/react';
+import store, { persistor } from '../../redux/store'; 
 
 /* Core CSS required for Ionic components to work properly */
 import '@ionic/react/css/core.css';
@@ -46,14 +49,14 @@ import StatementOfWork from '../screens/settings-page/company-block/documents/st
 import FieldsHandBooks from '../screens/settings-page/forms-block/handbooks/FieldsHandBook/FieldsHandBook.jsx';
 import Modules from '../screens/settings-page/company-block/modules/Modules.jsx';
 
-import { Provider } from 'react-redux';
-import store from '../../redux/store'; 
+
 
 
 setupIonicReact({ mode: 'md' });  
 const Router = () => {
     return (
       <Provider store={store}>
+        <PersistGate loading={null} persistor={persistor}>
           <IonApp>
             <BrowserRouter>
               <Routes>
@@ -91,6 +94,8 @@ const Router = () => {
               </Routes>
             </BrowserRouter>
           </IonApp>
+        </PersistGate>
+          
       </Provider>
       
          

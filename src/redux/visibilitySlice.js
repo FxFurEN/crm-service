@@ -1,14 +1,12 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-const initialState = {
-  isSkladVisible: true,
-  isMagazinVisible: true,
-  isOrdersVisible: true,
-};
-
 const visibilitySlice = createSlice({
   name: 'visibility',
-  initialState,
+  initialState: {
+    isSkladVisible: true,
+    isMagazinVisible: true,
+    isOrdersVisible: true,
+  },
   reducers: {
     setVisibility: (state, action) => {
       return {
@@ -16,9 +14,16 @@ const visibilitySlice = createSlice({
         ...action.payload,
       };
     },
+    toggleVisibility: (state, action) => {
+      const { field } = action.payload;
+      return {
+        ...state,
+        [field]: !state[field],
+      };
+    },
   },
 });
 
-export const { setVisibility } = visibilitySlice.actions;
+export const { setVisibility, toggleVisibility } = visibilitySlice.actions;
 export const selectVisibility = (state) => state.visibility;
 export default visibilitySlice.reducer;
