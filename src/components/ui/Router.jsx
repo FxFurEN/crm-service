@@ -45,15 +45,24 @@ import NewCategory from '../screens/inventory-page/addCategory/NewCategory.jsx';
 import StatementOfWork from '../screens/settings-page/company-block/documents/statementOfWork/StatementOfWork.jsx';
 import FieldsHandBooks from '../screens/settings-page/forms-block/handbooks/FieldsHandBook/FieldsHandBook.jsx';
 import Modules from '../screens/settings-page/company-block/modules/Modules.jsx';
+import { useState } from 'react';
 
 
 setupIonicReact({ mode: 'md' });  
 const Router = () => {
+
+  const [visibility, setVisibility] = useState({
+    isSkladVisible: true,
+    isMagazinVisible: true,
+    isOrdersVisible: true,
+  });
+
+
     return (
       <IonApp>
         <BrowserRouter>
           <Routes>
-            <Route path="/" element={<Navbar />} >
+            <Route path="/" element={<Navbar visibility={visibility} />} >
                 <Route path="/home" element={<Home />} />
                 <Route path="/clients" element={<Clients />} />
                 <Route path="/report" element={<Report />} />
@@ -68,7 +77,7 @@ const Router = () => {
 
                 <Route path="/settings/general/company" element={<GeneralCompany />} />
                 <Route path="/settings/profile" element={<Profile />} />
-                <Route path="/settings/modules" element={<Modules />} />
+                <Route path="/settings/modules" element={<Modules setVisibility={setVisibility} />} />
                 <Route path="/settings/documents" element={<Documents />} />
                 <Route path="/settings/documents/statementOfWork" element={<StatementOfWork/>} />
                 <Route path="/settings/employees" element={<Employees/>} />
