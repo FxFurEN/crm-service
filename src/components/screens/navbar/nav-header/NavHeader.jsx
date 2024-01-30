@@ -28,6 +28,7 @@ const NavHeader = () => {
     ['/settings/clientType', 'Типы клиентов'],
     ['/settings/handbooks', 'Справочники'],
     ['/settings/documents', 'Документы'],
+    ['/settings/modules', 'Модули'],
   ]);
   const additionalPageNames = new Map([
     ['/settings/general', 'Общие'],

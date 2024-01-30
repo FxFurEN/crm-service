@@ -1,10 +1,10 @@
 import '../../../assets/styles/main.css';
 import '../../../assets/styles/global.css';
 import '../../../assets/styles/ion-style.css';
-import { IonCol, IonGrid, IonIcon, IonLabel, IonRow, IonItem, IonButton} from '@ionic/react';
+import { IonCol, IonGrid, IonIcon, IonLabel, IonRow, IonItem} from '@ionic/react';
 import { 
     cubeOutline, personOutline, documentOutline, albumsOutline, listOutline, 
-    pencilOutline, peopleOutline, bookmarksOutline, prismOutline, caretForwardOutline } from 'ionicons/icons';
+    pencilOutline, peopleOutline, bookmarksOutline, prismOutline, hardwareChipOutline } from 'ionicons/icons';
 import { Link, Outlet } from 'react-router-dom';
 const Settings = () =>{
     return(
@@ -37,6 +37,12 @@ const Settings = () =>{
                                 <IonItem button>
                                     <IonIcon slot="start" size="large" color='light' icon={peopleOutline}></IonIcon>
                                     <IonLabel>Сотрудники</IonLabel>
+                                </IonItem>
+                            </Link>
+                            <Link to='/settings/modules'>
+                                <IonItem button>
+                                    <IonIcon slot="start" size="large" color='light' icon={hardwareChipOutline}></IonIcon>
+                                    <IonLabel>Модули</IonLabel>
                                 </IonItem>
                             </Link>
                         </IonCol>
