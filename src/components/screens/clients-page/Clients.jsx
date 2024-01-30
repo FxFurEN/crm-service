@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { IonButton, IonIcon } from '@ionic/react';
+import { IonButton, IonCol, IonGrid, IonIcon, IonRow } from '@ionic/react';
 import { filterOutline, cloudUploadOutline, cloudDownloadOutline } from 'ionicons/icons';
 import { crmAPI } from '../../../service/api';
 
@@ -79,33 +79,35 @@ function Clients() {
           </div>
         </div>
         <div style={{ flex: 1, overflow: 'auto' }}>
-          <div className={style.table}>
-            <div className={`${style.tableHead} ${style.row}`}>
+          <IonGrid>
+            <IonRow className={`${style.tableHead}`}>
               {fields.map((field, index) => (
-                <div
+                <IonCol
+                  size='1'
                   className={`${style.column}`}
                   data-label={columnLabels[index]}
                   key={index}
                 >
                   {columnLabels[index]}
-                </div>
+                </IonCol>
               ))}
-            </div>
+            </IonRow>
 
             {filteredData.map((item, rowIndex) => (
-              <div className={style.row} key={rowIndex}>
+              <IonRow className={style.row} key={rowIndex}>
                 {fields.map((field, index) => (
-                  <div
+                  <IonCol
+                    size='auto'
                     className={`${style.column}`}
                     data-label={columnLabels[index]}
                     key={index}
                   >
                     {item[field.toLowerCase()]}
-                  </div>
+                  </IonCol>
                 ))}
-              </div>
+              </IonRow>
             ))}
-          </div>
+          </IonGrid>
         </div>
         <div>
           <AddButton onClick={openNewClientsModal} />
