@@ -32,14 +32,19 @@ ion-input.custom-input{
     --placeholder-opacity: 0.8;
   
 }
+ion-input{
+  --border-radius: 10px;
+  width: clamp(300px, 50%, 450px);
+  --placeholder-opacity: 0.8;
+
+}
+
 
 ion-button {
   --color: white;
 }
 
 ion-button.custom {
-  height: clamp(40px, 50%, 60px);
-  width: clamp(300px, 50%, 450px);
   --color:black;
   --background: white;
   --background-hover: white;
@@ -85,4 +90,13 @@ ion-searchbar.modal-search {
   --icon-color: black;
   --clear-button-color: #fff;
   --border-radius: 4px;
+}
+
+
+
+/* modal windows */
+
+ion-modal#example-modal {
+  --border-radius: 6px;
+  --box-shadow: 0 28px 48px rgba(0, 0, 0, 0.4);
 }
