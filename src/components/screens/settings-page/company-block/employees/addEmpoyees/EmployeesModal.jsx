@@ -1,4 +1,4 @@
-import { IonButton, IonButtons, IonContent, IonHeader, IonInput, IonItem, IonItemDivider, IonLabel, IonModal, IonSearchbar, IonText, IonTitle, IonToolbar } from "@ionic/react"
+import { IonButton, IonButtons, IonContent, IonHeader, IonItem, IonLabel, IonModal,IonText, IonTitle, IonToolbar } from "@ionic/react"
 import { useRef, useState, useEffect } from "react";
 
 import '../../../../../../assets/styles/ion-style.css';
@@ -6,13 +6,22 @@ import '../../../../../../assets/styles/ion-style.css';
 const EmployeesModal = ({ isOpen, onClose}) =>{
     const modal = useRef(null);
     const [invitationCode, setInvitationCode] = useState(null);
-    const [timer, setTimer] = useState(300); 
-
+    const [timer, setTimer] = useState(300);
+    const secretKey = "f1k71v3-s3cr3t-k3y"; 
 
     function generateInvitationCode() {
-        const code = Math.random().toString(36).substr(2, 6).toUpperCase();
-        setInvitationCode(code);
-        // Установка таймера на 5 минут для удаления кода
+        const payload = {
+            code: Math.random().toString(36).substr(2, 6).toUpperCase(),
+            exp: Math.floor(Date.now() / 1000) + 300,
+        };
+        const encodedHeader = btoa(JSON.stringify({ alg: "HS256", typ: "JWT" }));
+        const encodedPayload = btoa(JSON.stringify(payload));
+        const signature = btoa(
+            new TextEncoder().encode(encodedHeader + "." + encodedPayload + secretKey)
+        );
+        const jwt = `${encodedHeader}.${encodedPayload}.${signature}`;
+
+        setInvitationCode(jwt);
         setTimer(300);
     }
 
