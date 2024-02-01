@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { IonSearchbar } from '@ionic/react';
-import '../../../assets/styles/searchBar.css';
+import '../../../assets/styles/ion-style.css';
 
 const SearchBox = ({ fields, data, onFilter }) => {
   const [searchText, setSearchText] = useState('');
