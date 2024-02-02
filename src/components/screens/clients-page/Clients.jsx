@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { IonButton, IonCol, IonGrid, IonIcon, IonRow } from '@ionic/react';
+import { IonButton, IonCol, IonGrid, IonIcon, IonItem, IonItemGroup, IonLabel, IonRow } from '@ionic/react';
 import { filterOutline, cloudUploadOutline, cloudDownloadOutline } from 'ionicons/icons';
 import { crmAPI } from '../../../service/api';
 
@@ -78,36 +78,25 @@ function Clients() {
             </IonButton>
           </div>
         </div>
-        <div style={{ flex: 1, overflow: 'auto' }}>
-          <IonGrid>
-            <IonRow className={`${style.tableHead}`}>
+        <div className={style.tableContainer}>
+          <IonItemGroup>
+            <IonItem color='light' className={style.tableRow} data-hide-header="true">
               {fields.map((field, index) => (
-                <IonCol
-                  size='1'
-                  className={`${style.column}`}
-                  data-label={columnLabels[index]}
-                  key={index}
-                >
+                <IonLabel key={index} className={style.tableColumn}>
                   {columnLabels[index]}
-                </IonCol>
+                </IonLabel>
               ))}
-            </IonRow>
-
+            </IonItem>
             {filteredData.map((item, rowIndex) => (
-              <IonRow className={style.row} key={rowIndex}>
+              <IonItem button key={rowIndex} className={style.tableRow}>
                 {fields.map((field, index) => (
-                  <IonCol
-                    size='auto'
-                    className={`${style.column}`}
-                    data-label={columnLabels[index]}
-                    key={index}
-                  >
+                  <IonLabel key={index} className={style.tableColumn} data-label={columnLabels[index]}>
                     {item[field.toLowerCase()]}
-                  </IonCol>
+                  </IonLabel>
                 ))}
-              </IonRow>
+              </IonItem>
             ))}
-          </IonGrid>
+          </IonItemGroup>
         </div>
         <div>
           <AddButton onClick={openNewClientsModal} />

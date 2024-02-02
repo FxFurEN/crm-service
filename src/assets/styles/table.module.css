@@ -1,76 +1,53 @@
-.table-head{
- 	display:table-header-group;
-}
-.row{
-	display:table-row;
-}
-.column{
-	display:table-cell;
-}
+/* table.module.css */
 
-.table{
-  width: 100%;
-	display:table;			
-	margin:10px 0;
-}
-.tableHead{
-	 display: table-header-group; 
-}
-.tableHead .column{			
-	background:white;
-	color:black;
-}
-.row{
-	display:table-row;		
-}
-.row:last-child .column{		
-	border-bottom:none;
-}
-.column{
-	display:table-cell;		
-	padding:10px 20px;
-	line-height:1.8em;
-}
+.tableContainer {
+	overflow-x: auto;
+  }
+  
+  .tableRow {
+	display: flex;
+	flex-wrap: wrap; 
+	margin-bottom: 10px;
+  }
+  
+  .tableColumn {
+	flex: 1;
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	padding: 10px 20px;
 
-/* Responsive table */
-@media all and (max-width: 640px){
-	.table,
-	.row,
-	.column,
-	.column:before{
-		display:block;	
+	box-sizing: border-box; /* Учитываем padding внутри ячейки */
+  }
+  .tableColumn:last-child {
+	border-right: none; /* Убираем правую границу у последней колонки */
+  }
+  
+  /* Дополнительные стили для улучшения отображения на мобильных устройствах */
+  @media all and (max-width: 640px) {
+	.tableRow {
+	  flex-direction: column;
+	  border-bottom: 1px solid #eeeeee; /* Добавим разделительные линии */
 	}
-	.table,
-	.row .column:last-child{
-		border-bottom:none;
+  
+	.tableColumn {
+	  flex: none;
+	  width: 100%;
+	  border-right: none;
+	  
+	  margin-bottom: 5px; 
 	}
-	.tableHead{
-		position:absolute;	
-		top:-1000em;
-		left:-1000em;
+  
+	.tableColumn:before {
+	  font-weight: bold;
+	  padding-right: 10px;
+	  font-size: 12px;
+	  content: attr(data-label) ":";
+	  
+	  color: hsl(var(--primary));; 
 	}
-	.row{
-		border:1px solid #eeeeee;
-		border-top:2px solid #dddddd;
-		border-bottom:2px solid #dddddd;
-		margin:20px 0;
-	}
-	.row .column:nth-child(1){
-		border-left:none;
-	}
-	.row .column:last-child{ 
-		border-right:none;
-	}
-	.row:last-child .column,
-	.column{ 
-		border-bottom:1px solid #eeeeee;
-    display: flex;
-    justify-content: space-between;
-	}
-	.column:before{ 
-		font-weight:bold;
-		padding-right:20px;
-		font-size:12px;
-		content:" "attr(data-label)":";	
-	}
-}
+	.tableRow[data-hide-header="true"] {
+		display: none;
+	  }
+  }
+  
