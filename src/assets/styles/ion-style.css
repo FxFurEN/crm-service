@@ -33,6 +33,7 @@ ion-input.custom-input{
   
 }
 ion-input{
+  color: black;
   --border-radius: 10px;
   width: clamp(300px, 50%, 450px);
   --placeholder-opacity: 0.8;
