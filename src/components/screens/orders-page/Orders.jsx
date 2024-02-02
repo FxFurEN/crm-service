@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { IonButton, IonIcon } from '@ionic/react';
+import { IonButton, IonIcon, IonItem, IonItemGroup, IonLabel } from '@ionic/react';
 import { filterOutline, cloudUploadOutline, cloudDownloadOutline } from 'ionicons/icons';
 
 import '../../../assets/styles/main.css';
@@ -21,7 +21,6 @@ const Orders = () => {
       deadline: '3 дн',
       client: 'Рома Аегис Хиро',
       performer: 'Тикита Нимошенко',
-      serviceName: 'Ремонт ноутбука',
     },
   ];
 
@@ -29,8 +28,8 @@ const Orders = () => {
   const [orderList, setOrderList] = useState([...initialData]);
   const [isNewOrdersModalOpen, setIsNewOrdersModalOpen] = useState(false);
 
-  const fields = ['id', 'updated', 'status', 'deadline', 'client', 'performer', 'serviceName'];
-  const columnLabels = ['Заказ', 'Обновлен', 'Статус', 'Срок', 'Клиент', 'Исполнитель', 'Наименование товара'];
+  const fields = ['id', 'updated', 'status', 'deadline', 'client', 'performer'];
+  const columnLabels = ['Заказ', 'Обновлен', 'Статус', 'Срок', 'Клиент', 'Исполнитель'];
 
 
   useEffect(() => {
@@ -57,60 +56,45 @@ const Orders = () => {
   return (
     <>
       <main id="main">
-        <div>
-          <div style={{ display: "flex", justifyContent: "space-between" }}>
-            <SearchBox fields={fields} data={orderList} onFilter={handleFilter} />
-            <IonButton fill="clear">
-              <IonIcon slot="icon-only" color="white" icon={filterOutline}></IonIcon>
-            </IonButton>
-            <IonButton fill="clear">
-              <IonIcon slot="icon-only" icon={cloudUploadOutline}></IonIcon>
-            </IonButton>
-            <IonButton fill="clear">
-              <IonIcon slot="icon-only" icon={cloudDownloadOutline}></IonIcon>
-            </IonButton>
-          </div>
+      <div>
+        <div style={{ display: "flex", justifyContent: "space-between" }}>
+          <SearchBox fields={fields} data={orderList} onFilter={handleFilter} />
+          <IonButton fill="clear">
+            <IonIcon slot="icon-only" color="white" icon={filterOutline}></IonIcon>
+          </IonButton>
+          <IonButton fill="clear">
+            <IonIcon slot="icon-only" icon={cloudUploadOutline}></IonIcon>
+          </IonButton>
+          <IonButton fill="clear">
+            <IonIcon slot="icon-only" icon={cloudDownloadOutline}></IonIcon>
+          </IonButton>
         </div>
-        <div style={{ flex: 1, overflow: 'auto' }}> 
-          <div className={style.table}>
-            <div className={`${style.tableHead} ${style.row}`}>
-              {fields.map((field, index) => {
-                const label = columnLabels[index];
-                return (
-                  <div
-                    className={`${style.column}`}
-                    data-label={label}
-                    key={index}
-                  >
-                    {label}
-                  </div>
-                );
-              })}
-            </div>
-
-            {filteredData.map((item, rowIndex) => (
-              <div className={style.row} key={rowIndex}>
-                {fields.map((field, colIndex) => {
-                  const label = columnLabels[colIndex];
-                  return (
-                    <div
-                      className={`${style.column}`}
-                      data-label={label}
-                      key={colIndex}
-                    >
-                      {item[field]}
-                    </div>
-                  );
-                })}
-              </div>
+      </div>
+      <div className={style.tableContainer}>
+        <IonItemGroup>
+          <IonItem color='light' className={style.tableRow} data-hide-header="true">
+            {fields.map((field, index) => (
+              <IonLabel key={index} className={style.tableColumn}>
+                {columnLabels[index]}
+              </IonLabel>
             ))}
-          </div>
-        </div>
-          <div>
-            <AddButton onClick={openNewOrdersModal} />
-            <NewOrders isOpen={isNewOrdersModalOpen} onClose={closeNewOrdersModal} addOrders={addOrders} />
-          </div>
-      </main>
+          </IonItem>
+          {filteredData.map((item, rowIndex) => (
+            <IonItem button key={rowIndex} className={style.tableRow}>
+              {fields.map((field, index) => (
+                <IonLabel key={index} className={style.tableColumn} data-label={columnLabels[index]}>
+                  {item[field.toLowerCase()]}
+                </IonLabel>
+              ))}
+            </IonItem>
+          ))}
+        </IonItemGroup>
+      </div>
+      <div>
+        <AddButton onClick={openNewOrdersModal} />
+        <NewOrders isOpen={isNewOrdersModalOpen} onClose={closeNewOrdersModal} addOrders={addOrders} />
+      </div>
+    </main>
     </>
     
   );
