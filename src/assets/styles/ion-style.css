@@ -50,6 +50,8 @@ ion-button.custom {
   --background-hover: white;
   --background-activated: white;
   --background-focused: white;
+  width: clamp(300px, 50%, 450px);
+  height: clamp(40px, 20%, 60px);
 }
 
 ion-button.dark-button{
