@@ -27,6 +27,7 @@ const SearchBox = ({ fields, data, onFilter }) => {
       showCancelButton="never"
       debounce={500}
       class="custom"
+      placeholder="Поиск"
       value={searchText}
       onIonInput={handleInput}
     ></IonSearchbar>
