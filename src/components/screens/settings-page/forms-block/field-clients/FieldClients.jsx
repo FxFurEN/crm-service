@@ -1,7 +1,9 @@
-import { IonGrid, IonItem, IonLabel, IonList, IonReorder, IonReorderGroup } from '@ionic/react';
-import '../../../../../assets/styles/global.css';
-import '../../../../../assets/styles/main.css';
+import { IonItem, IonItemGroup, IonLabel, IonReorder, IonReorderGroup } from '@ionic/react';
+import style from  '../../../../../assets/styles/table.module.css';
 import { useState } from 'react';
+
+const fields = ['Name', 'Type', 'HandBooks', 'Required'];
+const columnLabels = ['Название', 'Тип', 'Справочник', 'Обязательное']; 
 
 const FieldClients = () =>{
     const [items, setItems] = useState([
@@ -18,28 +20,30 @@ const FieldClients = () =>{
 
     return(
         <main id="main">
-             <IonList style={{ background: 'hsl(var(--background))'}}>
-                <IonGrid>
-                        <IonItem>
-                                <IonLabel>Название</IonLabel>
-                                <IonLabel>Тип</IonLabel>
-                                <IonLabel>Справочник</IonLabel>
-                                <IonLabel>Обязательное</IonLabel>
+             <div className={style.tableContainer}>
+                <IonItemGroup>
+                    <IonItem color='light' className={style.tableRow} data-hide-header="true">
+                        {fields.map((field, index) => (
+                            <IonLabel key={index} className={style.tableColumn}>
+                            {columnLabels[index]}
+                            </IonLabel>
+                        ))}
+                    </IonItem>
+                    <IonReorderGroup disabled={false} onIonItemReorder={handleReorder}>
+                        {items.map((item) => (
+                        <IonItem key={item.id}>
+                           <IonReorder slot="start" />
+                            <IonLabel>{item.name}</IonLabel>
+                            <IonLabel>{item.type}</IonLabel>
+                            <IonLabel>{item.reference}</IonLabel>
+                            <IonLabel>{item.required ? "Да" : "Нет"}</IonLabel>
                         </IonItem>
-
-                        <IonReorderGroup disabled={false} onIonItemReorder={handleReorder}>
-                            {items.map((item) => (
-                            <IonItem key={item.id} button>
-                                <IonReorder slot="end" />
-                                <IonLabel>{item.name}</IonLabel>
-                                <IonLabel>{item.type}</IonLabel>
-                                <IonLabel>{item.reference}</IonLabel>
-                                <IonLabel>{item.required ? "Да" : "Нет"}</IonLabel>
-                            </IonItem>
-                            ))}
-                        </IonReorderGroup>
-                    </IonGrid>
-              </IonList>
+                        ))}
+                        
+                    </IonReorderGroup>
+                </IonItemGroup>
+                
+            </div>
         </main>
     )
 }
