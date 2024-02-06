@@ -86,42 +86,42 @@ const EditClients = ({ isOpen, onClose, editClient, selectedClient }) => {
           </IonToolbar>
         </IonHeader>
         <IonContent className="ion-padding">
-          <IonItem className="custom">
-            <IonInput
+          <IonInput
+              fill='outline'
               label="ФИО"
-              labelPlacement="floating"
+              labelPlacement="stacked"
               className="custom"
-              value={name}
+              placeholder={name}
               onIonChange={(e) => setName(e.detail.value)}
             />
-          </IonItem>
-          <IonItem className="custom">
-            <IonInput
+            <br/>
+          <IonInput
+              fill='outline'
               label="Телефон"
-              labelPlacement="floating"
+              labelPlacement="stacked"
               className="custom"
               type="tel"
-              value={phone}
+              placeholder={phone}
               onIonChange={(e) => setPhone(e.detail.value)}
             />
-          </IonItem>
-          <IonItem className="custom">
+            <br/>
             <IonInput
+              fill='outline'
               label="Почта"
-              labelPlacement="floating"
+              labelPlacement="stacked"
               className="custom"
               type="email"
-              value={email}
+              placeholder={email}
               onIonChange={(e) => setEmail(e.detail.value)}
             />
-          </IonItem>
-          <IonItem className="custom">
+            <br/>
             <IonSelect
+              fill='outline'
               label="Тип клиента"
-              labelPlacement="floating"
+              labelPlacement="stacked"
               className="custom-alert"
               interface='popover'
-              value={type}
+              placeholder={type}
               onIonChange={(e) => setType(e.detail.value)}
             >
               {clientTypes.map((type, index) => (
@@ -130,7 +130,6 @@ const EditClients = ({ isOpen, onClose, editClient, selectedClient }) => {
                 </IonSelectOption>
               ))}
             </IonSelect>
-          </IonItem>
         </IonContent>
       </IonModal>
     </IonContent>
