@@ -1,6 +1,6 @@
 import '../../../../assets/styles/modal-wind.css';
 import { crmAPI } from '../../../../service/api';
-import { useRef, useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import {
   IonButtons,
   IonButton,
@@ -15,71 +15,67 @@ import {
   IonSelectOption,
 } from '@ionic/react';
 
-const EditClients = ({ isOpen, onClose, editClient, selectedClient, rowIndex }) => {
-    const edit_modal = useRef(null);
-    const inputName = useRef(null);
-    const inputPhone = useRef(null);
-    const inputEmail = useRef(null);
-    const selectType = useRef(null);
-  
-    const [clientTypes, setClientTypes] = useState([]);
-  
-    useEffect(() => {
-      crmAPI.loadClientTypes()
-        .then(response => {
-          setClientTypes(response.data);
-        })
-        .catch(error => {
-          console.error('Error loading client types:', error);
-        });
-    }, []);
-  
-    useEffect(() => {
-      if (selectedClient) {
-        inputName.current && (inputName.current.value = selectedClient.FioClient || '');
-        inputPhone.current && (inputPhone.current.value = selectedClient.PhoneNumber || '');
-        inputEmail.current && (inputEmail.current.value = selectedClient.Mail || '');
-        selectType.current && (selectType.current.value = selectedClient.TypeClientID || '');
-      }
-    }, [selectedClient]);
+const EditClients = ({ isOpen, onClose, editClient, selectedClient }) => {
+  const [name, setName] = useState('');
+  const [phone, setPhone] = useState('');
+  const [email, setEmail] = useState('');
+  const [type, setType] = useState('');
+  const [clientTypes, setClientTypes] = useState([]);
 
-    useEffect(() => {
-      if (isOpen && selectedClient) {
-        edit_modal.current && edit_modal.current.present();
-      }
-    }, [isOpen, selectedClient]);
-  
-    async function confirm() {
-      try {
-        const updatedClient = {
-          FioClient: inputName.current?.value || '',
-          PhoneNumber: inputPhone.current?.value || '',
-          Mail: inputEmail.current?.value || '',
-          TypeClientID: selectType.current?.value || '',
-        };
-  
-        await editClient(updatedClient);
-        edit_modal.current && edit_modal.current.dismiss(null, 'confirm');
-      } catch (error) {
-        console.error('Error updating client:', error);
-      }
-    }
-  
-    function onWillDismiss(ev) {
-      if (ev.detail.role === 'confirm') {
-        onClose();
-      }
-    }
+  useEffect(() => {
+    crmAPI.loadClientTypes()
+      .then(response => {
+        setClientTypes(response.data);
+      })
+      .catch(error => {
+        console.error('Error loading client types:', error);
+      });
+  }, []);
 
-    const { triggerId } = selectedClient || {};
+  useEffect(() => {
+    if (selectedClient) {
+      setName(selectedClient.fioclient || '');
+      setPhone(selectedClient.phonenumber || '');
+      setEmail(selectedClient.mail || '');
+      setType(selectedClient.typeclientid || '');
+    }
+  }, [selectedClient]);
+
+  useEffect(() => {
+    if (isOpen && selectedClient) {
+      // Здесь может потребоваться какая-то логика для отображения модального окна
+    }
+  }, [isOpen, selectedClient]);
+
+  async function confirm() {
+    try {
+      const updatedClient = {
+        fioclient: name,
+        phonenumber: phone,
+        mail: email,
+        typeclientid: type,
+      };
+
+      await editClient(updatedClient);
+      onClose();
+    } catch (error) {
+      console.error('Error updating client:', error);
+    }
+  }
+
+  function onWillDismiss(ev) {
+    if (ev.detail.role === 'confirm') {
+      onClose();
+    }
+  }
 
   return (
     <IonContent className="ion-padding">
-      <IonModal ref={edit_modal} trigger={triggerId} onWillDismiss={(ev) => onWillDismiss(ev)}>
+      <IonModal isOpen={isOpen} onDidDismiss={() => onClose()} onWillDismiss={(ev) => onWillDismiss(ev)}>
         <IonHeader>
           <IonToolbar>
             <IonButtons slot="start">
-              <IonButton onClick={() => edit_modal.current?.dismiss()}>Отмена</IonButton>
+              <IonButton onClick={() => onClose()}>Отмена</IonButton>
             </IonButtons>
             <IonTitle>Клиент</IonTitle>
             <IonButtons slot="end">
@@ -91,43 +87,42 @@ const EditClients = ({ isOpen, onClose, editClient, selectedClient, rowIndex }) 
         </IonHeader>
         <IonContent className="ion-padding">
           <IonItem className="custom">
-            <IonInput 
-              label="ФИО" 
+            <IonInput
+              label="ФИО"
               labelPlacement="floating"
-              ref={inputName} 
-              type="text" 
-              placeholder="Имя"
-              class="custom"
+              className="custom"
+              value={name}
+              onIonChange={(e) => setName(e.detail.value)}
             />
           </IonItem>
           <IonItem className="custom">
             <IonInput
               label="Телефон"
               labelPlacement="floating"
-              ref={inputPhone}
+              className="custom"
               type="tel"
-              placeholder="888-888-8888"
-              class="custom"
+              value={phone}
+              onIonChange={(e) => setPhone(e.detail.value)}
             />
           </IonItem>
           <IonItem className="custom">
-            <IonInput 
-              label="Почта" 
-              labelPlacement="floating" 
-              ref={inputEmail} 
-              type="email" 
-              placeholder="email@domain.com"
-              class="custom"
+            <IonInput
+              label="Почта"
+              labelPlacement="floating"
+              className="custom"
+              type="email"
+              value={email}
+              onIonChange={(e) => setEmail(e.detail.value)}
             />
           </IonItem>
           <IonItem className="custom">
             <IonSelect
               label="Тип клиента"
               labelPlacement="floating"
-              ref={selectType}
-              class="custom"
               className="custom-alert"
               interface='popover'
+              value={type}
+              onIonChange={(e) => setType(e.detail.value)}
             >
               {clientTypes.map((type, index) => (
                 <IonSelectOption key={index} value={type.typeclientid}>
