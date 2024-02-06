@@ -2,6 +2,9 @@
 import { useState, useEffect } from 'react';
 import {
     IonButton,
+    IonItem,
+    IonItemGroup,
+    IonLabel,
     IonSelect,
     IonSelectOption,
   } from '@ionic/react';
@@ -45,39 +48,29 @@ const Shop = () =>{
                     <IonSelectOption value="manual">Указать вручную</IonSelectOption>
                 </IonSelect>
             </IonButton>
-            <div className={style.table}>
-            <div className={`${style.tableHead} ${style.row}`}>
-              {fields.map((field, index) => {
-                const label = columnLabels[index];
-                return (
-                  <div
-                    className={`${style.column}`}
-                    data-label={label}
-                    key={index}
-                  >
-                    {label}
-                  </div>
-                );
-              })}
+            <div className={style.tableContainer}>
+              <IonItemGroup>
+                <IonItem color='light' className={style.tableRow} data-hide-header="true">
+                    {fields.map((field, index) => {
+                    const label = columnLabels[index];
+                    return (
+                      <IonLabel key={index} className={style.tableColumn}>
+                      {label}
+                     </IonLabel>
+                    );
+                  })}
+                </IonItem>
+                {filteredData.map((item, rowIndex)  => (
+                <IonItem key={rowIndex} className={style.tableRow} >
+                    {fields.map((field, index) => (
+                      <IonLabel key={index} className={style.tableColumn} data-label={columnLabels[index]}>
+                        {item[field]}
+                      </IonLabel>
+                    ))}
+                  </IonItem>
+                ))}
+              </IonItemGroup>
             </div>
-
-            {filteredData.map((item, rowIndex) => (
-              <div className={style.row} key={rowIndex}>
-                {fields.map((field, colIndex) => {
-                  const label = columnLabels[colIndex];
-                  return (
-                    <div
-                      className={`${style.column}`}
-                      data-label={label}
-                      key={colIndex}
-                    >
-                      {item[field]}
-                    </div>
-                  );
-                })}
-              </div>
-            ))}
-          </div>
             <div>
                 <AddButton />
             </div>
