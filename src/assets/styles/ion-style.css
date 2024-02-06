@@ -103,3 +103,12 @@ ion-modal#example-modal {
   --border-radius: 6px;
   --box-shadow: 0 28px 48px rgba(0, 0, 0, 0.4);
 }
+
+
+
+
+/* ion-tabs */
+ion-tab-bar{
+  --background: hsl(var(--background-secondary));
+  --color:white;
+}
