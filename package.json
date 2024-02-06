@@ -11,6 +11,8 @@
   },
   "dependencies": {
     "@ionic/react": "^7.6.3",
+    "@maskito/core": "^2.0.2",
+    "@maskito/react": "^2.0.2",
     "@reduxjs/toolkit": "^2.1.0",
     "@tinymce/tinymce-react": "^4.3.2",
     "axios": "^1.6.5",

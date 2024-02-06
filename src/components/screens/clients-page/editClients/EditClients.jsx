@@ -9,11 +9,11 @@ import {
   IonContent,
   IonToolbar,
   IonTitle,
-  IonItem,
   IonInput,
   IonSelect,
   IonSelectOption,
 } from '@ionic/react';
+import { useMaskito } from '@maskito/react';
 
 const EditClients = ({ isOpen, onClose, editClient, selectedClient }) => {
   const [name, setName] = useState('');
@@ -68,6 +68,11 @@ const EditClients = ({ isOpen, onClose, editClient, selectedClient }) => {
       onClose();
     }
   }
+  const phoneMask = useMaskito({
+    options: {
+      mask: ['+', '3','7','5', ' ', '(', /\d/, /\d/, ')', ' ', /\d/, /\d/, /\d/, '-', /\d/, /\d/,'-', /\d/, /\d/],
+    },
+  });
 
   return (
     <IonContent className="ion-padding">
@@ -103,6 +108,12 @@ const EditClients = ({ isOpen, onClose, editClient, selectedClient }) => {
               type="tel"
               placeholder={phone}
               onIonChange={(e) => setPhone(e.detail.value)}
+              ref={async (phoneInput) => {
+                if (phoneInput) {
+                  const input = await phoneInput.getInputElement();
+                  phoneMask(input);
+                }
+              }}
             />
             <br/>
             <IonInput
