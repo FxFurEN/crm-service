@@ -1,39 +1,26 @@
-import { IonButton, IonButtons, IonContent, IonHeader, IonItem, IonLabel, IonModal, IonText, IonTitle, IonToolbar, IonToast } from "@ionic/react";
 import { useRef, useState, useEffect } from "react";
 import clipboardCopy from 'clipboard-copy';
+import { IonButton, IonButtons, IonContent, IonHeader, IonItem, IonLabel, IonModal, IonText, IonTitle, IonToolbar, IonToast } from "@ionic/react";
 
 import '../../../../../../assets/styles/ion-style.css';
 
 const EmployeesModal = ({ isOpen, onClose }) => {
     const modal = useRef(null);
-    const [invitationCode, setInvitationCode] = useState(null);
-    const [timer, setTimer] = useState(300);
+    const [invitationCode, setInvitationCode] = useState(() => localStorage.getItem('invitationCode') || null);
+    const [timer, setTimer] = useState(() => localStorage.getItem('timer') || 300);
     const [copied, setCopied] = useState(false);
     const [showToast, setShowToast] = useState(false);
     const secretKey = "f1k71v3-s3cr3t-k3y";
-
-    function generateInvitationCode() {
-        const payload = {
-            code: Math.random().toString(36).substr(2, 6).toUpperCase(),
-            exp: Math.floor(Date.now() / 1000) + 300,
-        };
-        const encodedHeader = btoa(JSON.stringify({ alg: "HS256", typ: "JWT" }));
-        const encodedPayload = btoa(JSON.stringify(payload));
-        const signature = btoa(
-            new TextEncoder().encode(encodedHeader + "." + encodedPayload + secretKey)
-        );
-        const jwt = `${encodedHeader}.${encodedPayload}.${signature}`;
-
-        setInvitationCode(jwt);
-        setTimer(300);
-        setCopied(false);
-    }
 
     useEffect(() => {
         let interval;
         if (timer > 0) {
             interval = setInterval(() => {
-                setTimer(prevTimer => prevTimer - 1);
+                setTimer(prevTimer => {
+                    const newTimer = prevTimer - 1;
+                    localStorage.setItem('timer', newTimer);
+                    return newTimer;
+                });
             }, 1000);
         }
 
@@ -67,6 +54,25 @@ const EmployeesModal = ({ isOpen, onClose }) => {
         }
     }
 
+    function generateInvitationCode() {
+        const payload = {
+            code: Math.random().toString(36).substr(2, 6).toUpperCase(),
+            exp: Math.floor(Date.now() / 1000) + 300,
+        };
+        const encodedHeader = btoa(JSON.stringify({ alg: "HS256", typ: "JWT" }));
+        const encodedPayload = btoa(JSON.stringify(payload));
+        const signature = btoa(
+            new TextEncoder().encode(encodedHeader + "." + encodedPayload + secretKey)
+        );
+        const jwt = `${encodedHeader}.${encodedPayload}.${signature}`;
+
+        setInvitationCode(jwt);
+        localStorage.setItem('invitationCode', jwt);
+        setTimer(300);
+        localStorage.setItem('timer', 300);
+        setCopied(false);
+    }
+
     return (
         <IonContent className="ion-padding">
             <IonModal id="example-modal" ref={modal} trigger="open-modal" onWillDismiss={(ev) => onWillDismiss(ev)}>
@@ -80,9 +86,10 @@ const EmployeesModal = ({ isOpen, onClose }) => {
                 </IonHeader>
                 <IonContent className="ion-padding">
                     <IonItem>
-                        {invitationCode && (
+                        {invitationCode && timer > 0 ? (
                             <>
-                                <IonText color='dark'>Код приглашения: </IonText>
+                                <strong><IonText color='dark'>Код приглашения: </IonText></strong>
+                                
                                 <IonLabel
                                     onClick={() => copyToClipboard()}
                                     color='dark'
@@ -90,13 +97,16 @@ const EmployeesModal = ({ isOpen, onClose }) => {
                                 >
                                     {invitationCode}
                                 </IonLabel>
-                                <IonText color='dark'>Время действия кода: {formatTime(timer)}</IonText>
+                                <h4><IonText color='dark'>Время действия кода: {formatTime(timer)}</IonText></h4>
                                 <p style={{ color: 'black' }}>Отправьте этот код сотруднику для присоединения к вашей CRM</p>
                             </>
+                        ) : (
+                            <strong><p style={{ color: 'red' }}>Срок годности кода истек</p></strong>
                         )}
                     </IonItem>
+                    <br/>
                     <IonItem>
-                        <IonButton onClick={() => generateInvitationCode()}>Сгенерировать код приглашения</IonButton>
+                        <IonButton color='dark' className="custom" onClick={() => generateInvitationCode()}>Создать код приглашения</IonButton>
                     </IonItem>
                 </IonContent>
             </IonModal>
