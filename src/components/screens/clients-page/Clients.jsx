@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { IonButton, IonCol, IonGrid, IonIcon, IonRow } from '@ionic/react';
+import { IonButton, IonIcon, IonItem, IonItemGroup, IonLabel, } from '@ionic/react';
 import { filterOutline, cloudUploadOutline, cloudDownloadOutline } from 'ionicons/icons';
 import { crmAPI } from '../../../service/api';
 
@@ -12,11 +12,15 @@ import '../../../assets/styles/ion-style.css';
 import AddButton from '../addButton/AddButton';
 import SearchBox from '../searchBox/SearchBox';
 import NewClients from './addClients/NewClients';
+import EditClients from './editClients/EditClients';
 
 function Clients() {
   const [filteredData, setFilteredData] = useState([]);
   const [clientList, setClientList] = useState([]);
   const [isNewClientsModalOpen, setIsNewClientsModalOpen] = useState(false);
+  const [isEditClientsModalOpen, setIsEditClientsModalOpen] = useState(false);
+  const [selectedClient, setSelectedClient] = useState(null);
+
 
   const fields = ['FioClient', 'PhoneNumber', 'Mail', 'TypeClientID'];
   const columnLabels = ['Клиент', 'Номер телефона', 'Почта', 'Тип клиента'];  
@@ -50,6 +54,15 @@ function Clients() {
         console.error(error);
       });
   };
+  const editClient = async (updatedClient) => {
+    try {
+      await crmAPI.editClient(updatedClient);
+      loadClientData();
+      closeEditClientsModal();
+    } catch (error) {
+      console.error('Error editing client:', error);
+    }
+  };
 
   const openNewClientsModal = () => {
     setIsNewClientsModalOpen(true);
@@ -57,6 +70,18 @@ function Clients() {
 
   const closeNewClientsModal = () => {
     setIsNewClientsModalOpen(false);
+  };
+
+
+  const openEditClientsModal = (client, rowIndex) => {
+    const triggerId = `open-edit-modal-${rowIndex}`;
+    setSelectedClient({ ...client, rowIndex, triggerId });
+    setIsEditClientsModalOpen(true);
+  };
+  
+
+  const closeEditClientsModal = () => {
+    setIsEditClientsModalOpen(false);
   };
 
   
@@ -78,40 +103,30 @@ function Clients() {
             </IonButton>
           </div>
         </div>
-        <div style={{ flex: 1, overflow: 'auto' }}>
-          <IonGrid>
-            <IonRow className={`${style.tableHead}`}>
+        <div className={style.tableContainer}>
+          <IonItemGroup>
+            <IonItem color='light' className={style.tableRow} data-hide-header="true">
               {fields.map((field, index) => (
-                <IonCol
-                  size='1'
-                  className={`${style.column}`}
-                  data-label={columnLabels[index]}
-                  key={index}
-                >
+                <IonLabel key={index} className={style.tableColumn}>
                   {columnLabels[index]}
-                </IonCol>
+                </IonLabel>
               ))}
-            </IonRow>
-
-            {filteredData.map((item, rowIndex) => (
-              <IonRow className={style.row} key={rowIndex}>
+            </IonItem>
+            {filteredData.map((item, rowIndex)  => (
+             <IonItem button key={rowIndex} className={style.tableRow} id={`open-edit-modal-${rowIndex}`} onClick={() => openEditClientsModal(item, rowIndex)}>
                 {fields.map((field, index) => (
-                  <IonCol
-                    size='auto'
-                    className={`${style.column}`}
-                    data-label={columnLabels[index]}
-                    key={index}
-                  >
+                  <IonLabel key={index} className={style.tableColumn} data-label={columnLabels[index]}>
                     {item[field.toLowerCase()]}
-                  </IonCol>
+                  </IonLabel>
                 ))}
-              </IonRow>
+              </IonItem>
             ))}
-          </IonGrid>
+          </IonItemGroup>
         </div>
         <div>
           <AddButton onClick={openNewClientsModal} />
           <NewClients isOpen={isNewClientsModalOpen} onClose={closeNewClientsModal} addClient={addClient} />
+          <EditClients isOpen={isEditClientsModalOpen} onClose={closeEditClientsModal} editClient={editClient} selectedClient={selectedClient} />
         </div>
       </main>
     </>
