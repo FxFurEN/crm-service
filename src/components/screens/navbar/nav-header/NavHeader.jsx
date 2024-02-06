@@ -71,11 +71,11 @@ const NavHeader = () => {
                 breadcrumb.pageName
               ) : (
                 <Link
-                  to={breadcrumb.path} 
-                  className={breadcrumb.isClickable} 
-                  style={{ color: breadcrumb.isClickable ? 'gray' : 'gray' }}
+                    to={breadcrumb.path} 
+                    className={breadcrumb.isClickable ? 'clickable' : 'not-clickable'}
+                    style={{ color: breadcrumb.isClickable ? 'gray' : 'gray' }}
                 >
-                  {breadcrumb.pageName}
+                    {breadcrumb.pageName}
                 </Link>
               )}
             </IonBreadcrumb>
