@@ -112,3 +112,14 @@ ion-tab-bar{
   --background: hsl(var(--background-secondary));
   --color:white;
 }
+
+
+ion-toolbar {
+  --background: hsl(var(--background));
+}
+
+@media (min-width: 426px) {
+  ion-toolbar {
+    --padding-start: 8vh;
+  }
+}

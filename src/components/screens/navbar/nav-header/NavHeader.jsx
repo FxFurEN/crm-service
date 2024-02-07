@@ -1,5 +1,5 @@
 import { Link, useLocation } from 'react-router-dom';
-import { IonIcon, IonBreadcrumb, IonBreadcrumbs } from '@ionic/react';
+import { IonIcon, IonBreadcrumb, IonBreadcrumbs, IonHeader, IonToolbar, IonTitle, IonButtons, IonButton } from '@ionic/react';
 import { personOutline } from 'ionicons/icons';
 import '../../../../assets/styles/ion-style.css'
 
@@ -61,39 +61,35 @@ const NavHeader = () => {
   
   const breadcrumbs = getPageSpans(currentPage);
   return (
-    <div className='nav-line'>
-      <div className="wrapper">
-        <li className="flexbox-left " style={{ paddingLeft: '5em', width: 'auto', height: 'auto'}}>
-        <IonBreadcrumbs>
-          {breadcrumbs.map((breadcrumb, index) => (
-            <IonBreadcrumb key={index}>
-              {breadcrumb.isCurrentPage ? (
-                breadcrumb.pageName
-              ) : (
-                <Link
-                    to={breadcrumb.path} 
-                    className={breadcrumb.isClickable ? 'clickable' : 'not-clickable'}
-                    style={{ color: breadcrumb.isClickable ? 'gray' : 'gray' }}
-                >
-                    {breadcrumb.pageName}
-                </Link>
-              )}
-            </IonBreadcrumb>
-          ))}
-        </IonBreadcrumbs>
-        </li> 
-        <ul className="nav-links">
-          <li className="navbar-item flexbox-left" >
-            <Link to='/settings/profile' className="navbar-item-inner flexbox-left">
-              <span>Профиль</span>
-              <div className="navbar-item-inner-icon-wrapper flexbox">
-                <IonIcon icon={personOutline}></IonIcon>
-              </div>
-            </Link>
-          </li>
-        </ul>
-      </div>
-    </div>
+    <IonHeader>
+        <IonToolbar>
+            <IonBreadcrumbs>
+              {breadcrumbs.map((breadcrumb, index) => (
+                <IonBreadcrumb key={index}>
+                  {breadcrumb.isCurrentPage ? (
+                    breadcrumb.pageName
+                  ) : (
+                    <Link
+                        to={breadcrumb.path} 
+                        className={breadcrumb.isClickable ? 'clickable' : 'not-clickable'}
+                        style={{ color: breadcrumb.isClickable ? 'gray' : 'gray' }}
+                    >
+                        {breadcrumb.pageName}
+                    </Link>
+                  )}
+                </IonBreadcrumb>
+              ))}
+            </IonBreadcrumbs>
+              <IonButtons slot="end">
+                <Link to='/settings/profile'>
+                    <IonButton color='light'>
+                      <IonIcon icon={personOutline}></IonIcon>
+                    Профиль
+                    </IonButton>
+                  </Link>
+              </IonButtons>
+        </IonToolbar>
+      </IonHeader>
   );
 }
 
