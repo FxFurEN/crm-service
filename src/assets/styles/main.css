@@ -8,7 +8,6 @@
     flex-direction: column;
     height: 100%;
     margin: 2em 0 0 4em;
-    overflow-y:scroll;
 }
 #main > h2 {
     width: 80%;

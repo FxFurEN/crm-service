@@ -25,6 +25,9 @@
   
   /* Дополнительные стили для улучшения отображения на мобильных устройствах */
   @media all and (max-width: 640px) {
+	.tableContainer {
+		margin-bottom: 20%;
+	  }
 	.tableRow {
 	  flex-direction: column;
 	  border-bottom: 1px solid #eeeeee; /* Добавим разделительные линии */
@@ -43,7 +46,6 @@
 	  padding-right: 10px;
 	  font-size: 12px;
 	  content: attr(data-label) ":";
-	  
 	  color: hsl(var(--primary));; 
 	}
 	.tableRow[data-hide-header="true"] {
