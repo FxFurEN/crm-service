@@ -7,7 +7,7 @@
     display: flex;
     flex-direction: column;
     height: 100%;
-    margin: 0 0 0 4em;
+    margin: 2em 0 0 4em;
     overflow-y:scroll;
 }
 #main > h2 {
