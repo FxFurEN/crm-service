@@ -1,5 +1,5 @@
 import { setupIonicReact, IonApp} from '@ionic/react';
-import { BrowserRouter, Route, Routes } from 'react-router-dom'
+import { BrowserRouter, Route, Routes, Navigate } from 'react-router-dom'
 import { Provider } from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react';
 import store, { persistor } from '../../redux/store'; 
@@ -90,6 +90,7 @@ const Router = () => {
                     <Route path='/settings/handbooks/:id' element={<FieldsHandBooks />} />
 
                     <Route path="*" element={<App/>} />
+                    <Route path="" element={<Navigate to={'/home'} />}/>
                   </Route>
               </Routes>
             </BrowserRouter>
