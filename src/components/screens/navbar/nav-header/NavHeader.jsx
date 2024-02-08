@@ -63,7 +63,7 @@ const NavHeader = () => {
 
   return (
     <Header className="nav-line">
-      <Breadcrumb separator="/" style={{ paddingLeft: '40px', paddingTop: '10px' }}>
+      <Breadcrumb separator={<span style={{ color: 'gray', fontSize: '17px' }}>/</span>} style={{ paddingLeft: '40px', paddingTop: '10px' }}>
         {breadcrumbs.map((breadcrumb, index) => (
           <Breadcrumb.Item key={breadcrumb.path}>
             {breadcrumb.isCurrentPage ? (
