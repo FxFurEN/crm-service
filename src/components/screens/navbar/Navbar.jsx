@@ -1,13 +1,13 @@
 import './navbar.css';
 import '../../../assets/styles/global.css';
-import '../../../assets/styles/ion-style.css';
-import { IonIcon, IonRouterOutlet, IonTabBar, IonTabButton, IonTabs } from '@ionic/react';
-import { homeOutline, peopleOutline, settingsOutline, diamondOutline, appsOutline, barChartOutline, archiveOutline, bagHandleOutline} from 'ionicons/icons';
 import { Link, Outlet} from 'react-router-dom';
 import NavHeader from './nav-header/NavHeader';
 import { useSelector } from 'react-redux';
 import { selectVisibility } from '../../../redux/visibilitySlice';
 import { useEffect, useState } from 'react';
+
+import { HarmonyOSOutlined, HomeOutlined, InboxOutlined, LineChartOutlined, SettingOutlined, ShoppingCartOutlined, TagsOutlined, TeamOutlined } from '@ant-design/icons'; 
+
 
 const Navbar = () => {
   const { isSkladVisible, isMagazinVisible, isOrdersVisible } = useSelector(selectVisibility);
@@ -33,7 +33,6 @@ const Navbar = () => {
 
                   <IonTabBar slot="bottom">
                     <IonTabButton tab="home" href="/home">
-                      <IonIcon icon={homeOutline} />
                       <span className="link-text">Главная</span>
                     </IonTabButton>
 
@@ -83,13 +82,13 @@ const Navbar = () => {
         <ul className="navbar-items flexbox-col">
           <li className="navbar-logo flexbox">
             <Link to='/home' className="navbar-item-inner flexbox">
-              <IonIcon icon={diamondOutline} size="large"/>
+              <HarmonyOSOutlined style={{ fontSize: '30px', color:'white',}} />
             </Link>
           </li>
           <li className="navbar-item flexbox-left">
             <Link to='/home' className="navbar-item-inner flexbox-left">
               <div className="navbar-item-inner-icon-wrapper flexbox">
-                <IonIcon icon={homeOutline}></IonIcon>
+                  <HomeOutlined style={{ fontSize: '20px', color:'white',}}/>
               </div>
               <span className="link-text">Главная</span>
             </Link>
@@ -98,7 +97,7 @@ const Navbar = () => {
           <li className="navbar-item flexbox-left">
             <Link to='/orders' className="navbar-item-inner flexbox-left">
               <div className="navbar-item-inner-icon-wrapper flexbox">
-                <IonIcon icon={archiveOutline}></IonIcon>
+                <TagsOutlined style={{ fontSize: '20px', color:'white',}}/>
               </div>
               <span className="link-text">Заказы</span>
             </Link>
@@ -107,7 +106,7 @@ const Navbar = () => {
           <li className="navbar-item flexbox-left">
             <Link to='/clients' className="navbar-item-inner flexbox-left">
               <div className="navbar-item-inner-icon-wrapper flexbox">
-                <IonIcon icon={peopleOutline}></IonIcon>
+                <TeamOutlined style={{ fontSize: '20px', color:'white',}}/>
               </div>
               <span className="link-text">Клиенты</span>
             </Link>
@@ -115,7 +114,7 @@ const Navbar = () => {
           <li className="navbar-item flexbox-left">
             <Link to='/report' className="navbar-item-inner flexbox-left">
               <div className="navbar-item-inner-icon-wrapper flexbox">
-                <IonIcon icon={barChartOutline}></IonIcon>
+                  <LineChartOutlined style={{ fontSize: '20px', color:'white',}}/>
               </div>
               <span className="link-text">Отчет</span>
             </Link>
@@ -124,7 +123,7 @@ const Navbar = () => {
           <li className="navbar-item flexbox-left">
             <Link to='/inventory' className="navbar-item-inner flexbox-left">
               <div className="navbar-item-inner-icon-wrapper flexbox">
-                <IonIcon icon={appsOutline}></IonIcon>
+                <InboxOutlined style={{ fontSize: '20px', color:'white',}} />
               </div>
               <span className="link-text">Склад</span>
             </Link>
@@ -134,7 +133,7 @@ const Navbar = () => {
           <li className="navbar-item flexbox-left">
             <Link to='/shop' className="navbar-item-inner flexbox-left">
               <div className="navbar-item-inner-icon-wrapper flexbox">
-                <IonIcon icon={bagHandleOutline}></IonIcon>
+                  <ShoppingCartOutlined style={{ fontSize: '20px', color:'white',}} />
               </div>
               <span className="link-text">Магазин</span>
             </Link>
@@ -143,7 +142,7 @@ const Navbar = () => {
           <li className="navbar-item flexbox-left">
             <Link to='/settings' className="navbar-item-inner flexbox-left">
               <div className="navbar-item-inner-icon-wrapper flexbox">
-                <IonIcon icon={settingsOutline}></IonIcon>
+                <SettingOutlined style={{ fontSize: '20px', color:'white',}} />
               </div>
               <span className="link-text">Настройки</span>
             </Link>

@@ -10,11 +10,13 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@ant-design/icons": "^5.3.0",
     "@ionic/react": "^7.6.3",
     "@maskito/core": "^2.0.2",
     "@maskito/react": "^2.0.2",
     "@reduxjs/toolkit": "^2.1.0",
     "@tinymce/tinymce-react": "^4.3.2",
+    "antd": "^5.14.0",
     "axios": "^1.6.5",
     "chart.js": "^4.4.1",
     "clipboard-copy": "^4.0.1",
