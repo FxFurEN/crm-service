@@ -182,26 +182,6 @@
     background-color: hsl(var(--background));
   }
   
-  .nav-line .wrapper {
-    position: relative;
-    display: flex;
-    justify-content: flex-end; 
-  }
-  
-  
-  .nav-links {
-    margin-left: auto; 
-    display: flex;
-  }
-  
-  .nav-links li a {
-    padding: 2vh 0 2vh 3vh;
-  }
-  
-  .nav-links li a:hover {
-    background-color: hsl(var(--background-secondary));
-  }
-  
   
 
 

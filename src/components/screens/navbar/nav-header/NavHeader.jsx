@@ -1,10 +1,10 @@
 import { Link, useLocation } from 'react-router-dom';
-import { IonIcon, IonBreadcrumb, IonBreadcrumbs, IonHeader, IonToolbar, IonTitle, IonButtons, IonButton } from '@ionic/react';
-import { personOutline } from 'ionicons/icons';
-import '../../../../assets/styles/ion-style.css'
+import { Breadcrumb } from 'antd';
+import { Header } from 'antd/es/layout/layout';
+
+import '../navbar.css';
 
 const NavHeader = () => {
-
   const location = useLocation();
   const currentPage = location.pathname;
 
@@ -30,6 +30,7 @@ const NavHeader = () => {
     ['/settings/documents', 'Документы'],
     ['/settings/modules', 'Модули'],
   ]);
+
   const additionalPageNames = new Map([
     ['/settings/general', 'Общие'],
     ['/settings/reference', 'Справочники'],
@@ -43,13 +44,13 @@ const NavHeader = () => {
   
     pathParts.forEach((part, index) => {
       currentPath += `/${part}`;
-      const pageName = russianPageNames.get(currentPath) || additionalPageNames.get(currentPath);
-      const isClickable = russianPageNames.has(currentPath);
+      const pageName = russianPageNames.get(currentPath) || additionalPageNames.get(currentPath) || part; 
       const isCurrentPage = currentPath === path;
+      const isClickable = russianPageNames.has(currentPath); 
   
       breadcrumbElements.push({
         path: currentPath,
-        pageName: pageName || part,
+        pageName: pageName,
         isClickable: isClickable,
         isCurrentPage: isCurrentPage
       });
@@ -57,41 +58,28 @@ const NavHeader = () => {
   
     return breadcrumbElements;
   };
-  
-  
-  const breadcrumbs = getPageSpans(currentPage);
-  return (
-    <IonHeader>
-        <IonToolbar>
-            <IonBreadcrumbs>
-              {breadcrumbs.map((breadcrumb, index) => (
-                <IonBreadcrumb key={index}>
-                  {breadcrumb.isCurrentPage ? (
-                    breadcrumb.pageName
-                  ) : (
-                    <Link
-                        to={breadcrumb.path} 
-                        className={breadcrumb.isClickable ? 'clickable' : 'not-clickable'}
-                        style={{ color: breadcrumb.isClickable ? 'gray' : 'gray' }}
-                    >
-                        {breadcrumb.pageName}
-                    </Link>
-                  )}
-                </IonBreadcrumb>
-              ))}
-            </IonBreadcrumbs>
-              <IonButtons slot="end">
-                <Link to='/settings/profile'>
-                    <IonButton color='light'>
-                      <IonIcon icon={personOutline}></IonIcon>
-                    Профиль
-                    </IonButton>
-                  </Link>
-              </IonButtons>
-        </IonToolbar>
-      </IonHeader>
-  );
-}
 
+  const breadcrumbs = getPageSpans(currentPage);
+
+  return (
+    <Header className="nav-line">
+      <Breadcrumb separator="/" style={{ paddingLeft: '40px', paddingTop: '10px' }}>
+        {breadcrumbs.map((breadcrumb, index) => (
+          <Breadcrumb.Item key={breadcrumb.path}>
+            {breadcrumb.isCurrentPage ? (
+              <span style={{ color: 'white', fontSize: '17px' }}>{breadcrumb.pageName}</span>
+            ) : (
+              breadcrumb.isClickable ? (
+                <Link to={breadcrumb.path}>{breadcrumb.pageName}</Link>
+              ) : (
+                <span style={{ color: 'gray', fontSize: '17px' }}>{breadcrumb.pageName}</span>
+              )
+            )}
+          </Breadcrumb.Item>
+        ))}
+      </Breadcrumb>
+    </Header>
+  );
+};
 
 export default NavHeader;
