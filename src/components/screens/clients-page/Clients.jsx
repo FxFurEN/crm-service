@@ -1,135 +1,210 @@
-import { useState, useEffect } from 'react';
-import { IonButton, IonIcon, IonItem, IonItemGroup, IonLabel, } from '@ionic/react';
-import { filterOutline, cloudUploadOutline, cloudDownloadOutline } from 'ionicons/icons';
-import { crmAPI } from '../../../service/api';
+import { useState, useRef} from 'react';
+import { SearchOutlined } from '@ant-design/icons';
+import { Button, Input, Space, Table } from 'antd';
+import Highlighter from 'react-highlight-words';
 
 import '../../../assets/styles/main.css';
 import '../../../assets/styles/global.css';
-import style from  '../../../assets/styles/table.module.css';
 import '../../../assets/styles/addbutton.css';
-import '../../../assets/styles/ion-style.css';
 
 import AddButton from '../addButton/AddButton';
-import SearchBox from '../searchBox/SearchBox';
-import NewClients from './addClients/NewClients';
-import EditClients from './editClients/EditClients';
+
+
+
+
+
 
 function Clients() {
-  const [filteredData, setFilteredData] = useState([]);
-  const [clientList, setClientList] = useState([]);
-  const [isNewClientsModalOpen, setIsNewClientsModalOpen] = useState(false);
-  const [isEditClientsModalOpen, setIsEditClientsModalOpen] = useState(false);
-  const [selectedClient, setSelectedClient] = useState(null);
-
-
-  const fields = ['FioClient', 'PhoneNumber', 'Mail', 'TypeClientID'];
-  const columnLabels = ['Клиент', 'Номер телефона', 'Почта', 'Тип клиента'];  
-
-  useEffect(() => {
-    loadClientData();
-  }, []);
-
-  const loadClientData = () => {
-    crmAPI.getAllClientsData() 
-      .then(response => {
-        setClientList(response.data);
-        setFilteredData(response.data);
-      })
-      .catch(error => {
-        console.error(error);
-      });
+  const [selectionType] = useState('checkbox');
+  const rowSelection = {
+    onChange: (selectedRowKeys, selectedRows) => {
+      console.log(
+        `selectedRowKeys: ${selectedRowKeys}`,
+        'selectedRows: ',
+        selectedRows
+      );
+    },
+    getCheckboxProps: (record) => ({
+      disabled: record.name === 'Disabled User',
+      name: record.name,
+    }),
   };
-
-  const handleFilter = (filteredResults) => {
-    setFilteredData(filteredResults);
+  const [searchText, setSearchText] = useState('');
+  const [searchedColumn, setSearchedColumn] = useState('');
+  const searchInput = useRef(null);
+  const handleSearch = (selectedKeys, confirm, dataIndex) => {
+    confirm();
+    setSearchText(selectedKeys[0]);
+    setSearchedColumn(dataIndex);
   };
-
-  const addClient = (newClient) => {
-    crmAPI.addClient(newClient)
-      .then(response => {
-        loadClientData();
-        closeNewClientsModal();
-      })
-      .catch(error => {
-        console.error(error);
-      });
+  const handleReset = (clearFilters) => {
+    clearFilters();
+    setSearchText('');
   };
-  const editClient = async (updatedClient) => {
-    try {
-      await crmAPI.editClient(updatedClient);
-      loadClientData();
-      closeEditClientsModal();
-    } catch (error) {
-      console.error('Error editing client:', error);
-    }
-  };
-
-  const openNewClientsModal = () => {
-    setIsNewClientsModalOpen(true);
-  };
-
-  const closeNewClientsModal = () => {
-    setIsNewClientsModalOpen(false);
-  };
-
-
-  const openEditClientsModal = (client, rowIndex) => {
-    const triggerId = `open-edit-modal-${rowIndex}`;
-    setSelectedClient({ ...client, rowIndex, triggerId });
-    setIsEditClientsModalOpen(true);
-  };
-  
-
-  const closeEditClientsModal = () => {
-    setIsEditClientsModalOpen(false);
-  };
-
-  
+  const getColumnSearchProps = (dataIndex) => ({
+    filterDropdown: ({ setSelectedKeys, selectedKeys, confirm, clearFilters, close }) => (
+      <div
+        style={{
+          padding: 8,
+        }}
+        onKeyDown={(e) => e.stopPropagation()}
+      >
+        <Input
+          ref={searchInput}
+          placeholder={`Поиск клиента`}
+          value={selectedKeys[0]}
+          onChange={(e) => setSelectedKeys(e.target.value ? [e.target.value] : [])}
+          onPressEnter={() => handleSearch(selectedKeys, confirm, dataIndex)}
+          style={{
+            marginBottom: 8,
+            display: 'block',
+          }}
+        />
+        <Space>
+          <Button
+            type="primary"
+            onClick={() => handleSearch(selectedKeys, confirm, dataIndex)}
+            icon={<SearchOutlined />}
+            size="small"
+            style={{
+              width: 90,
+            }}
+          >
+            Поиск
+          </Button>
+          <Button
+            onClick={() => clearFilters && handleReset(clearFilters)}
+            size="small"
+            style={{
+              width: 90,
+            }}
+          >
+            Сбросить
+          </Button>
+          <Button
+            type="link"
+            size="small"
+            onClick={() => {
+              close();
+            }}
+          >
+            Закрыть
+          </Button>
+        </Space>
+      </div>
+    ),
+    filterIcon: (filtered) => (
+      <SearchOutlined
+        style={{
+          color: filtered ? '#1677ff' : undefined,
+        }}
+      />
+    ),
+    onFilter: (value, record) =>
+      record[dataIndex].toString().toLowerCase().includes(value.toLowerCase()),
+    onFilterDropdownOpenChange: (visible) => {
+      if (visible) {
+        setTimeout(() => searchInput.current?.select(), 100);
+      }
+    },
+    render: (text) =>
+      searchedColumn === dataIndex ? (
+        <Highlighter
+          highlightStyle={{
+            backgroundColor: '#ffc069',
+            padding: 0,
+          }}
+          searchWords={[searchText]}
+          autoEscape
+          textToHighlight={text ? text.toString() : ''}
+        />
+      ) : (
+        text
+      ),
+  });
+  const columns = [
+    {
+      title: 'Full Name',
+      width: 100,
+      dataIndex: 'name',
+      key: 'name',
+      fixed: 'left',
+      ...getColumnSearchProps('name'),
+    },
+    {
+      title: 'Age',
+      width: 50,
+      dataIndex: 'age',
+      key: 'age',
+    },
+    {
+      title: 'Column 1',
+      dataIndex: 'address',
+      key: '1',
+      width: 150,
+      responsive: ['md'],
+    },
+    {
+      title: 'Column 2',
+      dataIndex: 'address',
+      key: '2',
+      width: 150,
+      responsive: ['md'],
+    },
+    {
+      title: 'Column 3',
+      dataIndex: 'address',
+      key: '3',
+      width: 150,
+      responsive: ['md'],
+    },
+    {
+      title: 'Column 4',
+      dataIndex: 'address',
+      key: '4',
+      width: 150,
+      responsive: ['md'],
+    },
+    {
+      title: 'Column 5',
+      dataIndex: 'address',
+      key: '5',
+      width: 150,
+      responsive: ['md'],
+    },
+  ];
+  const data = [];
+  for (let i = 0; i < 100; i++) {
+    data.push({
+      key: i,
+      name: `Edward ${i}`,
+      age: 32,
+      address: `London Park no. ${i}`,
+    });
+  }
 
   return (
-    <>
       <main id="main">
-        <div>
-          <div style={{ display: "flex", justifyContent: "space-between" }}>
-            <SearchBox fields={fields} data={clientList} onFilter={handleFilter} />
-            <IonButton fill="clear">
-              <IonIcon slot="icon-only" color="white" icon={filterOutline}></IonIcon>
-            </IonButton>
-            <IonButton fill="clear">
-              <IonIcon slot="icon-only" icon={cloudUploadOutline}></IonIcon>
-            </IonButton>
-            <IonButton fill="clear">
-              <IonIcon slot="icon-only" icon={cloudDownloadOutline}></IonIcon>
-            </IonButton>
+        <Table 
+          rowSelection={{ type: selectionType, ...rowSelection }} 
+          columns={columns} 
+          dataSource={data} 
+          pagination={{
+            position: ['right'],
+          }}
+          summary={() => (
+            <Table.Summary >
+              <Table.Summary.Row>
+                <Table.Summary.Cell index={0} colSpan={2}>
+                </Table.Summary.Cell>
+              </Table.Summary.Row>
+            </Table.Summary>
+          )}
+          />
+          <div>
+            <AddButton/>
           </div>
-        </div>
-        <div className={style.tableContainer}>
-          <IonItemGroup>
-            <IonItem color='light' className={style.tableRow} data-hide-header="true">
-              {fields.map((field, index) => (
-                <IonLabel key={index} className={style.tableColumn}>
-                  {columnLabels[index]}
-                </IonLabel>
-              ))}
-            </IonItem>
-            {filteredData.map((item, rowIndex)  => (
-             <IonItem button key={rowIndex} className={style.tableRow} id={`open-edit-modal-${rowIndex}`} onClick={() => openEditClientsModal(item, rowIndex)}>
-                {fields.map((field, index) => (
-                  <IonLabel key={index} className={style.tableColumn} data-label={columnLabels[index]}>
-                    {item[field.toLowerCase()]}
-                  </IonLabel>
-                ))}
-              </IonItem>
-            ))}
-          </IonItemGroup>
-        </div>
-        <div>
-          <AddButton onClick={openNewClientsModal} />
-          <NewClients isOpen={isNewClientsModalOpen} onClose={closeNewClientsModal} addClient={addClient} />
-          <EditClients isOpen={isEditClientsModalOpen} onClose={closeEditClientsModal} editClient={editClient} selectedClient={selectedClient} />
-        </div>
       </main>
-    </>
   );
 }
 
