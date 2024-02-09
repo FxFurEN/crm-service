@@ -1,165 +1,227 @@
-import { useState, useEffect } from 'react';
-import { crmAPI } from '../../../service/api';
-import { IonButton, IonIcon, IonItem, IonLabel, IonGrid, IonRow, IonCol, IonText} from '@ionic/react';
-import {filterOutline, cloudUploadOutline, cloudDownloadOutline, add } from 'ionicons/icons';
+import { useState, useRef } from 'react';
+import { Button, ConfigProvider, Flex, Space, Tooltip, Input, Table, List } from 'antd';
+import {PlusOutlined, SearchOutlined, SmileOutlined} from '@ant-design/icons';
+import Highlighter from 'react-highlight-words';
 
-
-import "../navbar/navbar.css";
-import '../../../assets/styles/global.css';
-import style from  './inventory.module.css';
-
-import SearchBox from '../../../components/screens/searchBox/SearchBox';
-import AddButton from '../addButton/AddButton';
-import NewCategory from './addCategory/NewCategory';
-import NewGoods from './addGoods/NewGoods';
 
 const Inventory = () =>{
-    const [categories, setCategories] = useState([]);
-  const [goods, setGoods] = useState([]);
-
-  const loadCategories = async () => {
-    try {
-      const response = await crmAPI.loadCategories();
-      setCategories(response.data);
-    } catch (error) {
-      console.error('Error loading categories:', error);
-    }
+  const [selectionType] = useState('checkbox');
+  const [customize] = useState(true);
+  const rowSelection = {
+    onChange: (selectedRowKeys, selectedRows) => {
+      console.log(
+        `selectedRowKeys: ${selectedRowKeys}`,
+        'selectedRows: ',
+        selectedRows
+      );
+    },
+    getCheckboxProps: (record) => ({
+      disabled: record.name === 'Disabled User',
+      name: record.name,
+    }),
   };
-  
-  const loadGoods = async () => {
-    try {
-      const response = await crmAPI.loadGoods();
-      setGoods(response.data);
-    } catch (error) {
-      console.error('Error loading goods:', error);
-    }
+  const [searchText, setSearchText] = useState('');
+  const [searchedColumn, setSearchedColumn] = useState('');
+  const searchInput = useRef(null);
+  const handleSearch = (selectedKeys, confirm, dataIndex) => {
+    confirm();
+    setSearchText(selectedKeys[0]);
+    setSearchedColumn(dataIndex);
   };
-  
-
-  useEffect(() => {
-    loadCategories();
-    loadGoods();
-  }, []);
-
-  
-
-  const addCategory = (newCategory) => {
-    crmAPI.addCategory(newCategory)
-      .then(response => {
-        loadCategories();
-      })
-      .catch(error => {
-        console.error('Error adding category:', error);
-      });
+  const handleReset = (clearFilters) => {
+    clearFilters();
+    setSearchText('');
   };
+  const getColumnSearchProps = (dataIndex) => ({
+    filterDropdown: ({ setSelectedKeys, selectedKeys, confirm, clearFilters, close }) => (
+      <div
+        style={{
+          padding: 8,
+        }}
+        onKeyDown={(e) => e.stopPropagation()}
+      >
+        <Input
+          ref={searchInput}
+          placeholder={`Поиск товара`}
+          value={selectedKeys[0]}
+          onChange={(e) => setSelectedKeys(e.target.value ? [e.target.value] : [])}
+          onPressEnter={() => handleSearch(selectedKeys, confirm, dataIndex)}
+          style={{
+            marginBottom: 8,
+            display: 'block',
+          }}
+        />
+        <Space>
+          <Button
+            type="primary"
+            onClick={() => handleSearch(selectedKeys, confirm, dataIndex)}
+            icon={<SearchOutlined />}
+            size="small"
+            style={{
+              width: 90,
+            }}
+          >
+            Поиск
+          </Button>
+          <Button
+            onClick={() => clearFilters && handleReset(clearFilters)}
+            size="small"
+            style={{
+              width: 90,
+            }}
+          >
+            Сбросить
+          </Button>
+          <Button
+            type="link"
+            size="small"
+            onClick={() => {
+              close();
+            }}
+          >
+            Закрыть
+          </Button>
+        </Space>
+      </div>
+    ),
+    filterIcon: (filtered) => (
+      <SearchOutlined
+        style={{
+          color: filtered ? '#1677ff' : undefined,
+        }}
+      />
+    ),
+    onFilter: (value, record) =>
+      record[dataIndex].toString().toLowerCase().includes(value.toLowerCase()),
+    onFilterDropdownOpenChange: (visible) => {
+      if (visible) {
+        setTimeout(() => searchInput.current?.select(), 100);
+      }
+    },
+    render: (text) =>
+      searchedColumn === dataIndex ? (
+        <Highlighter
+          highlightStyle={{
+            backgroundColor: '#ffc069',
+            padding: 0,
+          }}
+          searchWords={[searchText]}
+          autoEscape
+          textToHighlight={text ? text.toString() : ''}
+        />
+      ) : (
+        text
+      ),
+  });
+  const columns = [
+    {
+      title: 'Артикуль',
+      width: 50,
+      dataIndex: 'article',
+      key: 'article',
+      responsive: ['md'],
+      ...getColumnSearchProps('article'),
+    },
+    {
+      title: 'Товар',
+      width: 100,
+      dataIndex: 'good',
+      key: 'good',
+      ...getColumnSearchProps('good'),
+    },
+    {
+      title: 'Количество',
+      dataIndex: 'amount',
+      key: 'amount',
+      width: 150,
+      responsive: ['md'],
+      defaultSortOrder: 'descend',
+      sorter: (a, b) => a.amount - b.amount,
+    },
+  ];
+  const data = [];
+  for (let i = 1; i < 50; i++) {
+    const article = String(i).padStart(6, '0');
+    data.push({
+      key: i,
+      article: article,
+      good: `Good ${i}`,
+      amount: `${i}`,
+    });
+  }
+  const dataCategory = [
+      {
+        description: ['Прибыль по заказам', 'Прибыль от продаж', 'Сводка платежей', 'Возвраты']
+      },
+  ];
 
-  const addGoods = (newGoods) => {
-    crmAPI.addGoods(newGoods)
-      .then(response => {
-        loadGoods();
-      })
-      .catch(error => {
-        console.error('Error adding goods:', error);
-      });
-  };
-
-      const [isNewCategoryModal, setIsNewCategoryModalOpen] = useState(false);
-      const [isNewGoodsModal, setIsNewGoodsModalOpen] = useState(false);
-    
-      const openNewCategoryModal = () => {
-        setIsNewCategoryModalOpen(true);
-      };
-    
-      const closeNewCategoryModal = () => {
-        setIsNewCategoryModalOpen(false);
-      };
-    
-      const openNewGoodsModal = () => {
-        setIsNewGoodsModalOpen(true);
-      };
-    
-      const closeNewGoodsModal = () => {
-        setIsNewGoodsModalOpen(false);
-      };
-
-      const columnLabels = ['Артикул', 'Название', 'Количество', 'Цена', 'Себестоимость', 'Категория'];
-
-
+  const customizeRenderEmpty = () => (
+    <div
+      style={{
+        textAlign: 'center',
+      }}
+    >
+      <SmileOutlined
+        style={{
+          fontSize: 20,
+        }}
+      />
+      <p>Данные не найдены</p>
+    </div>
+  );
     return(
-        <main id="main">
-          <div style={{display: "flex"}}>
-            <IonGrid>
-                <IonRow>
-                  <IonCol>
-                    <IonItem>
-                      <IonLabel >Все категории</IonLabel> 
-                      <IonButton fill="clear" onClick={openNewCategoryModal} id="open-category-modal">
-                        <IonIcon slot="icon-only" color="white" icon={add} size='large'></IonIcon>
-                      </IonButton>             
-                    </IonItem>
-                  </IonCol>
-                </IonRow>
-                  {categories.map((category, index) => (
-                    <IonRow key={index}>
-                      <IonItem className='custom'>
-                      {Object.keys(category).map((field, fieldIndex) => (
-                        <IonCol key={fieldIndex}>
-                            {category[field] !== undefined ? category[field] : ''}
-                        </IonCol>
-                      ))}
-                      </IonItem>
-                    </IonRow>
+      <main id="main">
+      <Flex  wrap="wrap" gap="large">
+        <div style={{ marginLeft: '1em',}}>
+        <Space size={100}>
+          Все категории
+          <Tooltip title="Добавить категорию" >
+            <Button shape="circle" icon={<PlusOutlined />} type="text" style={{ color: 'white' }} />
+          </Tooltip>
+          </Space>
+          <List
+            itemLayout="horizontal"
+            dataSource={dataCategory}
+            renderItem={(item) => (
+              <List.Item>
+                <List.Item.Meta
+                  description={item.description.map((desc, index) => (
+                    <Button
+                      type="text"
+                      block
+                      key={index}
+                      style={{ textAlign: 'left', color: 'white', position: 'relative', paddingLeft: '0' }}
+                    >
+                      {desc}
+                    </Button>
                   ))}
-            </IonGrid>
-            <IonGrid>
-                <IonRow>
-                  <div style={{display: "flex"}}>
-                    <SearchBox  />
-                    <IonButton fill="clear">
-                        <IonIcon slot="icon-only" color="white" icon={filterOutline}></IonIcon>
-                    </IonButton>
-                    <IonButton fill="clear">
-                          <IonIcon slot="icon-only" icon={cloudUploadOutline}></IonIcon>
-                    </IonButton>
-                    <IonButton fill="clear">
-                        <IonIcon slot="icon-only" icon={cloudDownloadOutline}></IonIcon>
-                    </IonButton>
-                  </div>
-                </IonRow>
-                <IonGrid>
-                  <IonRow className={style.tableHead}>
-                  {columnLabels.map((label, index) => (
-                                        <IonCol 
-                                          data-label={columnLabels[index]}
-                                          className={style.column} 
-                                          key={index}
-                                        >
-                                            {label}
-                                        </IonCol>
-                                    ))}
-                  </IonRow>
-                  {goods.map((item, index) => (
-                    <IonRow key={index}>
-                      {Object.keys(item).map((field, fieldIndex) => (
-                                            <IonCol 
-                                              data-label={columnLabels[index]}
-                                              className={style.column} 
-                                              key={fieldIndex}
-                                            >
-                                                {item[field]}
-                                            </IonCol>
-                                        ))}
-                    </IonRow>
-                  ))}
-                </IonGrid>
-            </IonGrid>
-          </div>
-            <div>
-                <AddButton onClick={openNewGoodsModal}/>
-                <NewGoods isOpen={isNewGoodsModal} onClose={closeNewGoodsModal} addGoods={addGoods} categories={categories}/>
-                <NewCategory isOpen={isNewCategoryModal} onClose={closeNewCategoryModal} addCategory={addCategory}  />
-            </div>
-        </main>
+                />
+              </List.Item>
+            )}
+          />
+        </div>
+
+        <div style={{ flex: '1 1' }}>
+          <ConfigProvider renderEmpty={customize ? customizeRenderEmpty : undefined}>
+            <Table
+              rowSelection={{ type: selectionType, ...rowSelection }}
+              columns={columns}
+              dataSource={data}
+              pagination={{
+                position: ['right'],
+              }}
+              summary={() => (
+                <Table.Summary>
+                  <Table.Summary.Row>
+                    <Table.Summary.Cell index={0} colSpan={2}></Table.Summary.Cell>
+                  </Table.Summary.Row>
+                </Table.Summary>
+              )}
+            />
+          </ConfigProvider>
+        </div>
+      </Flex>
+    </main>
         
     )
 }
