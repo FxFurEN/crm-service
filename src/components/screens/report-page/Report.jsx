@@ -1,73 +1,50 @@
-import '../../../assets/styles/main.css';
-import '../../../assets/styles/global.css';
-import '../../../assets/styles/ion-style.css';
-import { IonItem, IonItemDivider, IonItemGroup, IonLabel } from '@ionic/react';
-import { caretForwardOutline } from 'ionicons/icons';
+import { Button, List } from 'antd';
+import { RightOutlined  } from '@ant-design/icons';
+const data = [
+    {
+        title: 'Финансы',
+        description: ['Прибыль по заказам', 'Прибыль от продаж', 'Сводка платежей', 'Возвраты']
+      },
+      {
+        title: 'Товары и услуги',
+        description: ['Отчет по товарам и услугам', 'Отчет по товарам', 'Отчет по услугам по дням']
+      },
+      {
+        title: 'Заказы',
+        description: ['Заказы по полю']
+      },
+      {
+        title: 'Склад',
+        description: ['Остатки на складе', 'История']
+      },
+  ];
+
 
 const Report = () =>{
     return(
         <main id="main">
-            <div style={{ flex: 1, overflow: 'auto' }}>
-                <IonItemGroup>
-                    <IonItemDivider>
-                        <IonLabel>Финансы</IonLabel>
-                    </IonItemDivider>
-
-                    <IonItem  tton detail={true} detailIcon={caretForwardOutline}>
-                        <IonLabel>Прибыль по заказам</IonLabel>
-                    </IonItem>
-                    <IonItem button detail={true} detailIcon={caretForwardOutline}>
-                        <IonLabel>Прибыль от продаж</IonLabel>
-                    </IonItem >
-                    <IonItem button detail={true} detailIcon={caretForwardOutline}>
-                        <IonLabel>Сводка платежей</IonLabel>
-                    </IonItem >
-                    <IonItem lines="none" button detail={true} detailIcon={caretForwardOutline}>
-                        <IonLabel>Возвраты</IonLabel>
-                    </IonItem>
-                </IonItemGroup>
-
-                <IonItemGroup>
-                    <IonItemDivider>
-                        <IonLabel>Товары и услуги</IonLabel>
-                    </IonItemDivider>
-
-                    <IonItem button detail={true} detailIcon={caretForwardOutline}>
-                        <IonLabel>Отчет по товара и услугам</IonLabel>
-                    </IonItem>
-                    <IonItem button detail={true} detailIcon={caretForwardOutline}>
-                        <IonLabel>Отчет по товарам</IonLabel>
-                    </IonItem>
-                    <IonItem button detail={true} detailIcon={caretForwardOutline}>
-                        <IonLabel>Отчет по услугам</IonLabel>
-                    </IonItem>
-                    <IonItem lines="none" button detail={true} detailIcon={caretForwardOutline}>
-                        <IonLabel>Отчет по услугам по дням</IonLabel>
-                    </IonItem>
-                </IonItemGroup>
-                <IonItemGroup>
-                    <IonItemDivider>
-                        <IonLabel>Заказы</IonLabel>
-                    </IonItemDivider>
-
-                    <IonItem lines="none" button detail={true} detailIcon={caretForwardOutline}>
-                        <IonLabel>Заказы по полю</IonLabel>
-                    </IonItem>
-                </IonItemGroup>
-                <IonItemGroup>
-                    <IonItemDivider>
-                        <IonLabel>Склад</IonLabel>
-                    </IonItemDivider>
-
-                    <IonItem button detail={true} detailIcon={caretForwardOutline}>
-                        <IonLabel>Остатки на складе</IonLabel>
-                    </IonItem>
-                    <IonItem button detail={true} detailIcon={caretForwardOutline}>
-                        <IonLabel>История</IonLabel>
-                    </IonItem>
-                </IonItemGroup>
-            </div>
-           
+             <List
+                itemLayout="horizontal"
+                dataSource={data}
+                renderItem={(item) => (
+                    <List.Item>
+                        <List.Item.Meta
+                            title={<a href="https://ant.design" style={{ color: 'white' }}>{item.title}</a>}
+                            description={item.description.map((desc, index) => (
+                                <Button
+                                    type="text"
+                                    block
+                                    key={index}
+                                    style={{ textAlign: 'left', color: 'white', position: 'relative', paddingLeft: '0' }}
+                                    icon={<RightOutlined style={{ position: 'absolute', right: '0' }} />}
+                                >
+                                    {desc}
+                                </Button>
+                            ))}
+                        />
+                    </List.Item>
+                )}
+            />
         </main>
     )
 }
