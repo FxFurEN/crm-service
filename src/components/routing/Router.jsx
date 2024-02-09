@@ -2,7 +2,7 @@ import { setupIonicReact, IonApp} from '@ionic/react';
 import { BrowserRouter, Route, Routes, Navigate } from 'react-router-dom'
 import { Provider } from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react';
-import store, { persistor } from '../../redux/store'; 
+import store, { persistor } from '../../store/store.js'; 
 
 /* Core CSS required for Ionic components to work properly */
 import '@ionic/react/css/core.css';
@@ -23,7 +23,7 @@ import '@ionic/react/css/display.css';
 import App from '../../App.jsx'
 import Clients from '../screens/clients-page/Clients.jsx'
 import Home from '../screens/home/Home.jsx'
-import Navbar from '../screens/navbar/Navbar.jsx'
+import Navbar from '../layout/navbar/Navbar.jsx'
 import Settings from '../screens/settings-page/Settings.jsx'
 import Inventory from '../screens/inventory-page/Inventory.jsx'
 import Report from '../screens/report-page/Report.jsx'
