@@ -1,115 +1,83 @@
-import '../../../assets/styles/main.css';
-import '../../../assets/styles/global.css';
-import '../../../assets/styles/ion-style.css';
-import { IonCol, IonGrid, IonIcon, IonLabel, IonRow, IonItem} from '@ionic/react';
-import { 
-    cubeOutline, personOutline, documentOutline, albumsOutline, listOutline, 
-    pencilOutline, peopleOutline, bookmarksOutline, prismOutline, hardwareChipOutline } from 'ionicons/icons';
+import { AppstoreOutlined, BarsOutlined, BookOutlined, ContactsOutlined, ControlOutlined, FileOutlined, ScheduleOutlined, TeamOutlined, ToolOutlined, UserOutlined } from '@ant-design/icons';
+import { Button, Col, Flex, Row } from 'antd';
 import { Link, Outlet } from 'react-router-dom';
-const Settings = () =>{
-    return(
-        
-        <main id="main">
-            <>
-                <IonGrid style={{ flex: 1, overflow: 'auto' }}>
-                    <IonRow>
-                        <IonCol size="auto">
-                            <h4>Компания</h4>
-                            <Link to='/settings/general/company'>
-                                <IonItem button>
-                                    <IonIcon slot="start" size="large" color='light' icon={cubeOutline}></IonIcon>
-                                    <IonLabel>Общее</IonLabel>
-                                </IonItem>
-                            </Link>
-                            <Link to='/settings/profile'>
-                                <IonItem button>
-                                    <IonIcon slot="start" size="large" color='light' icon={personOutline}></IonIcon>
-                                    <IonLabel>Профиль</IonLabel>
-                                </IonItem>
-                            </Link>
-                            <Link to='/settings/documents'>
-                                <IonItem button>
-                                    <IonIcon slot="start" size="large" color='light' icon={documentOutline}></IonIcon>
-                                    <IonLabel>Документы</IonLabel>
-                                </IonItem>
-                            </Link>
-                            <Link to='/settings/employees'>
-                                <IonItem button>
-                                    <IonIcon slot="start" size="large" color='light' icon={peopleOutline}></IonIcon>
-                                    <IonLabel>Сотрудники</IonLabel>
-                                </IonItem>
-                            </Link>
-                            <Link to='/settings/modules'>
-                                <IonItem button>
-                                    <IonIcon slot="start" size="large" color='light' icon={hardwareChipOutline}></IonIcon>
-                                    <IonLabel>Модули</IonLabel>
-                                </IonItem>
-                            </Link>
-                        </IonCol>
-                        <IonCol size="auto"> 
-                            <h4>Заказы</h4>
-                            <Link to='/settings/general/orders'>
-                                <IonItem button>
-                                    <IonIcon slot="start" size="large" color='light' icon={albumsOutline}></IonIcon>
-                                    <IonLabel>Общее</IonLabel>
-                                </IonItem>
-                            </Link>
-                            <Link to='/settings/statuses'>
-                                <IonItem button>
-                                    <IonIcon slot="start" size="large" color='light' icon={listOutline}></IonIcon>
-                                    <IonLabel>Статусы</IonLabel>
-                                </IonItem>
-                            </Link>
-                            <Link to='/settings/services'>
-                                <IonItem button>
-                                    <IonIcon slot="start" size="large" color='light' icon={pencilOutline}></IonIcon>
-                                    <IonLabel>Услуги</IonLabel>
-                                </IonItem>
-                            </Link>
-                        </IonCol>
-                        <IonCol size="auto">
-                            <h4>Формы</h4>
-                            <Link to='/settings/orderType'>
-                                <IonItem button>
-                                    <IonIcon slot="start" size="large" color='light' icon={prismOutline}></IonIcon>
-                                    <IonLabel>Типы заказа</IonLabel>
-                                </IonItem>
-                            </Link>
-                            <Link to='/settings/clientType'>
-                                <IonItem button>
-                                    <IonIcon slot="start" size="large" color='light' icon={prismOutline}></IonIcon>
-                                    <IonLabel>Типы клиентов</IonLabel>
-                                </IonItem>
-                            </Link>
-                            <Link to='/settings/fields/order'>
-                                <IonItem button>
-                                    <IonIcon slot="start" size="large" color='light' icon={listOutline}></IonIcon>
-                                    <IonLabel>Поле: заказы</IonLabel>
-                                </IonItem>
-                            </Link>
-                            <Link to='/settings/fields/client'>
-                                <IonItem button>
-                                    <IonIcon slot="start" size="large" color='light' icon={listOutline}></IonIcon>
-                                    <IonLabel>Поле: клиенты</IonLabel>
-                                </IonItem>
-                            </Link>
-                            <Link to='/settings/handbooks'>
-                                <IonItem button>
-                                    <IonIcon slot="start" size="large" color='light' icon={bookmarksOutline}></IonIcon>
-                                    <IonLabel>Справочник</IonLabel>
-                                </IonItem>
-                            </Link>
-                        </IonCol>
-                        <IonCol>
-                            
-                        </IonCol>
-                    </IonRow>
-                </IonGrid>        
-        <Outlet />
-         </> 
-        </main>
-        
-    )
-}
 
-export default Settings
+const dataCompany = [
+    { title: 'Общее', link: '/settings/general/company', icon: <AppstoreOutlined /> },
+    { title: 'Профиль', link: '/settings/profile', icon: <UserOutlined /> },
+    { title: 'Документы', link: '/settings/documents', icon: <FileOutlined /> },
+    { title: 'Сотрудники', link: '/settings/employees', icon: <TeamOutlined /> },
+    { title: 'Модули', link: '/settings/modules', icon: <ControlOutlined /> },
+];
+const dataOrder = [
+    { title: 'Общее', link: '/settings/general/orders', icon: <AppstoreOutlined /> },
+    { title: 'Статусы', link: '/settings/statuses', icon: <BarsOutlined /> },
+    { title: 'Услуги', link: '/settings/services', icon: <ToolOutlined /> },
+];
+const dataForms = [
+    { title: 'Типы заказа', link: '/settings/orderType', icon: <ScheduleOutlined /> },
+    { title: 'Типы клиентов', link: '/settings/clientType', icon: <ContactsOutlined /> },
+    { title: 'Поле: заказы', link: '/settings/fields/order', icon: <ScheduleOutlined />},
+    { title: 'Поле: клиенты', link: '/settings/fields/client', icon: <ContactsOutlined /> },
+    { title: 'Справочник', link: '/settings/handbooks', icon: <BookOutlined/> },
+];
+
+const Settings = () => {
+    return (
+        <main id="main">
+                <Row justify="center">
+                    <Col 
+                    xs={{ flex: '100%' }}
+                    sm={{ flex: '50%' }}
+                    md={{ flex: '40%' }}
+                    lg={{ flex: '20%' }}
+                    xl={{ flex: '10%' }}
+                    >
+                        <p>Компания</p>
+                        {dataCompany.map((item, index) => (
+                            <Link key={index} to={item.link} style={{ color: 'white' }}>
+                                <Button type="text" style={{ color: 'white', textAlign: 'left', fontSize: '16px' }} icon={item.icon}>
+                                    {item.title}
+                                </Button>
+                            </Link>
+                        ))}
+                    </Col>
+                    <Col 
+                    xs={{ flex: '100%' }}
+                    sm={{ flex: '50%' }}
+                    md={{ flex: '40%' }}
+                    lg={{ flex: '20%' }}
+                    xl={{ flex: '10%' }}
+                    >
+                        <p>Заказы</p>
+                        {dataOrder.map((item, index) => (
+                            <Link key={index} to={item.link} style={{ color: 'white', }}>
+                                <Button type="text" style={{ color: 'white', textAlign: 'left',  fontSize: '16px'  }} icon={item.icon}>
+                                    {item.title}
+                                </Button>
+                            </Link>
+                        ))}
+                    </Col>
+                    <Col 
+                    xs={{ flex: '100%' }}
+                    sm={{ flex: '50%' }}
+                    md={{ flex: '40%' }}
+                    lg={{ flex: '20%' }}
+                    xl={{ flex: '10%' }}
+                    >
+                        <p>Формы</p>
+                        {dataForms.map((item, index) => (
+                            <Link key={index} to={item.link} style={{ color: 'white' }}>
+                                <Button type="text" style={{ color: 'white', textAlign: 'left',fontSize: '16px'  }} icon={item.icon}>
+                                    {item.title}
+                                </Button>
+                            </Link>
+                        ))}
+                    </Col>
+                </Row>     
+            <Outlet />
+        </main>
+    );
+};
+
+export default Settings;
