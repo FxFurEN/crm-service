@@ -107,17 +107,13 @@ a:visited {
     border: none;
     cursor: pointer;
     transition: 400ms;
-  }
-  
-  button .text {
-    color: white;
-    font-weight: 700;
-    font-size: 1.5em;
-    transition: 400ms;
-  }
-  
-  button {
-    transition: 400ms;
+    .text {
+        color: white;
+        font-weight: 700;
+        font-size: 1.5em;
+        transition: 400ms;
+      }
+      
   }
   
   button:hover {
