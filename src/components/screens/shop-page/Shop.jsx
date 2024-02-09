@@ -1,81 +1,197 @@
-
-import { useState, useEffect } from 'react';
-import {
-    IonButton,
-    IonItem,
-    IonItemGroup,
-    IonLabel,
-    IonSelect,
-    IonSelectOption,
-  } from '@ionic/react';
-
-import '../../../assets/styles/main.css';
-import '../../../assets/styles/global.css';
-
-
-import style from  '../../../assets/styles/table.module.css';
-
-import AddButton from '../addButton/AddButton';
-
-const fields = ['data', 'position', 'employee', 'price'];
-const columnLabels = ['Дата', 'Позиция', 'Сотрудник', 'Цена'];
+import { SearchOutlined, SmileOutlined } from "@ant-design/icons";
+import { Button, ConfigProvider, Space, Table, Input } from "antd";
+import { useRef, useState } from "react";
+import Highlighter from "react-highlight-words";
 
 const Shop = () =>{
-    const initialData = [
-        {
-          data: '07.01',
-          position: 'Брусок дерева',
-          employee: 'Тикита Нимошенко',
-          price: '29,99',
-        },
-    ];
+  const [selectionType] = useState('checkbox');
+  const [customize] = useState(true);
+  const rowSelection = {
+    onChange: (selectedRowKeys, selectedRows) => {
+      console.log(
+        `selectedRowKeys: ${selectedRowKeys}`,
+        'selectedRows: ',
+        selectedRows
+      );
+    },
+    getCheckboxProps: (record) => ({
+      disabled: record.name === 'Disabled User',
+      name: record.name,
+    }),
+  };
+  const [searchText, setSearchText] = useState('');
+  const [searchedColumn, setSearchedColumn] = useState('');
+  const searchInput = useRef(null);
+  const handleSearch = (selectedKeys, confirm, dataIndex) => {
+    confirm();
+    setSearchText(selectedKeys[0]);
+    setSearchedColumn(dataIndex);
+  };
+  const handleReset = (clearFilters) => {
+    clearFilters();
+    setSearchText('');
+  };
+  const getColumnSearchProps = (dataIndex) => ({
+    filterDropdown: ({ setSelectedKeys, selectedKeys, confirm, clearFilters, close }) => (
+      <div
+        style={{
+          padding: 8,
+        }}
+        onKeyDown={(e) => e.stopPropagation()}
+      >
+        <Input
+          ref={searchInput}
+          placeholder={`Поиск`}
+          value={selectedKeys[0]}
+          onChange={(e) => setSelectedKeys(e.target.value ? [e.target.value] : [])}
+          onPressEnter={() => handleSearch(selectedKeys, confirm, dataIndex)}
+          style={{
+            marginBottom: 8,
+            display: 'block',
+          }}
+        />
+        <Space>
+          <Button
+            type="primary"
+            onClick={() => handleSearch(selectedKeys, confirm, dataIndex)}
+            icon={<SearchOutlined />}
+            size="small"
+            style={{
+              width: 90,
+            }}
+          >
+            Поиск
+          </Button>
+          <Button
+            onClick={() => clearFilters && handleReset(clearFilters)}
+            size="small"
+            style={{
+              width: 90,
+            }}
+          >
+            Сбросить
+          </Button>
+          <Button
+            type="link"
+            size="small"
+            onClick={() => {
+              close();
+            }}
+          >
+            Закрыть
+          </Button>
+        </Space>
+      </div>
+    ),
+    filterIcon: (filtered) => (
+      <SearchOutlined
+        style={{
+          color: filtered ? '#1677ff' : undefined,
+        }}
+      />
+    ),
+    onFilter: (value, record) =>
+      record[dataIndex].toString().toLowerCase().includes(value.toLowerCase()),
+    onFilterDropdownOpenChange: (visible) => {
+      if (visible) {
+        setTimeout(() => searchInput.current?.select(), 100);
+      }
+    },
+    render: (text) =>
+      searchedColumn === dataIndex ? (
+        <Highlighter
+          highlightStyle={{
+            backgroundColor: '#ffc069',
+            padding: 0,
+          }}
+          searchWords={[searchText]}
+          autoEscape
+          textToHighlight={text ? text.toString() : ''}
+        />
+      ) : (
+        text
+      ),
+  });
+  const columns = [
+    {
+      title: 'Дата',
+      width: 50,
+      dataIndex: 'date',
+      key: 'date',
+    },
+    {
+      title: 'Позиции',
+      width: 100,
+      dataIndex: 'position',
+      key: 'position',
+      ...getColumnSearchProps('position'),
+    },
+    {
+      title: 'Сотрудник',
+      width: 100,
+      dataIndex: 'employee',
+      key: 'employee',
+      ...getColumnSearchProps('employee'),
+    },
+    {
+      title: 'Цена',
+      dataIndex: 'price',
+      key: 'price',
+      width: 150,
+      responsive: ['md'],
+      ...getColumnSearchProps('price'),
+      defaultSortOrder: 'descend',
+      sorter: (a, b) => a.price - b.price,
+    },
+  ];
+  const data = [];
+  for (let i = 0; i < 30; i++) {
+    data.push({
+      key: i,
+      date: `01.${i}`,
+      position: `Position ${i}`,
+      employee: `Employee ${i}`,
+      price: `${i}.00`,
+    });
+  }
 
-      const [filteredData, setFilteredData] = useState([...initialData]);
-
-      useEffect(() => {
-        setFilteredData(initialData);
-      }, [initialData]);
-
-    return(
-        <main id="main">
-            <IonButton fill="clear" style={{width: "30%"}}>
-                <IonSelect aria-label="Сортировка" interface="popover" placeholder="Выберите сортировку" >
-                    <IonSelectOption value="allTimes">За все время</IonSelectOption>
-                    <IonSelectOption value="toDay">Сегодня</IonSelectOption>
-                    <IonSelectOption value="tommorow">Вчера</IonSelectOption>
-                    <IonSelectOption value="lastWeek">Последние 7 дней</IonSelectOption>
-                    <IonSelectOption value="lastMonth">Последние 30 дней</IonSelectOption>
-                    <IonSelectOption value="manual">Указать вручную</IonSelectOption>
-                </IonSelect>
-            </IonButton>
-            <div className={style.tableContainer}>
-              <IonItemGroup>
-                <IonItem color='light' className={style.tableRow} data-hide-header="true">
-                    {fields.map((field, index) => {
-                    const label = columnLabels[index];
-                    return (
-                      <IonLabel key={index} className={style.tableColumn}>
-                      {label}
-                     </IonLabel>
-                    );
-                  })}
-                </IonItem>
-                {filteredData.map((item, rowIndex)  => (
-                <IonItem key={rowIndex} className={style.tableRow} >
-                    {fields.map((field, index) => (
-                      <IonLabel key={index} className={style.tableColumn} data-label={columnLabels[index]}>
-                        {item[field]}
-                      </IonLabel>
-                    ))}
-                  </IonItem>
-                ))}
-              </IonItemGroup>
-            </div>
-            <div>
-                <AddButton />
-            </div>
-        </main>
-    )
+  const customizeRenderEmpty = () => (
+    <div
+      style={{
+        textAlign: 'center',
+      }}
+    >
+      <SmileOutlined
+        style={{
+          fontSize: 20,
+        }}
+      />
+      <p>Данные не найдены</p>
+    </div>
+  );
+  return (
+      <main id="main">
+        <ConfigProvider renderEmpty={customize ? customizeRenderEmpty : undefined}>
+          <Table
+            rowSelection={{ type: selectionType, ...rowSelection }} 
+            columns={columns} 
+            dataSource={data} 
+            pagination={{
+              position: ['right'],
+            }}
+            summary={() => (
+              <Table.Summary >
+                <Table.Summary.Row>
+                  <Table.Summary.Cell index={0} colSpan={2}>
+                  </Table.Summary.Cell>
+                </Table.Summary.Row>
+              </Table.Summary>
+            )}
+            />
+        </ConfigProvider>
+      </main>
+  );
 }
+
 
 export default Shop;
