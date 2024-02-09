@@ -1,5 +1,5 @@
-import './navbar.css';
-import '@assets/styles/global.css';
+import './navbar.scss';
+import '@assets/styles/global.scss';
 import { Link, Outlet} from 'react-router-dom';
 import NavHeader from '../nav-header/NavHeader';
 import { useSelector } from 'react-redux';

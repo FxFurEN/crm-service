@@ -1,11 +1,8 @@
-import { useRef, useState, useEffect } from "react";
-import clipboardCopy from 'clipboard-copy';
-import { IonButton, IonButtons, IonContent, IonHeader, IonItem, IonLabel, IonModal, IonText, IonTitle, IonToolbar, IonToast } from "@ionic/react";
+import clipboardCopy from "clipboard-copy";
+import { useEffect, useState } from "react";
 
-import '@assets/styles/ion-style.css';
 
-const EmployeesModal = ({ isOpen, onClose }) => {
-    const modal = useRef(null);
+const EmployeesModal = () => {
     const [invitationCode, setInvitationCode] = useState(() => localStorage.getItem('invitationCode') || null);
     const [timer, setTimer] = useState(() => localStorage.getItem('timer') || 300);
     const [copied, setCopied] = useState(false);
@@ -35,11 +32,6 @@ const EmployeesModal = ({ isOpen, onClose }) => {
         return `${String(minutes).padStart(2, '0')}:${String(remainingSeconds).padStart(2, '0')}`;
     }
 
-    function onWillDismiss(ev) {
-        if (ev.detail.role === 'confirm') {
-            onClose();
-        }
-    }
 
     function copyToClipboard() {
         if (invitationCode) {
@@ -74,49 +66,7 @@ const EmployeesModal = ({ isOpen, onClose }) => {
     }
 
     return (
-        <IonContent className="ion-padding">
-            <IonModal id="example-modal" ref={modal} trigger="open-modal" onWillDismiss={(ev) => onWillDismiss(ev)}>
-                <IonHeader>
-                    <IonToolbar>
-                        <IonButtons slot="start">
-                            <IonButton onClick={() => modal.current?.dismiss()}>Отмена</IonButton>
-                        </IonButtons>
-                        <IonTitle>Добавить сотрудника</IonTitle>
-                    </IonToolbar>
-                </IonHeader>
-                <IonContent className="ion-padding">
-                    <IonItem>
-                        {invitationCode && timer > 0 ? (
-                            <>
-                                <strong><IonText color='dark'>Код приглашения: </IonText></strong>
-                                
-                                <IonLabel
-                                    onClick={() => copyToClipboard()}
-                                    color='dark'
-                                    style={{ cursor: 'pointer', backgroundColor: copied ? '#4caf50' : 'transparent', transition: 'background-color 0.5s ease' }}
-                                >
-                                    {invitationCode}
-                                </IonLabel>
-                                <h4><IonText color='dark'>Время действия кода: {formatTime(timer)}</IonText></h4>
-                                <p style={{ color: 'black' }}>Отправьте этот код сотруднику для присоединения к вашей CRM</p>
-                            </>
-                        ) : (
-                            <strong><p style={{ color: 'red' }}>Срок годности кода истек</p></strong>
-                        )}
-                    </IonItem>
-                    <br/>
-                    <IonItem>
-                        <IonButton color='dark' className="custom" onClick={() => generateInvitationCode()}>Создать код приглашения</IonButton>
-                    </IonItem>
-                </IonContent>
-            </IonModal>
-            <IonToast
-                isOpen={showToast}
-                onDidDismiss={() => setShowToast(false)}
-                message="Код скопирован"
-                duration={3000}
-            />
-        </IonContent>
+        <div></div>
     );
 }
 

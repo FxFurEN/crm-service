@@ -3,9 +3,8 @@ import { SearchOutlined, SmileOutlined } from '@ant-design/icons';
 import { Button, ConfigProvider, Input, Space, Table } from 'antd';
 import Highlighter from 'react-highlight-words';
 
-import '@assets/styles/main.css';
-import '@assets/styles/global.css';
-import '@assets/styles/addbutton.css';
+import '@assets/styles/main.scss';
+import '@assets/styles/global.scss';
 
 
 
