@@ -1,4 +1,3 @@
-import SearchBox from '../../../searchBox/SearchBox';
 import { IonItem, IonItemGroup, IonLabel, IonIcon } from '@ionic/react';
 import { pencilOutline } from 'ionicons/icons';
 import { Link } from 'react-router-dom';
@@ -12,9 +11,6 @@ const Handbooks = () =>{
 
     return(
         <main id="main">
-            <div>
-                <SearchBox />
-            </div>
             <div>
             <IonItemGroup>
                 <IonItem sizr='auto'>

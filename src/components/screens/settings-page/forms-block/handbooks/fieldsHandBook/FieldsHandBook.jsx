@@ -1,4 +1,4 @@
-import SearchBox from '../../../../searchBox/SearchBox';
+
 import { IonItem, IonItemGroup, IonLabel} from '@ionic/react';
 
 const FieldsHandBooks = () =>{
@@ -10,9 +10,6 @@ const FieldsHandBooks = () =>{
 
     return(
         <main id="main">
-            <div>
-                <SearchBox />
-            </div>
             <div>
             <IonItemGroup>
                 <IonItem sizr='auto'>
