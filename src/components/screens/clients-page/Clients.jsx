@@ -1,6 +1,6 @@
 import { useState, useRef} from 'react';
-import { SearchOutlined } from '@ant-design/icons';
-import { Button, Input, Space, Table } from 'antd';
+import { SearchOutlined, SmileOutlined } from '@ant-design/icons';
+import { Button, ConfigProvider, Input, Space, Table } from 'antd';
 import Highlighter from 'react-highlight-words';
 
 import '../../../assets/styles/main.css';
@@ -16,6 +16,7 @@ import AddButton from '../addButton/AddButton';
 
 function Clients() {
   const [selectionType] = useState('checkbox');
+  const [customize] = useState(true);
   const rowSelection = {
     onChange: (selectedRowKeys, selectedRows) => {
       console.log(
@@ -183,24 +184,41 @@ function Clients() {
     });
   }
 
+  const customizeRenderEmpty = () => (
+    <div
+      style={{
+        textAlign: 'center',
+      }}
+    >
+      <SmileOutlined
+        style={{
+          fontSize: 20,
+        }}
+      />
+      <p>Данные не найдены</p>
+    </div>
+  );
   return (
       <main id="main">
-        <Table 
-          rowSelection={{ type: selectionType, ...rowSelection }} 
-          columns={columns} 
-          dataSource={data} 
-          pagination={{
-            position: ['right'],
-          }}
-          summary={() => (
-            <Table.Summary >
-              <Table.Summary.Row>
-                <Table.Summary.Cell index={0} colSpan={2}>
-                </Table.Summary.Cell>
-              </Table.Summary.Row>
-            </Table.Summary>
-          )}
-          />
+        <ConfigProvider renderEmpty={customize ? customizeRenderEmpty : undefined}>
+          <Table 
+            rowSelection={{ type: selectionType, ...rowSelection }} 
+            columns={columns} 
+            dataSource={data} 
+            pagination={{
+              position: ['right'],
+            }}
+            summary={() => (
+              <Table.Summary >
+                <Table.Summary.Row>
+                  <Table.Summary.Cell index={0} colSpan={2}>
+                  </Table.Summary.Cell>
+                </Table.Summary.Row>
+              </Table.Summary>
+            )}
+            />
+        </ConfigProvider>
+       
           <div>
             <AddButton/>
           </div>

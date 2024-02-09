@@ -5,9 +5,9 @@ import '../../../assets/styles/global.css';
 import '../../../assets/styles/addbutton.css';
 
 import AddButton from '../addButton/AddButton';
-import { Button, Input, Space, Table } from 'antd';
+import { Button, ConfigProvider, Input, Space, Table } from 'antd';
 import Highlighter from 'react-highlight-words';
-import { SearchOutlined } from '@ant-design/icons';
+import { SearchOutlined, SmileOutlined } from '@ant-design/icons';
 
 const Orders = () => {
   const [selectionType] = useState('checkbox');
@@ -26,6 +26,7 @@ const Orders = () => {
   };
   const [searchText, setSearchText] = useState('');
   const [searchedColumn, setSearchedColumn] = useState('');
+  const [customize] = useState(true);
   const searchInput = useRef(null);
   const handleSearch = (selectedKeys, confirm, dataIndex) => {
     confirm();
@@ -164,9 +165,24 @@ const Orders = () => {
       employee: `Employee ${i}`,
     });
   }
+  const customizeRenderEmpty = () => (
+    <div
+      style={{
+        textAlign: 'center',
+      }}
+    >
+      <SmileOutlined
+        style={{
+          fontSize: 20,
+        }}
+      />
+      <p>Данные не найдены</p>
+    </div>
+  );
   return (
     <>
       <main id="main">
+      <ConfigProvider renderEmpty={customize ? customizeRenderEmpty : undefined}>
         <Table
             rowSelection={{ type: selectionType, ...rowSelection }} 
             columns={columns} 
@@ -183,6 +199,8 @@ const Orders = () => {
               </Table.Summary>
             )}
          />
+      </ConfigProvider>
+        
         <div>
           <AddButton/>
         </div>
