@@ -1,8 +1,9 @@
 import { Link, useLocation } from 'react-router-dom';
-import { Breadcrumb } from 'antd';
+import { Avatar, Breadcrumb } from 'antd';
 import { Header } from 'antd/es/layout/layout';
 
 import '../navbar/navbar.scss';
+import { UserOutlined } from '@ant-design/icons';
 
 const NavHeader = () => {
   const location = useLocation();
@@ -62,22 +63,30 @@ const NavHeader = () => {
   const breadcrumbs = getPageSpans(currentPage);
 
   return (
-    <Header className="nav-line">
-      <Breadcrumb separator={<span style={{ color: 'gray', fontSize: '17px' }}>/</span>} style={{ paddingLeft: '40px', paddingTop: '10px' }}>
-        {breadcrumbs.map((breadcrumb, index) => (
-          <Breadcrumb.Item key={breadcrumb.path}>
-            {breadcrumb.isCurrentPage ? (
-              <span style={{ color: 'white', fontSize: '17px' }}>{breadcrumb.pageName}</span>
-            ) : (
-              breadcrumb.isClickable ? (
-                <Link to={breadcrumb.path}>{breadcrumb.pageName}</Link>
-              ) : (
-                <span style={{ color: 'gray', fontSize: '17px' }}>{breadcrumb.pageName}</span>
-              )
-            )}
-          </Breadcrumb.Item>
-        ))}
-      </Breadcrumb>
+    <Header className="nav-line" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+      <div style={{ paddingLeft: '40px', paddingTop: '10px' }}>
+        <Breadcrumb separator={<span style={{ color: 'gray', fontSize: '17px' }}>/</span>} >
+            {breadcrumbs.map((breadcrumb, index) => (
+              <Breadcrumb.Item key={breadcrumb.path}>
+                {breadcrumb.isCurrentPage ? (
+                  <span style={{ color: 'white', fontSize: '17px' }}>{breadcrumb.pageName}</span>
+                ) : (
+                  breadcrumb.isClickable ? (
+                    <Link to={breadcrumb.path}>{breadcrumb.pageName}</Link>
+                  ) : (
+                    <span style={{ color: 'gray', fontSize: '17px' }}>{breadcrumb.pageName}</span>
+                  )
+                )}
+              </Breadcrumb.Item>
+            ))}
+          </Breadcrumb>
+      </div>
+      <div>
+          <Link to='/settings/profile'>
+            <Avatar size={40} icon={<UserOutlined />} />
+          </Link>
+      </div>
+      
     </Header>
   );
 };
