@@ -1,5 +1,5 @@
 import { IonItem, IonItemGroup, IonLabel, IonReorder, IonReorderGroup } from '@ionic/react';
-import style from  '../../../../../assets/styles/table.module.css';
+import style from  '@assets/styles/table.module.css';
 import { useState } from 'react';
 
 const fields = ['Name', 'Type', 'HandBooks', 'Required'];

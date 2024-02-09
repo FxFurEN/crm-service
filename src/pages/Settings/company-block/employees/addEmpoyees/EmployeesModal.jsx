@@ -2,7 +2,7 @@ import { useRef, useState, useEffect } from "react";
 import clipboardCopy from 'clipboard-copy';
 import { IonButton, IonButtons, IonContent, IonHeader, IonItem, IonLabel, IonModal, IonText, IonTitle, IonToolbar, IonToast } from "@ionic/react";
 
-import '../../../../../../assets/styles/ion-style.css';
+import '@assets/styles/ion-style.css';
 
 const EmployeesModal = ({ isOpen, onClose }) => {
     const modal = useRef(null);

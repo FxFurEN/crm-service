@@ -1,5 +1,5 @@
 import { AppstoreOutlined, BarsOutlined, BookOutlined, ContactsOutlined, ControlOutlined, FileOutlined, ScheduleOutlined, TeamOutlined, ToolOutlined, UserOutlined } from '@ant-design/icons';
-import { Button, Col, Flex, Row } from 'antd';
+import { Button, Col, Row } from 'antd';
 import { Link, Outlet } from 'react-router-dom';
 
 const dataCompany = [

@@ -1,6 +1,3 @@
-import '../../../assets/styles/main.css';
-import '../../../assets/styles/global.css';
-
 import { useState, useEffect } from 'react';
 import { Card,Flex,} from 'antd';
 import { Area, Column, Line, Pie} from '@ant-design/charts';

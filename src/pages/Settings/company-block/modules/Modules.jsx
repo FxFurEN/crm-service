@@ -1,6 +1,6 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { IonButton, IonGrid, IonItem, IonItemGroup, IonToggle } from "@ionic/react";
-import { setVisibility, selectVisibility } from '../../../../../redux/visibilitySlice';
+import { setVisibility, selectVisibility } from '@store/visibilitySlice';
 import { useState } from 'react';
 
 const Modules = () => {

@@ -1,5 +1,3 @@
-import '../../../../../../assets/styles/global.css';
-import '../../../../../../assets/styles/main.css';
 import { Editor } from '@tinymce/tinymce-react';
 
 const StatementOfWork = () =>{

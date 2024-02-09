@@ -1,7 +1,3 @@
-import '../../../../../assets/styles/global.css';
-import '../../../../../assets/styles/main.css';
-import '../../../../../assets/styles/ion-style.css';
-
 import { IonItemGroup, IonItem, IonInput, IonButton, IonItemDivider, IonLabel } from '@ionic/react';
 
 const Profile = () =>{

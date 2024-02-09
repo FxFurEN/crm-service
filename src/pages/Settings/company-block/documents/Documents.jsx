@@ -1,5 +1,3 @@
-import '../../../../../assets/styles/global.css';
-import '../../../../../assets/styles/main.css';
 import { IonItem, IonLabel, IonItemGroup, IonItemDivider } from '@ionic/react';
 import { caretForwardOutline } from 'ionicons/icons';
 import { Link} from 'react-router-dom';

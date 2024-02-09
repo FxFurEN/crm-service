@@ -2,7 +2,7 @@ import { IonButton, IonButtons, IonContent, IonHeader, IonItem, IonLabel, IonMod
 import { useRef, useState} from "react";
 import { HexColorPicker } from "react-colorful";
 
-import '../../../../../../assets/styles/ion-style.css';
+import '@assets/styles/ion-style.css';
 
 const StatusesModal = ({ isOpen, onClose }) => {
     const [color, setColor] = useState("#aabbcc");

@@ -2,7 +2,7 @@ import { Link, useLocation } from 'react-router-dom';
 import { Breadcrumb } from 'antd';
 import { Header } from 'antd/es/layout/layout';
 
-import '../navbar.css';
+import '../navbar/Navbar.css';
 
 const NavHeader = () => {
   const location = useLocation();

@@ -1,5 +1,3 @@
-import '../../../../../assets/styles/global.css';
-import '../../../../../assets/styles/main.css';
 import { IonItemGroup, IonItem, IonInput, IonButton } from '@ionic/react';
 
 const GeneralOrders = () =>{

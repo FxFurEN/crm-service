@@ -1,6 +1,4 @@
-import '../../../../../assets/styles/ion-style.css';
 import { IonItem, IonLabel, IonItemGroup } from '@ionic/react';
-import AddButton from '../../../addButton/AddButton';
 import { useState } from 'react';
 import EmployeesModal from './addEmpoyees/EmployeesModal';
 
@@ -25,7 +23,6 @@ const Employees = () =>{
                     </IonItem>
                 </IonItemGroup>
                 <div>
-                    <AddButton onClick={openModal} />
                     <EmployeesModal isOpen={isModalOpen} onClose={closeModal} />
                 </div>
             </div>

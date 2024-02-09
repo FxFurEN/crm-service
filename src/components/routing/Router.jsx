@@ -2,7 +2,7 @@ import { setupIonicReact, IonApp} from '@ionic/react';
 import { BrowserRouter, Route, Routes, Navigate } from 'react-router-dom'
 import { Provider } from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react';
-import store, { persistor } from '../../store/store.js'; 
+import store, { persistor } from '@store/store.js'; 
 
 /* Core CSS required for Ionic components to work properly */
 import '@ionic/react/css/core.css';
@@ -18,36 +18,31 @@ import '@ionic/react/css/text-transformation.css';
 import '@ionic/react/css/flex-utils.css';
 import '@ionic/react/css/display.css';
 
+import Navbar from '@components/layout/navbar/Navbar.jsx';
+import Home from '@pages/Home/Home.jsx';
+import Clients from '@pages/Clients/Clients.jsx';
+import Report from '@pages/Report/Report.jsx';
+import Orders from '@pages/Orders/Orders.jsx';
+import Inventory from '@pages/Inventory/Inventory.jsx';
+import Shop from '@pages/Shop/Shop.jsx';
+import Settings from '@pages/Settings/Settings.jsx';
+import Profile from '@pages/Settings/company-block/profile/Profile.jsx';
+import Modules from '@pages/Settings/company-block/modules/Modules.jsx';
+import Documents from '@pages/Settings/company-block/documents/Documents.jsx';
+import StatementOfWork from '@pages/Settings/company-block/documents/statementOfWork/StatementOfWork.jsx';
+import Employees from '@pages/Settings/company-block/employees/Employees.jsx';
+import GeneralOrders from '@pages/Settings/orders-block/general-orders/GeneralOrders.jsx';
+import GeneralCompany from '@pages/Settings/company-block/general-company/GeneralCompany.jsx'
+import Statuses from '@pages/Settings/orders-block/statuses/Statuses.jsx';
+import Services from '@pages/Settings/orders-block/services/Services.jsx';
+import FieldOrders from '@pages/Settings/forms-block/field-orders/FieldOrders.jsx';
+import FieldClients from '@pages/Settings/forms-block/field-clients/FieldClients.jsx';
+import TypeOrders from '@pages/Settings/forms-block/type-orders/TypeOrders.jsx';
+import TypeClients from '@pages/Settings/forms-block/type-clients/TypeClients.jsx';
+import Handbooks from '@pages/Settings/forms-block/handbooks/Handbooks.jsx';
+import FieldsHandBooks from '@pages/Settings/forms-block/handbooks/fieldsHandBook/FieldsHandBook.jsx';
+import App from '../../App';
 
-
-import App from '../../App.jsx'
-import Clients from '../screens/clients-page/Clients.jsx'
-import Home from '../screens/home/Home.jsx'
-import Navbar from '../layout/navbar/Navbar.jsx'
-import Settings from '../screens/settings-page/Settings.jsx'
-import Inventory from '../screens/inventory-page/Inventory.jsx'
-import Report from '../screens/report-page/Report.jsx'
-
-import Orders from '../screens/orders-page/Orders.jsx'
-import Profile from '../screens/settings-page/company-block/profile/Profile.jsx'
-import GeneralCompany from '../screens/settings-page/company-block/general-company/GeneralCompany.jsx'
-import Documents from '../screens/settings-page/company-block/documents/Documents.jsx'
-import GeneralOrders from '../screens/settings-page/orders-block/general-orders/GeneralOrders.jsx'
-import Statuses from '../screens/settings-page/orders-block/statuses/Statuses.jsx'
-import Services from '../screens/settings-page/orders-block/services/Services.jsx'
-import FieldOrders from '../screens/settings-page/forms-block/field-orders/FieldOrders.jsx'
-import TypeOrders from '../screens/settings-page/forms-block/type-orders/TypeOrders.jsx'
-import FieldClients from '../screens/settings-page/forms-block/field-clients/FieldClients.jsx'
-import TypeClients from '../screens/settings-page/forms-block/type-clients/TypeClients.jsx'
-import Handbooks from '../screens/settings-page/forms-block/handbooks/Handbooks.jsx'
-import NewClients from '../screens/clients-page/addClients/NewClients.jsx';
-import Employees from '../screens/settings-page/company-block/employees/Employees.jsx';
-import Shop from '../screens/shop-page/Shop.jsx';
-import NewOrders from '../screens/orders-page/addOrders/NewOrders.jsx';
-import NewCategory from '../screens/inventory-page/addCategory/NewCategory.jsx';
-import StatementOfWork from '../screens/settings-page/company-block/documents/statementOfWork/StatementOfWork.jsx';
-import FieldsHandBooks from '../screens/settings-page/forms-block/handbooks/FieldsHandBook/FieldsHandBook.jsx';
-import Modules from '../screens/settings-page/company-block/modules/Modules.jsx';
 
 
 
@@ -69,9 +64,6 @@ const Router = () => {
                     <Route path="/shop" element={<Shop />} />
                     <Route path="/settings" element={<Settings />} />
 
-                    <Route path="/clients/new" element={<NewClients />} />
-                    <Route path="/orders/new" element={<NewOrders />} />
-                    <Route path="/inventory/category/new" element={<NewCategory />} />
 
                     <Route path="/settings/general/company" element={<GeneralCompany />} />
                     <Route path="/settings/profile" element={<Profile />} />

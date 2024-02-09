@@ -1,6 +1,6 @@
 import { IonGrid, IonItem, IonItemGroup, IonLabel, IonList, IonReorder, IonReorderGroup} from "@ionic/react"
 import { useState } from "react";
-import style from  '../../../../../assets/styles/table.module.css';
+import style from  '@assets/styles/table.module.css';
 
 const fields = ['Name', 'Type', 'HandBooks', 'Required'];
 const columnLabels = ['Название', 'Тип', 'Справочник', 'Обязательное']; 

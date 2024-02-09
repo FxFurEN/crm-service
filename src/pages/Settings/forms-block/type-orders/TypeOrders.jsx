@@ -1,9 +1,6 @@
 import {useState } from 'react';
 import { IonItem, IonLabel, IonList, IonReorder, IonReorderGroup, } from '@ionic/react';
 
-import '../../../../../assets/styles/global.css';
-import '../../../../../assets/styles/main.css';
-
 const TypeOrders = () =>{
     const [items, setItems] = useState([1, 2, 3]);
 

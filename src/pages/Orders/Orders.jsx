@@ -1,10 +1,5 @@
 import { useState,useRef } from 'react';
 
-import '../../../assets/styles/main.css';
-import '../../../assets/styles/global.css';
-import '../../../assets/styles/addbutton.css';
-
-import AddButton from '../addButton/AddButton';
 import { Button, ConfigProvider, Input, Space, Table } from 'antd';
 import Highlighter from 'react-highlight-words';
 import { SearchOutlined, SmileOutlined } from '@ant-design/icons';
@@ -200,10 +195,6 @@ const Orders = () => {
             )}
          />
       </ConfigProvider>
-        
-        <div>
-          <AddButton/>
-        </div>
     </main>
     </>
     

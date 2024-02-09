@@ -1,9 +1,9 @@
 import './navbar.css';
-import '../../../assets/styles/global.css';
+import '@assets/styles/global.css';
 import { Link, Outlet} from 'react-router-dom';
 import NavHeader from '../nav-header/NavHeader';
 import { useSelector } from 'react-redux';
-import { selectVisibility } from '../../../store/visibilitySlice';
+import { selectVisibility } from '@store/visibilitySlice';
 import { HarmonyOSOutlined, HomeOutlined, InboxOutlined, LineChartOutlined, SettingOutlined, ShoppingCartOutlined, TagsOutlined, TeamOutlined } from '@ant-design/icons'; 
 
 
