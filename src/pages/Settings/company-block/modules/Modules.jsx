@@ -1,5 +1,4 @@
 import { useDispatch, useSelector } from 'react-redux';
-import { IonButton, IonGrid, IonItem, IonItemGroup, IonToggle } from "@ionic/react";
 import { setVisibility, selectVisibility } from '@store/visibilitySlice';
 import { useState } from 'react';
 
@@ -34,30 +33,6 @@ const Modules = () => {
 
   return (
     <main id="main">
-      <IonGrid>
-        <IonItemGroup>
-          <IonItem>
-            <IonToggle checked={tempVisibility.isSkladVisible} onIonChange={handleSkladToggle}>
-              Склад
-            </IonToggle>
-          </IonItem>
-          <IonItem>
-            <IonToggle checked={tempVisibility.isMagazinVisible} onIonChange={handleMagazinToggle}>
-              Магазин
-            </IonToggle>
-          </IonItem>
-          <IonItem>
-            <IonToggle checked={tempVisibility.isOrdersVisible} onIonChange={handleOrdersToggle}>
-              Заказы
-            </IonToggle>
-          </IonItem>
-          <IonItem>
-            <IonButton className="custom" onClick={handleSaveClick}>
-              Сохранить
-            </IonButton>
-          </IonItem>
-        </IonItemGroup>
-      </IonGrid>
     </main>
   );
 };
