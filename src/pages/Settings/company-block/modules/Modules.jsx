@@ -1,6 +1,7 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { setVisibility, selectVisibility } from '@store/visibilitySlice';
 import { useState } from 'react';
+import { Flex, Switch } from 'antd';
 
 const Modules = () => {
   const dispatch = useDispatch();
@@ -30,9 +31,20 @@ const Modules = () => {
   const handleSaveClick = () => {
     dispatch(setVisibility(tempVisibility));
   };
+  const switchStyle = {
+    width: 'clamp(20px, 100%, 50px)',
+  };
+       
 
   return (
     <main id="main">
+            <Flex gap="middle" vertical justify="center" align='center'>
+            <p>Заказы</p><Switch defaultChecked  style={{...switchStyle}}/> 
+            <p>Магазин</p><Switch defaultChecked  style={{...switchStyle}}/>
+            <p>Склад</p> <Switch defaultChecked  style={{...switchStyle}}/>
+
+            </Flex>
+       
     </main>
   );
 };
