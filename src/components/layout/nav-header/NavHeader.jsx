@@ -30,6 +30,7 @@ const NavHeader = () => {
     ['/settings/handbooks', 'Справочники'],
     ['/settings/documents', 'Документы'],
     ['/settings/modules', 'Модули'],
+    ['/settings/notifications', 'Уведомления'],
   ]);
 
   const additionalPageNames = new Map([

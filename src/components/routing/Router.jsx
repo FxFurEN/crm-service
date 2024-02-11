@@ -26,6 +26,7 @@ import TypeOrders from '@pages/Settings/forms-block/type-orders/TypeOrders.jsx';
 import TypeClients from '@pages/Settings/forms-block/type-clients/TypeClients.jsx';
 import Handbooks from '@pages/Settings/forms-block/handbooks/Handbooks.jsx';
 import FieldsHandBooks from '@pages/Settings/forms-block/handbooks/fieldsHandBook/FieldsHandBook.jsx';
+import Notification from '@pages/Settings/notification-block/Notification.jsx';
 import App from '../../App';
 
 
@@ -62,6 +63,7 @@ const Router = () => {
                     <Route path='/settings/clientType' element={<TypeClients />} />
                     <Route path='/settings/handbooks' element={<Handbooks />} />
                     <Route path='/settings/handbooks/:id' element={<FieldsHandBooks />} />
+                    <Route path="/settings/notifications" element={<Notification/>} />
 
                     <Route path="*" element={<App/>} />
                     <Route path="" element={<Navigate to={'/home'} />}/>
