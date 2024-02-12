@@ -1,6 +1,6 @@
 import { useState,useRef } from 'react';
 
-import { Button, ConfigProvider, Input, Space, Table } from 'antd';
+import { Button, ConfigProvider, Input, Space, Table, Tag } from 'antd';
 import Highlighter from 'react-highlight-words';
 import { SearchOutlined, SmileOutlined } from '@ant-design/icons';
 
@@ -133,6 +133,11 @@ const Orders = () => {
       key: '1',
       width: 50,
       responsive: ['md'],
+      render: (text) => (
+        <Tag color="blue" key={text}>
+          {text}
+        </Tag>
+      ), 
     },
     {
       title: 'Клиент',
