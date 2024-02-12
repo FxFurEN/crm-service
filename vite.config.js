@@ -7,5 +7,14 @@ export default defineConfig({
   plugins: [react()],
   define: {
     'process.env.VITE_TINYMCE_API_KEY':JSON.stringify(process.env.VITE_TINYMCE_API_KEY)
+  },
+  resolve: {
+    alias: {
+      '@components': '/src/components',
+      '@pages': '/src/pages',
+      '@assets': '/src/assets',
+      '@services': '/src/services',
+      '@store': '/src/store',
+    }
   }
 })
