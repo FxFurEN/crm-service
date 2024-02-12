@@ -10,22 +10,27 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@ionic/react": "^7.6.3",
+    "@ant-design/charts": "^2.0.3",
+    "@ant-design/icons": "^5.3.0",
+    "@dnd-kit/core": "^6.1.0",
+    "@dnd-kit/modifiers": "^7.0.0",
+    "@dnd-kit/sortable": "^8.0.0",
     "@maskito/core": "^2.0.2",
     "@maskito/react": "^2.0.2",
     "@reduxjs/toolkit": "^2.1.0",
     "@tinymce/tinymce-react": "^4.3.2",
+    "antd": "^5.14.0",
     "axios": "^1.6.5",
-    "chart.js": "^4.4.1",
     "clipboard-copy": "^4.0.1",
     "dotenv": "^16.4.1",
     "react": "^18.2.0",
-    "react-chartjs-2": "^5.2.0",
     "react-colorful": "^5.6.1",
     "react-dom": "^18.2.0",
+    "react-highlight-words": "^0.20.0",
     "react-redux": "^9.1.0",
     "react-router-dom": "^6.21.2",
-    "redux-persist": "^6.0.0"
+    "redux-persist": "^6.0.0",
+    "sass": "^1.70.0"
   },
   "devDependencies": {
     "@types/react": "^18.2.37",
