@@ -6,6 +6,7 @@ import { SearchOutlined, SmileOutlined } from '@ant-design/icons';
 
 const Orders = () => {
   const [selectionType] = useState('checkbox');
+
   const rowSelection = {
     onChange: (selectedRowKeys, selectedRows) => {
       console.log(
@@ -14,6 +15,7 @@ const Orders = () => {
         selectedRows
       );
     },
+    
     getCheckboxProps: (record) => ({
       disabled: record.name === 'Disabled User',
       name: record.name,
@@ -32,6 +34,7 @@ const Orders = () => {
     clearFilters();
     setSearchText('');
   };
+  
   const getColumnSearchProps = (dataIndex) => ({
     filterDropdown: ({ setSelectedKeys, selectedKeys, confirm, clearFilters, close }) => (
       <div
@@ -130,14 +133,21 @@ const Orders = () => {
     {
       title: 'Статус',
       dataIndex: 'status',
-      key: '1',
+      key: 'status',
       width: 50,
       responsive: ['md'],
+      filters: [
+        { text: 'Status 1', value: 'Status 1' },
+        { text: 'Status 2', value: 'Status 2' },
+        { text: 'Status 3', value: 'Status 3' },
+        { text: 'Status 4', value: 'Status 4' },
+      ],
+      onFilter: (value, record) => record.status.includes(value),
       render: (text) => (
         <Tag color="blue" key={text}>
           {text}
         </Tag>
-      ), 
+      ),
     },
     {
       title: 'Клиент',
@@ -160,7 +170,7 @@ const Orders = () => {
       key: i,
       updateDate: `Update in 07.${i}`,
       goods: `Goods ${i}`,
-      status: `Status ${i}`,
+      status: `Status ${i % 4 + 1}`,
       nameClient: `Employee ${i}`,
       employee: `Employee ${i}`,
     });
