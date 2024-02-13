@@ -136,6 +136,7 @@ function Clients() {
       width: 150,
       dataIndex: 'email',
       key: 'email',
+      responsive: ['md'],
       ...getColumnSearchProps('email'),
     },
     {
@@ -153,6 +154,7 @@ function Clients() {
           value: '2',
         },
       ],
+      responsive: ['md'],
       onFilter: (value, record) => record.clientType.startsWith(value),
       render: (text) => (
         <span>
