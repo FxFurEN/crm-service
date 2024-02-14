@@ -1,14 +1,22 @@
 import { useState, useRef} from 'react';
-import { SearchOutlined, SmileOutlined } from '@ant-design/icons';
+import { PlusOutlined, SearchOutlined, SmileOutlined } from '@ant-design/icons';
 import { Button, ConfigProvider, Input, Space, Table } from 'antd';
 import Highlighter from 'react-highlight-words';
 
 import '@assets/styles/main.scss';
 import '@assets/styles/global.scss';
+import Floatbutton from '@components/float-button/FloatButton';
+import NewClients from './NewClients';
 
 function Clients() {
   const [selectionType] = useState('checkbox');
   const [customize] = useState(true);
+  const [isModalVisible, setIsModalVisible] = useState(false);
+
+  const handleAddClient = () => {
+    setIsModalVisible(true); 
+  };
+
   const rowSelection = {
     onChange: (selectedRowKeys, selectedRows) => {
       console.log(
@@ -126,14 +134,14 @@ function Clients() {
     },
     {
       title: 'Телефон',
-      width: 100,
+      width: 150,
       dataIndex: 'phone',
       key: 'phone',
       ...getColumnSearchProps('phone'),
     },
     {
       title: 'Почта',
-      width: 150,
+      width: 100,
       dataIndex: 'email',
       key: 'email',
       responsive: ['md'],
@@ -188,6 +196,7 @@ function Clients() {
       <p>Данные не найдены</p>
     </div>
   );
+
   return (
       <main id="main">
         <ConfigProvider renderEmpty={customize ? customizeRenderEmpty : undefined}>
@@ -196,7 +205,7 @@ function Clients() {
             columns={columns} 
             dataSource={data} 
             pagination={{
-              position: ['right'],
+              position: ['bottomCenter'],
             }}
             summary={() => (
               <Table.Summary >
@@ -208,6 +217,16 @@ function Clients() {
             )}
             />
         </ConfigProvider>
+        <Floatbutton 
+            text="Добавить клиента" 
+            icon={<PlusOutlined />} 
+            onClick={handleAddClient} 
+        />
+        <NewClients
+          visible={isModalVisible} 
+          handleOk={() => setIsModalVisible(false)} 
+          handleCancel={() => setIsModalVisible(false)}
+        />
       </main>
   );
 }
