@@ -1,13 +1,11 @@
 import { useState } from 'react';
-import { Modal, Input, Flex, Select } from 'antd';
+import { Modal, Input, Flex, Select, Button } from 'antd';
 
 const NewClients = ({ visible, handleOk, handleCancel }) => {
     const [confirmLoading, setConfirmLoading] = useState(false);
-    const [modalText, setModalText] = useState('Content of the modal');
     const [clientData, setClientData] = useState({ name: '', phone: '', email: '', clientType: '' });
 
     const handleOkAsync = () => {
-        setModalText('The modal will be closed after two seconds');
         setConfirmLoading(true);
         setTimeout(() => {
             handleOk(clientData); 
@@ -33,6 +31,11 @@ const NewClients = ({ visible, handleOk, handleCancel }) => {
             onOk={handleOkAsync}
             confirmLoading={confirmLoading}
             onCancel={handleCancel}
+            footer={[
+                <Button key="submit" style={{...baseStyle}} loading={confirmLoading} onClick={handleOkAsync}>
+                  Добавить
+                </Button>
+              ]}
         >
             <Flex vertical gap={20}>
                 <Input
@@ -62,6 +65,7 @@ const NewClients = ({ visible, handleOk, handleCancel }) => {
                         { value: '2', label: 'Юр. лицо' },
                     ]}
                 />
+                <br/>
                
             </Flex>
             
