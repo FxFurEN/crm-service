@@ -7,14 +7,19 @@ import '@assets/styles/main.scss';
 import '@assets/styles/global.scss';
 import Floatbutton from '@components/float-button/FloatButton';
 import NewClients from './NewClients';
-
+import InfoClients from './InfoClients';
 function Clients() {
   const [selectionType] = useState('checkbox');
   const [customize] = useState(true);
   const [isModalVisible, setIsModalVisible] = useState(false);
+  const [selectedClient, setSelectedClient] = useState(null);
 
   const handleAddClient = () => {
     setIsModalVisible(true); 
+  };
+  const handleInfoModal = (client) => {
+    setSelectedClient(client);
+    setIsModalVisible(true);
   };
 
   const rowSelection = {
@@ -207,6 +212,11 @@ function Clients() {
             pagination={{
               position: ['bottomCenter'],
             }}
+            onRow={(record, rowIndex) => {
+              return {
+                onClick: () => handleInfoModal(record), 
+              };
+            }}
             summary={() => (
               <Table.Summary >
                 <Table.Summary.Row>
@@ -226,6 +236,12 @@ function Clients() {
           visible={isModalVisible} 
           handleOk={() => setIsModalVisible(false)} 
           handleCancel={() => setIsModalVisible(false)}
+        />
+        <InfoClients 
+         visible={isModalVisible} 
+         handleOk={() => setIsModalVisible(false)} 
+         handleCancel={() => setIsModalVisible(false)}
+         order={selectedClient} 
         />
       </main>
   );
