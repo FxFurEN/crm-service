@@ -1,29 +1,45 @@
 import { Modal, Button } from 'antd';
+import { useState } from 'react';
 
-const InfoClients = ({ visible, onClose, client }) => {
+const InfoClients = ({ visible, handleOk, handleCancel, client }) => {
+    const [confirmLoading, setConfirmLoading] = useState(false);
+
     if (!client) {
         return null; 
     }
+    const handleOkAsync = () => {
+        setConfirmLoading(true);
+        setTimeout(() => {
+            handleOk(client);
+            setConfirmLoading(false);
+        }, 2000);
+    };
 
-  return (
-    <Modal
-      title="Информация о заказе"
-      open={visible}
-      onCancel={onClose}
-      footer={[
-        <Button key="close" onClick={onClose}>
-          Закрыть
-        </Button>,
-      ]}
-    >
-      <p>Данные о заказе:</p>
-      <p>Товар: {client.goods}</p>
-      <p>Дата создания: {client.updateDate}</p>
-      <p>Статус: {client.status}</p>
-      <p>Клиент: {client.nameClient}</p>
-      <p>Сотрудник: {client.employee}</p>
-    </Modal>
-  );
+    const baseStyle = {
+        width: 'clamp(200px, 100%, 500px)',
+        height: 40,
+    };
+
+    return (
+        <Modal
+            title="Информация о заказе"
+            centered
+            open={visible}
+            onOk={handleOkAsync}
+            confirmLoading={confirmLoading}
+            onCancel={handleCancel}
+            footer={[
+                <Button key="submit" style={{ ...baseStyle }} loading={confirmLoading} onClick={handleOkAsync}>
+                    Изменить
+                </Button>
+            ]}
+        >
+            <p>Имя: {client.name}</p>
+            <p>Телефон: {client.phone}</p>
+            <p>Почта: {client.email}</p>
+            <p>Тип клиента: {client.clientType === '1' ? 'Физ. лицо' : 'Юр. лицо'}</p>
+        </Modal>
+    );
 };
 
 export default InfoClients;

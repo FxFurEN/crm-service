@@ -12,6 +12,7 @@ function Clients() {
   const [selectionType] = useState('checkbox');
   const [customize] = useState(true);
   const [isModalVisible, setIsModalVisible] = useState(false);
+  const [isModalVisible1, setIsModalVisible1] = useState(false);
   const [selectedClient, setSelectedClient] = useState(null);
 
   const handleAddClient = () => {
@@ -19,7 +20,8 @@ function Clients() {
   };
   const handleInfoModal = (client) => {
     setSelectedClient(client);
-    setIsModalVisible(true);
+    setIsModalVisible1(true);
+    
   };
 
   const rowSelection = {
@@ -214,7 +216,7 @@ function Clients() {
             }}
             onRow={(record, rowIndex) => {
               return {
-                onClick: () => handleInfoModal(record), 
+                onClick: () => handleInfoModal(record),   
               };
             }}
             summary={() => (
@@ -237,11 +239,11 @@ function Clients() {
           handleOk={() => setIsModalVisible(false)} 
           handleCancel={() => setIsModalVisible(false)}
         />
-        <InfoClients 
-         visible={isModalVisible} 
-         handleOk={() => setIsModalVisible(false)} 
-         handleCancel={() => setIsModalVisible(false)}
-         order={selectedClient} 
+       <InfoClients 
+            visible={isModalVisible1} 
+            handleOk={() => setIsModalVisible1(false)} 
+            handleCancel={() => setIsModalVisible1(false)}
+            client={selectedClient} 
         />
       </main>
   );
