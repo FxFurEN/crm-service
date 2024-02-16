@@ -1,5 +1,4 @@
 import { Button, List } from 'antd';
-import { RightOutlined  } from '@ant-design/icons';
 const data = [
     {
         title: 'Финансы',
@@ -29,14 +28,13 @@ const Report = () =>{
                 renderItem={(item) => (
                     <List.Item>
                         <List.Item.Meta
-                            title={<a href="https://ant.design" style={{ color: 'white' }}>{item.title}</a>}
+                            title={<strong href="https://ant.design" style={{ color: 'white' }}>{item.title}</strong>}
                             description={item.description.map((desc, index) => (
                                 <Button
                                     type="text"
                                     block
                                     key={index}
-                                    style={{ textAlign: 'left', color: 'white', position: 'relative', paddingLeft: '0' }}
-                                    icon={<RightOutlined style={{ position: 'absolute', right: '0' }} />}
+                                    style={{height: '40px', textAlign: 'left', color: 'white', fontSize: '18px', paddingLeft: '0' }}
                                 >
                                     {desc}
                                 </Button>
