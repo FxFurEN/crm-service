@@ -1,20 +1,29 @@
 import { useState, useRef} from 'react';
-import { SearchOutlined, SmileOutlined } from '@ant-design/icons';
+import { PlusOutlined, SearchOutlined, SmileOutlined } from '@ant-design/icons';
 import { Button, ConfigProvider, Input, Space, Table } from 'antd';
 import Highlighter from 'react-highlight-words';
 
 import '@assets/styles/main.scss';
 import '@assets/styles/global.scss';
-
-
-
-
-
-
-
+import Floatbutton from '@components/float-button/FloatButton';
+import NewClients from './NewClients';
+import InfoClients from './InfoClients';
 function Clients() {
   const [selectionType] = useState('checkbox');
   const [customize] = useState(true);
+  const [isModalVisible, setIsModalVisible] = useState(false);
+  const [isModalVisible1, setIsModalVisible1] = useState(false);
+  const [selectedClient, setSelectedClient] = useState(null);
+
+  const handleAddClient = () => {
+    setIsModalVisible(true); 
+  };
+  const handleInfoModal = (client) => {
+    setSelectedClient(client);
+    setIsModalVisible1(true);
+    
+  };
+
   const rowSelection = {
     onChange: (selectedRowKeys, selectedRows) => {
       console.log(
@@ -50,7 +59,7 @@ function Clients() {
       >
         <Input
           ref={searchInput}
-          placeholder={`Поиск клиента`}
+          placeholder={`Поиск ${dataIndex === 'name' ? 'Имени' : dataIndex === 'phone' ? 'Телефона' : dataIndex === 'email' ? 'Почты' : 'Типа клиента'}`}
           value={selectedKeys[0]}
           onChange={(e) => setSelectedKeys(e.target.value ? [e.target.value] : [])}
           onPressEnter={() => handleSearch(selectedKeys, confirm, dataIndex)}
@@ -123,7 +132,7 @@ function Clients() {
   });
   const columns = [
     {
-      title: 'Full Name',
+      title: 'Имя',
       width: 100,
       dataIndex: 'name',
       key: 'name',
@@ -131,54 +140,52 @@ function Clients() {
       ...getColumnSearchProps('name'),
     },
     {
-      title: 'Age',
-      width: 50,
-      dataIndex: 'age',
-      key: 'age',
+      title: 'Телефон',
+      width: 150,
+      dataIndex: 'phone',
+      key: 'phone',
+      ...getColumnSearchProps('phone'),
     },
     {
-      title: 'Column 1',
-      dataIndex: 'address',
-      key: '1',
-      width: 150,
+      title: 'Почта',
+      width: 100,
+      dataIndex: 'email',
+      key: 'email',
       responsive: ['md'],
+      ...getColumnSearchProps('email'),
     },
     {
-      title: 'Column 2',
-      dataIndex: 'address',
-      key: '2',
+      title: 'Тип клиента',
       width: 150,
+      dataIndex: 'clientType',
+      key: 'clientType',
+      filters: [
+        {
+          text: 'Физ. лицо',
+          value: '1',
+        },
+        {
+          text: 'Юр. лицо',
+          value: '2',
+        },
+      ],
       responsive: ['md'],
-    },
-    {
-      title: 'Column 3',
-      dataIndex: 'address',
-      key: '3',
-      width: 150,
-      responsive: ['md'],
-    },
-    {
-      title: 'Column 4',
-      dataIndex: 'address',
-      key: '4',
-      width: 150,
-      responsive: ['md'],
-    },
-    {
-      title: 'Column 5',
-      dataIndex: 'address',
-      key: '5',
-      width: 150,
-      responsive: ['md'],
+      onFilter: (value, record) => record.clientType.startsWith(value),
+      render: (text) => (
+        <span>
+          {text === '1' ? 'Физ. лицо' : 'Юр. лицо'}
+        </span>
+      ),
     },
   ];
   const data = [];
-  for (let i = 0; i < 100; i++) {
+  for (let i = 0; i < 30; i++) {
     data.push({
       key: i,
       name: `Edward ${i}`,
-      age: 32,
-      address: `London Park no. ${i}`,
+      phone: `+375(29) 501-27-66`,
+      email: `example${i}@gmail.com`,
+      clientType: i % 2 === 0 ? '1' : '2',
     });
   }
 
@@ -196,6 +203,7 @@ function Clients() {
       <p>Данные не найдены</p>
     </div>
   );
+
   return (
       <main id="main">
         <ConfigProvider renderEmpty={customize ? customizeRenderEmpty : undefined}>
@@ -204,7 +212,12 @@ function Clients() {
             columns={columns} 
             dataSource={data} 
             pagination={{
-              position: ['right'],
+              position: ['bottomCenter'],
+            }}
+            onRow={(record, rowIndex) => {
+              return {
+                onClick: () => handleInfoModal(record),   
+              };
             }}
             summary={() => (
               <Table.Summary >
@@ -216,6 +229,22 @@ function Clients() {
             )}
             />
         </ConfigProvider>
+        <Floatbutton 
+            text="Добавить клиента" 
+            icon={<PlusOutlined />} 
+            onClick={handleAddClient} 
+        />
+        <NewClients
+          visible={isModalVisible} 
+          handleOk={() => setIsModalVisible(false)} 
+          handleCancel={() => setIsModalVisible(false)}
+        />
+       <InfoClients 
+            visible={isModalVisible1} 
+            handleOk={() => setIsModalVisible1(false)} 
+            handleCancel={() => setIsModalVisible1(false)}
+            client={selectedClient} 
+        />
       </main>
   );
 }
