@@ -1,7 +1,7 @@
 import { useState, useRef } from 'react';
 import { Button, ConfigProvider, Input, Space, Table, Tag} from 'antd';
 import Highlighter from 'react-highlight-words';
-import { SearchOutlined, SmileOutlined } from '@ant-design/icons';
+import { PlusOutlined, SearchOutlined, SmileOutlined } from '@ant-design/icons';
 import InfoOrders from './InfoOrders';
 import NewOrders from './NewOrders';
 import Floatbutton from '@components/float-button/FloatButton';
@@ -225,7 +225,7 @@ const Orders = () => {
             columns={columns}
             dataSource={data}
             pagination={{
-              position: ['right'],
+              position: ['bottomCenter'],
             }}
             summary={() => (
               <Table.Summary >
@@ -242,7 +242,7 @@ const Orders = () => {
             }}
           />
         </ConfigProvider>
-        <Floatbutton onClick={handleNewOrderModal}>Добавить заказ</Floatbutton>
+        <Floatbutton onClick={handleNewOrderModal} icon={<PlusOutlined />} >Добавить заказ</Floatbutton>
         <InfoOrders
           visible={isModalVisible}
           handleOk={handleOk}
