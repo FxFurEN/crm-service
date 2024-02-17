@@ -1,6 +1,7 @@
-import { Modal, Button, Flex, Typography, Space, Select, Spin, List, Tag, Input, DatePicker} from 'antd';
+import { Modal, Button, Flex, Typography, Space, Select, Spin, List, Tag, Input, DatePicker, Checkbox} from 'antd';
 import { useMemo, useRef, useState } from 'react';
 import debounce from 'lodash/debounce';
+import dayjs from 'dayjs';
 
 
 
@@ -18,7 +19,6 @@ const NewOrders = ({ visible, handleOk, handleCancel }) => {
     width: 'clamp(200px, 100%, 500px)',
     height: 40,
   };
-
   return (
     <Modal
       title="Добавить заказ"
@@ -29,7 +29,7 @@ const NewOrders = ({ visible, handleOk, handleCancel }) => {
       onCancel={handleCancel}
       width={1000}
       footer={[
-        <Button key="submit" loading={confirmLoading} onClick={handleOkAsync}>
+        <Button key="submit" loading={confirmLoading} onClick={handleOkAsync} style={{...baseStyle, width: '100%'} }>
           Добавить
         </Button>,
       ]}
@@ -81,6 +81,7 @@ const NewOrders = ({ visible, handleOk, handleCancel }) => {
                         />
                    <DatePicker
                     placeholder="Срок"
+                    defaultValue={dayjs('2024-03-01')}
                     style={{...baseStyle} }/>
                 </Space>
            
