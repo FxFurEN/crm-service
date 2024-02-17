@@ -2,11 +2,24 @@ import { useState, useRef } from 'react';
 import { Button, ConfigProvider, Flex, Space, Tooltip, Input, Table, List } from 'antd';
 import {PlusOutlined, SearchOutlined, SmileOutlined} from '@ant-design/icons';
 import Highlighter from 'react-highlight-words';
+import AddCategory from './AddCetegory'
 
 
 const Inventory = () =>{
   const [selectionType] = useState('checkbox');
   const [customize] = useState(true);
+  const [isModalVisible, setIsModalVisible] = useState(false);
+
+  const showModal = () => {
+    setIsModalVisible(true);
+  };
+  const handleOk = () => {
+    setIsModalVisible(false);
+  };
+
+  const handleCancel = () => {
+    setIsModalVisible(false);
+  };
   const rowSelection = {
     onChange: (selectedRowKeys, selectedRows) => {
       console.log(
@@ -176,7 +189,13 @@ const Inventory = () =>{
         <Space size={100}>
           Все категории
           <Tooltip title="Добавить категорию" >
-            <Button shape="circle" icon={<PlusOutlined />} type="text" style={{ color: 'white' }} />
+            <Button 
+              shape="circle" 
+              icon={<PlusOutlined />} 
+              type="text" 
+              style={{ color: 'white' }} 
+              onClick={showModal}
+              />
           </Tooltip>
           </Space>
           <List
@@ -221,6 +240,7 @@ const Inventory = () =>{
           </ConfigProvider>
         </div>
       </Flex>
+      <AddCategory visible={isModalVisible} onOk={handleOk} onCancel={handleCancel}/>
     </main>
         
     )
