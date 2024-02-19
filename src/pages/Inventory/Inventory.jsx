@@ -2,24 +2,38 @@ import { useState, useRef } from 'react';
 import { Button, ConfigProvider, Flex, Space, Tooltip, Input, Table, List } from 'antd';
 import {PlusOutlined, SearchOutlined, SmileOutlined} from '@ant-design/icons';
 import Highlighter from 'react-highlight-words';
-
+import AddCategory from './AddCetegory'
+import InfoInventory from './InfoInventory';
 
 const Inventory = () =>{
   const [selectionType] = useState('checkbox');
   const [customize] = useState(true);
-  const rowSelection = {
-    onChange: (selectedRowKeys, selectedRows) => {
-      console.log(
-        `selectedRowKeys: ${selectedRowKeys}`,
-        'selectedRows: ',
-        selectedRows
-      );
-    },
-    getCheckboxProps: (record) => ({
-      disabled: record.name === 'Disabled User',
-      name: record.name,
-    }),
+  const [isModalVisible, setIsModalVisible] = useState(false);
+  const [isAddCategoryModalVisible, setIsAddCategoryModalVisible] = useState(false);
+  const [selectedItem, setSelectedItem] = useState(null);
+  
+
+
+  const showModal = () => {
+    setIsModalVisible(true);
   };
+  const showAddCategoryModal = () => {
+    setIsAddCategoryModalVisible(true);
+  };
+  
+  const handleOk = () => {
+    setIsModalVisible(false);
+  };
+
+  const handleCancel = () => {
+    setIsModalVisible(false);
+  };
+
+  const handleRowClick = (record) => {
+    setSelectedItem(record);
+    setIsModalVisible(true);
+  };
+  
   const [searchText, setSearchText] = useState('');
   const [searchedColumn, setSearchedColumn] = useState('');
   const searchInput = useRef(null);
@@ -151,7 +165,7 @@ const Inventory = () =>{
   }
   const dataCategory = [
       {
-        description: ['Прибыль по заказам', 'Прибыль от продаж', 'Сводка платежей', 'Возвраты']
+        description: ['Телефон', 'Ноутбук']
       },
   ];
 
@@ -175,10 +189,16 @@ const Inventory = () =>{
         <div style={{ marginLeft: '1em',}}>
         <Space size={100}>
           Все категории
-          <Tooltip title="Добавить категорию" >
-            <Button shape="circle" icon={<PlusOutlined />} type="text" style={{ color: 'white' }} />
-          </Tooltip>
-          </Space>
+            <Tooltip title="Добавить категорию" >
+              <Button 
+                shape="circle" 
+                icon={<PlusOutlined />} 
+                type="text" 
+                style={{ color: 'white' }} 
+                onClick={showAddCategoryModal}
+              />
+            </Tooltip>
+        </Space>
           <List
             itemLayout="horizontal"
             dataSource={dataCategory}
@@ -204,11 +224,14 @@ const Inventory = () =>{
         <div style={{ flex: '1 1' }}>
           <ConfigProvider renderEmpty={customize ? customizeRenderEmpty : undefined}>
             <Table
-              rowSelection={{ type: selectionType, ...rowSelection }}
               columns={columns}
               dataSource={data}
               pagination={{
-                position: ['right'],
+                pageSize: 50,
+                position: ['none'],
+              }}
+              scroll={{
+                y: 600,
               }}
               summary={() => (
                 <Table.Summary>
@@ -217,10 +240,25 @@ const Inventory = () =>{
                   </Table.Summary.Row>
                 </Table.Summary>
               )}
+              onRow={(record) => ({
+                onClick: () => handleRowClick(record),
+              })}
             />
           </ConfigProvider>
         </div>
       </Flex>
+      <AddCategory 
+        visible={isAddCategoryModalVisible}
+        handleOk={() => setIsAddCategoryModalVisible(false)}
+        handleCancel={() => setIsAddCategoryModalVisible(false)}
+      />
+
+      <InfoInventory
+        visible={isModalVisible}
+        handleOk={handleOk}
+        handleCancel={handleCancel}
+        item={selectedItem}
+      />
     </main>
         
     )
