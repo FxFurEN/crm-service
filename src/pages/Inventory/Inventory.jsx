@@ -240,7 +240,11 @@ const Inventory = () =>{
           </ConfigProvider>
         </div>
       </Flex>
-      <AddCategory visible={isModalVisible} onOk={handleOk} onCancel={handleCancel}/>
+      <AddCategory 
+         visible={isModalVisible}
+         handleOk={handleOk}
+         handleCancel={handleCancel}
+      />
     </main>
         
     )
