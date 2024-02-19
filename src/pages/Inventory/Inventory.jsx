@@ -3,16 +3,24 @@ import { Button, ConfigProvider, Flex, Space, Tooltip, Input, Table, List } from
 import {PlusOutlined, SearchOutlined, SmileOutlined} from '@ant-design/icons';
 import Highlighter from 'react-highlight-words';
 import AddCategory from './AddCetegory'
-
+import InfoInventory from './InfoInventory';
 
 const Inventory = () =>{
   const [selectionType] = useState('checkbox');
   const [customize] = useState(true);
   const [isModalVisible, setIsModalVisible] = useState(false);
+  const [isAddCategoryModalVisible, setIsAddCategoryModalVisible] = useState(false);
+  const [selectedItem, setSelectedItem] = useState(null);
+  
+
 
   const showModal = () => {
     setIsModalVisible(true);
   };
+  const showAddCategoryModal = () => {
+    setIsAddCategoryModalVisible(true);
+  };
+  
   const handleOk = () => {
     setIsModalVisible(false);
   };
@@ -20,6 +28,12 @@ const Inventory = () =>{
   const handleCancel = () => {
     setIsModalVisible(false);
   };
+
+  const handleRowClick = (record) => {
+    setSelectedItem(record);
+    setIsModalVisible(true);
+  };
+  
   const rowSelection = {
     onChange: (selectedRowKeys, selectedRows) => {
       console.log(
@@ -188,16 +202,16 @@ const Inventory = () =>{
         <div style={{ marginLeft: '1em',}}>
         <Space size={100}>
           Все категории
-          <Tooltip title="Добавить категорию" >
-            <Button 
-              shape="circle" 
-              icon={<PlusOutlined />} 
-              type="text" 
-              style={{ color: 'white' }} 
-              onClick={showModal}
+            <Tooltip title="Добавить категорию" >
+              <Button 
+                shape="circle" 
+                icon={<PlusOutlined />} 
+                type="text" 
+                style={{ color: 'white' }} 
+                onClick={showAddCategoryModal}
               />
-          </Tooltip>
-          </Space>
+            </Tooltip>
+        </Space>
           <List
             itemLayout="horizontal"
             dataSource={dataCategory}
@@ -236,14 +250,24 @@ const Inventory = () =>{
                   </Table.Summary.Row>
                 </Table.Summary>
               )}
+              onRow={(record) => ({
+                onClick: () => handleRowClick(record),
+              })}
             />
           </ConfigProvider>
         </div>
       </Flex>
       <AddCategory 
-         visible={isModalVisible}
-         handleOk={handleOk}
-         handleCancel={handleCancel}
+        visible={isAddCategoryModalVisible}
+        handleOk={() => setIsAddCategoryModalVisible(false)}
+        handleCancel={() => setIsAddCategoryModalVisible(false)}
+      />
+
+      <InfoInventory
+        visible={isModalVisible}
+        handleOk={handleOk}
+        handleCancel={handleCancel}
+        item={selectedItem}
       />
     </main>
         
