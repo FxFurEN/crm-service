@@ -7,25 +7,11 @@ import NewOrders from './NewOrders';
 import Floatbutton from '@components/float-button/FloatButton';
 
 const Orders = () => {
-  const [selectionType] = useState('checkbox');
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [isModalVisibleNew, setIsModalVisibleNew] = useState(false);
   const [selectedOrder, setSelectedOrder] = useState(null);
 
-  const rowSelection = {
-    onChange: (selectedRowKeys, selectedRows) => {
-      console.log(
-        `selectedRowKeys: ${selectedRowKeys}`,
-        'selectedRows: ',
-        selectedRows
-      );
-    },
 
-    getCheckboxProps: (record) => ({
-      disabled: record.name === 'Disabled User',
-      name: record.name,
-    }),
-  };
   const [searchText, setSearchText] = useState('');
   const [searchedColumn, setSearchedColumn] = useState('');
   const [customize] = useState(true);
@@ -249,7 +235,11 @@ const Orders = () => {
             columns={columns}
             dataSource={data}
             pagination={{
-              position: ['bottomCenter'],
+              pageSize: 50,
+              position: ['none'],
+            }}
+            scroll={{
+              y: 600,
             }}
             expandable={{
               expandedRowRender: (record) => (
