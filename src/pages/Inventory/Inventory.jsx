@@ -34,19 +34,6 @@ const Inventory = () =>{
     setIsModalVisible(true);
   };
   
-  const rowSelection = {
-    onChange: (selectedRowKeys, selectedRows) => {
-      console.log(
-        `selectedRowKeys: ${selectedRowKeys}`,
-        'selectedRows: ',
-        selectedRows
-      );
-    },
-    getCheckboxProps: (record) => ({
-      disabled: record.name === 'Disabled User',
-      name: record.name,
-    }),
-  };
   const [searchText, setSearchText] = useState('');
   const [searchedColumn, setSearchedColumn] = useState('');
   const searchInput = useRef(null);
@@ -178,7 +165,7 @@ const Inventory = () =>{
   }
   const dataCategory = [
       {
-        description: ['Прибыль по заказам', 'Прибыль от продаж', 'Сводка платежей', 'Возвраты']
+        description: ['Телефон', 'Ноутбук']
       },
   ];
 
@@ -237,11 +224,14 @@ const Inventory = () =>{
         <div style={{ flex: '1 1' }}>
           <ConfigProvider renderEmpty={customize ? customizeRenderEmpty : undefined}>
             <Table
-              rowSelection={{ type: selectionType, ...rowSelection }}
               columns={columns}
               dataSource={data}
               pagination={{
-                position: ['right'],
+                pageSize: 50,
+                position: ['none'],
+              }}
+              scroll={{
+                y: 600,
               }}
               summary={() => (
                 <Table.Summary>
