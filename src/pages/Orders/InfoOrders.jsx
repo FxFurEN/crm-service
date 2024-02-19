@@ -73,7 +73,7 @@ const InfoOrders = ({ visible, handleOk, handleCancel, order }) => {
   return (
     <ConfigProvider renderEmpty={customize ? customizeRenderEmpty : undefined}>
       <Modal
-        title="Информация о заказе"
+        title={`Заказ № ${order?.number}`}
         centered
         open={visible}
         onOk={handleOkAsync}
