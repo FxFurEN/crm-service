@@ -1,7 +1,7 @@
 import { useState, useRef } from 'react';
-import { Button, ConfigProvider, Input, Space, Table, Tag} from 'antd';
+import { Button, ConfigProvider, Input, Space, Table, Tag, Timeline} from 'antd';
 import Highlighter from 'react-highlight-words';
-import { PlusOutlined, SearchOutlined, SmileOutlined } from '@ant-design/icons';
+import { ClockCircleOutlined, PlusOutlined, SearchOutlined, SmileOutlined } from '@ant-design/icons';
 import InfoOrders from './InfoOrders';
 import NewOrders from './NewOrders';
 import Floatbutton from '@components/float-button/FloatButton';
@@ -178,6 +178,31 @@ const Orders = () => {
       status: `Status ${i % 4 + 1}`,
       nameClient: `Employee ${i}`,
       employee: `Employee ${i}`,
+      description: 
+      <Timeline
+        items={[
+          {
+            children: 'Create a services site 2015-09-01',
+          },
+          {
+            children: 'Solve initial network problems 2015-09-01',
+          },
+          {
+            dot: (
+              <ClockCircleOutlined
+                style={{
+                  fontSize: '16px',
+                }}
+              />
+            ),
+            color: 'red',
+            children: 'Technical testing 2015-09-01',
+          },
+          {
+            children: 'Network problems being solved 2015-09-01',
+          },
+        ]}
+      />
     });
   }
   const handleInfoModal = (record) => {
@@ -221,11 +246,22 @@ const Orders = () => {
       <main id="main">
         <ConfigProvider renderEmpty={customize ? customizeRenderEmpty : undefined}>
           <Table
-            rowSelection={{ type: selectionType, ...rowSelection }}
             columns={columns}
             dataSource={data}
             pagination={{
               position: ['bottomCenter'],
+            }}
+            expandable={{
+              expandedRowRender: (record) => (
+                <p
+                  style={{
+                    margin: 0,
+                  }}
+                >
+                  {record.description}
+                </p>
+              ),
+              rowExpandable: (record) => record.name !== 'Not Expandable',
             }}
             summary={() => (
               <Table.Summary >
