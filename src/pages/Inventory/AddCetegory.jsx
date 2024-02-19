@@ -1,4 +1,4 @@
-import { Modal,Space,Input } from 'antd';
+import { Modal,Space,Input, Button } from 'antd';
 import { useState } from 'react';
 
 const InfoClients = ({ visible, handleOk, handleCancel, }) => {
@@ -25,8 +25,10 @@ const InfoClients = ({ visible, handleOk, handleCancel, }) => {
             confirmLoading={confirmLoading}
             onCancel={handleCancel}
             footer={[
-
-            ]}
+                <Button key="submit" style={{...baseStyle}} loading={confirmLoading} onClick={handleOkAsync}>
+                  Добавить
+                </Button>
+              ]}
             >
                 <Space direction="vertical" size="small" style={{ display: 'flex' }}>
                     <Input
