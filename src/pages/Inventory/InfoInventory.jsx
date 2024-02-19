@@ -1,5 +1,10 @@
-import { Modal, Button,Typography } from 'antd';
+import { Modal, Button,Typography, List } from 'antd';
 import { useState } from 'react';
+
+const historyData = [
+    { title: 'Изменение 1', date: '2024-02-14', description: 'Описание изменения 1' },
+    { title: 'Изменение 2', date: '2024-02-15', description: 'Описание изменения 2' },
+  ];
 
 const InfoInventory = ({ visible, handleOk, handleCancel, item }) => {
     const [confirmLoading, setConfirmLoading] = useState(false);
@@ -18,27 +23,44 @@ const InfoInventory = ({ visible, handleOk, handleCancel, item }) => {
 
     return (
         <Modal
-            title="Информация о товаре"
+            title={item?.good}
             centered
-            visible={visible}
+            open={visible}
             onOk={handleOkAsync}
             confirmLoading={confirmLoading}
             onCancel={handleCancel}
             footer={[
-                <Button key="cancel" onClick={handleCancel}>
-                    Отмена
-                </Button>,
-                <Button key="submit" type="primary" loading={confirmLoading} onClick={handleOkAsync}>
-                    OK
-                </Button>,
+
             ]}
         >
-            <br />
-            <Typography.Text strong>Артикул: </Typography.Text>{item.article}
-            <br />
-            <Typography.Text strong>Товар: </Typography.Text>{item.good}
-            <br />
-            <Typography.Text strong>Количество: </Typography.Text>{item.amount}
+            <br/>
+                    <Typography.Text strong>Информация</Typography.Text>
+            <List
+                bordered
+                dataSource={[
+                    { title: 'Артикул', value: item.article },
+                    { title: 'Категория', value: '' },
+                    { title: 'Количество', value: item.amount },
+                    { title: 'Цена', value: '' },
+                    { title: 'Примечание', value: '' },
+                ]}
+                renderItem={(item) => (
+                    <List.Item>
+                        <Typography.Text strong>{item.title}: </Typography.Text>{item.value}
+                    </List.Item>
+                )}
+            />
+            <br/>
+                <Typography.Text strong>История</Typography.Text>
+            <List
+                bordered
+                dataSource={historyData}
+                renderItem={(item) => (
+                <List.Item>
+                    <Typography.Text strong>{item.title}:</Typography.Text> {item.date} - {item.description}
+                </List.Item>
+                )}
+            />
         </Modal>
     );
 };
