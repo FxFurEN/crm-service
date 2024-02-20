@@ -1,6 +1,6 @@
 import { useState, useRef} from 'react';
-import { PlusOutlined, SearchOutlined, SmileOutlined } from '@ant-design/icons';
-import { Button, ConfigProvider, Input, Space, Table } from 'antd';
+import { PlusOutlined, SearchOutlined } from '@ant-design/icons';
+import { Button, Input, Space, Table } from 'antd';
 import Highlighter from 'react-highlight-words';
 
 import '@assets/styles/main.scss';
@@ -10,7 +10,6 @@ import NewClients from './NewClients';
 import InfoClients from './InfoClients';
 function Clients() {
   const [selectionType] = useState('checkbox');
-  const [customize] = useState(true);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [isModalVisible1, setIsModalVisible1] = useState(false);
   const [selectedClient, setSelectedClient] = useState(null);
@@ -189,24 +188,8 @@ function Clients() {
     });
   }
 
-  const customizeRenderEmpty = () => (
-    <div
-      style={{
-        textAlign: 'center',
-      }}
-    >
-      <SmileOutlined
-        style={{
-          fontSize: 20,
-        }}
-      />
-      <p>Данные не найдены</p>
-    </div>
-  );
-
   return (
       <main id="main">
-        <ConfigProvider renderEmpty={customize ? customizeRenderEmpty : undefined}>
           <Table 
             rowSelection={{ type: selectionType, ...rowSelection }} 
             columns={columns} 
@@ -228,7 +211,6 @@ function Clients() {
               </Table.Summary>
             )}
             />
-        </ConfigProvider>
         <Floatbutton 
             text="Добавить клиента" 
             icon={<PlusOutlined />} 
