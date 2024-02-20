@@ -65,9 +65,11 @@ const Router = () => {
                     <Route path='/settings/handbooks/:id' element={<FieldsHandBooks />} />
                     <Route path="/settings/notifications" element={<Notification/>} />
 
-                    <Route path="*" element={<NonPage />} />
-                    <Route path="" element={<Navigate to={'/home'} />}/>
+                    <Route path="/404" element={<NonPage />} />
+                    <Route path="/" element={<Navigate to="/home" />} />
+                    <Route path="*" element={<Navigate to="/404" />} />
                   </Route>
+                  
               </Routes>
             </BrowserRouter>
         </PersistGate>
