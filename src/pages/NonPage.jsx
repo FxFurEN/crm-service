@@ -1,6 +1,15 @@
+import { Result } from "antd"
+
 function NonPage() {
   return (
-      <h1 style={{textAlign: 'center', color: 'white', marginTop: '70px'}}>404 Not Found</h1>
+    <main id="main">
+      <Result
+        status="404"
+        title={<span style={{ color: "white" }}>404</span>}
+        subTitle={<span style={{ color: "white" }}>Страница не найдена.</span>}
+      />
+    </main>
+   
   )
 }
 
