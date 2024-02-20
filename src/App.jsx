@@ -1,12 +1,7 @@
-import './App.css'
+import Router from "@components/routing/Router"
 
 function App() {
-
-  return (
-    <main id='main'>
-      <h1>404 Not Found</h1>
-    </main>
-  )
+  return <Router/>
 }
 
 export default App
