@@ -51,20 +51,26 @@ const InfoOrders = ({ visible, handleOk, handleCancel }) => {
                 size="large"
                 showText={(color) => <span>Цвет: ({color.toHexString()})</span>}
             />
-            <Collapse ghost>
-                <Collapse.Panel header="Дополнительно" key="1">
-                    
+            <Collapse ghost items={[
+                {
+                    key: '1',
+                    label: 'Дополнительно',
+                    children: (
                     <Space direction="vertical" size="small" style={{ display: 'flex' }}>
                         <Typography.Text style={{ color: 'gray' }}>
-                            Дайте статусу лаконичное название и описание, 
-                            эта информация будет отображена в виджете `Статус заказа` 
-                            и различных уведомлениях.
+                        Дайте статусу лаконичное название и описание, 
+                        эта информация будет отображена в виджете `Статус заказа` 
+                        и различных уведомлениях.
                         </Typography.Text>
                         <Input style={baseStyle} placeholder="Название для клиента" />
                         <Input style={baseStyle} placeholder="Описание для клиента" />
                     </Space>
-                </Collapse.Panel>
+                    )
+                }
+                ]}>
             </Collapse>
+
+
         </Space>
         
       </Modal>
