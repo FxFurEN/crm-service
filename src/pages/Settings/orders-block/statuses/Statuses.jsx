@@ -15,6 +15,8 @@ import StatusModal from './StatusModal';
 
 const Statuses = () => {
   const [isModalVisible, setIsModalVisible] = useState(false);
+  const [selectedStatus, setSelectedStatus] = useState('');
+  const [selectedColor, setSelectedColor] = useState('#1677ff');
   const [dataSource, setDataSource] = useState([
     { id: '1', color: '#ff5252', title: 'Диагностика' },
     { id: '2', color: 'violet', title: 'Новый' },
@@ -27,9 +29,16 @@ const Statuses = () => {
   ]);
 
   const handlerModal = () => {
+    setSelectedStatus('');
+    setSelectedColor('#1677ff');
     setIsModalVisible(true);
   };
 
+  const handleStatusClick = (status, color) => {
+    setSelectedStatus(status);
+    setSelectedColor(color);
+    setIsModalVisible(true);
+  };
 
   const handleOk = () => {
     setIsModalVisible(false);
@@ -57,26 +66,42 @@ const Statuses = () => {
           strategy={verticalListSortingStrategy}
         >
           <List
-            style={{width: '50%'}}
+            style={{ width: '50%' }}
             dataSource={dataSource}
             renderItem={(item) => (
               <SortableItem key={item.id} id={item.id}>
-                <Tag color={item.color} style={{ fontSize: '15px', width: 'auto', height: 'auto', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>{item.title}</Tag>
+                <Tag
+                  color={item.color}
+                  style={{
+                    fontSize: '15px',
+                    width: 'auto',
+                    height: 'auto',
+                    display: 'flex',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    cursor: 'pointer', // Add cursor pointer for indicating clickable
+                  }}
+                  onClick={() => handleStatusClick(item.title, item.color)} // Handle click event
+                >
+                  {item.title}
+                </Tag>
               </SortableItem>
             )}
           />
         </SortableContext>
       </DndContext>
-        <Floatbutton 
-            text="Добавить статус" 
-            onClick={handlerModal}
-            icon={<PlusOutlined />} 
-        />
-        <StatusModal
-          visible={isModalVisible}
-          handleOk={handleOk}
-          handleCancel={handleCancel}
-        />
+      <Floatbutton
+        text="Добавить статус"
+        onClick={handlerModal}
+        icon={<PlusOutlined />}
+      />
+      <StatusModal
+        visible={isModalVisible}
+        handleOk={handleOk}
+        handleCancel={handleCancel}
+        selectedStatus={selectedStatus} // Pass selected status
+        selectedColor={selectedColor} // Pass selected color
+      />
     </main>
   );
 };
