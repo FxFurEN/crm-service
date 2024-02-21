@@ -9,9 +9,12 @@ import {
 } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
 import { useState } from 'react';
-import { MenuOutlined } from '@ant-design/icons';
+import { MenuOutlined, PlusOutlined } from '@ant-design/icons';
+import Floatbutton from '@components/float-button/FloatButton';
+import StatusModal from './StatusModal';
 
 const Statuses = () => {
+  const [isModalVisible, setIsModalVisible] = useState(false);
   const [dataSource, setDataSource] = useState([
     { id: '1', color: '#ff5252', title: 'Диагностика' },
     { id: '2', color: 'violet', title: 'Новый' },
@@ -22,6 +25,19 @@ const Statuses = () => {
     { id: '7', color: 'gray', title: 'Закрыт неуспешно' },
     { id: '8', color: 'yellow', title: 'На гарантии' },
   ]);
+
+  const handlerModal = () => {
+    setIsModalVisible(true);
+  };
+
+
+  const handleOk = () => {
+    setIsModalVisible(false);
+  };
+
+  const handleCancel = () => {
+    setIsModalVisible(false);
+  };
 
   const onDragEnd = ({ active, over }) => {
     if (active.id !== over?.id) {
@@ -51,6 +67,16 @@ const Statuses = () => {
           />
         </SortableContext>
       </DndContext>
+        <Floatbutton 
+            text="Добавить статус" 
+            onClick={handlerModal}
+            icon={<PlusOutlined />} 
+        />
+        <StatusModal
+          visible={isModalVisible}
+          handleOk={handleOk}
+          handleCancel={handleCancel}
+        />
     </main>
   );
 };
