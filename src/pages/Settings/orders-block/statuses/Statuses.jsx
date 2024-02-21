@@ -13,10 +13,14 @@ import { MenuOutlined } from '@ant-design/icons';
 
 const Statuses = () => {
   const [dataSource, setDataSource] = useState([
-    { id: '1', color: 'red', title: 'Статус 1' },
-    { id: '2', color: 'purple', title: 'Статус 2' },
-    { id: '3', color: 'blue', title: 'Статус 3' },
-    { id: '4', color: 'green', title: 'Статус 4' },
+    { id: '1', color: '#ff5252', title: 'Диагностика' },
+    { id: '2', color: 'violet', title: 'Новый' },
+    { id: '3', color: 'blue', title: 'В работе' },
+    { id: '4', color: '#fca503', title: 'Ждет запчасть' },
+    { id: '5', color: 'seagreen', title: 'Готов' },
+    { id: '6', color: 'seagreen', title: 'Закрыт' },
+    { id: '7', color: 'gray', title: 'Закрыт неуспешно' },
+    { id: '8', color: 'yellow', title: 'На гарантии' },
   ]);
 
   const onDragEnd = ({ active, over }) => {
@@ -37,10 +41,11 @@ const Statuses = () => {
           strategy={verticalListSortingStrategy}
         >
           <List
+            style={{width: '50%'}}
             dataSource={dataSource}
             renderItem={(item) => (
               <SortableItem key={item.id} id={item.id}>
-                <Tag color={item.color} style={{ fontSize: '15px', width: '6em', height: '2em', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>{item.title}</Tag>
+                <Tag color={item.color} style={{ fontSize: '15px', width: 'auto', height: 'auto', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>{item.title}</Tag>
               </SortableItem>
             )}
           />
@@ -75,7 +80,7 @@ const SortableItem = ({ children, id }) => {
     fontSize: '18px',
     color: 'white',
     height: '3em',
-    ...(isDragging ? { position: 'relative', zIndex: 9999 } : {}),
+    ...(isDragging ? { position: 'relative', zIndex: 1 } : {}),
   };
   return (
     <div ref={setNodeRef} style={style} {...attributes}>
