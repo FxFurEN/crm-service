@@ -1,6 +1,6 @@
 {
   "name": "crm-service",
-  "private": true,
+  "private": false,
   "version": "0.0.0",
   "type": "module",
   "scripts": {
@@ -42,5 +42,9 @@
     "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-plugin-react-refresh": "^0.4.4",
     "vite": "^5.0.0"
-  }
+  },
+  "main": "index.js",
+  "repository": "https://github.com/FxFurEN/crm-service",
+  "author": "FxFurEN <nikitostimoshenko@gmail.com>",
+  "license": "MIT"
 }
