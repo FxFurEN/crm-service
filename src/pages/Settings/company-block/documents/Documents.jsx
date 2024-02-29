@@ -5,17 +5,17 @@ import { Link } from 'react-router-dom';
 const data = [
   {
     title: 'Магазин',
-    routes: ['/settings/documents/statementOfWork', '/settings/documents/statementOfWork'], 
+    routes: ['/settings/documents/shablondoc', '/settings/documents/shablondoc'], 
     description: ['Акт выполненных работ', 'Приемная квитанция']
   },
   {
     title: 'Заказы',
-    routes: ['/settings/documents/statementOfWork'],
+    routes: ['/settings/documents/shablondoc'],
     description: ['Товарный чек']
   },
   {
     title: 'Склад',
-    routes: ['/settings/documents/statementOfWork', '/settings/documents/statementOfWork'],
+    routes: ['/settings/documents/shablondoc', '/settings/documents/shablondoc'],
     description: ['Ценник ленточный', 'QR-код']
   },
 ];

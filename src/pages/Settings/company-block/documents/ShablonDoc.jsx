@@ -1,9 +1,9 @@
 import { Editor } from '@tinymce/tinymce-react';
 
-const StatementOfWork = () =>{
+const ShablonDoc = () =>{
     return(
         <main id='main' style={{color: 'black'}}>
-           <Editor
+            <Editor
                 apiKey={import.meta.env.VITE_TINYMCE_API_KEY}
                
                 init={{
@@ -19,8 +19,8 @@ const StatementOfWork = () =>{
                     ai_request: (request, respondWith) => respondWith.string(() => Promise.reject("See docs to implement AI Assistant")),
                 }}
                 initialValue="Welcome to TinyMCE!"
-            />          
+            />           
         </main>
     )
 }
-export default StatementOfWork;
+export default ShablonDoc;
