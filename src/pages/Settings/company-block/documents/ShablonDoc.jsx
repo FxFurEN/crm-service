@@ -1,33 +1,27 @@
-import { useState, useEffect } from 'react';
 import { Editor } from '@tinymce/tinymce-react';
+import { useDispatch, useSelector } from 'react-redux';
+import { setDocumentContent, selectDocumentContent } from '@store/visibilitySlice';
 
 const ShablonDoc = () => {
-    const [content, setContent] = useState('');
-
-    useEffect(() => {
-        const savedContent = localStorage.getItem('savedContent');
-        if (savedContent) {
-            setContent(savedContent);
-        }
-    }, []);
+    const dispatch = useDispatch();
+    const documentContent = useSelector(selectDocumentContent);
 
     const handleSave = (content) => {
-        localStorage.setItem('savedContent', content);
-        console.log('Document saved');
+        dispatch(setDocumentContent(content));
     };
 
     return (
         <main id='main' style={{ color: 'black' }}>
             <Editor
-                initialValue={content}
+                initialValue={documentContent}
                 tinymceScriptSrc={'/tinymce/tinymce.min.js'}
                 init={{
                     selector: 'textarea#file-picker',
                     promotion: false,
                     statusbar: false,
-                    height: 750,
-                    width: '60%',
-                    menubar: true,
+                    height: 700,
+                    width: '70%',
+                    menubar: 'file edit insert view format table',
                     file_picker_types: 'image',
                     link_title: false,
                     plugins: [
