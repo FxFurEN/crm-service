@@ -1,26 +1,72 @@
+import { useState, useEffect } from 'react';
 import { Editor } from '@tinymce/tinymce-react';
 
-const ShablonDoc = () =>{
-    return(
-        <main id='main' style={{color: 'black'}}>
+const ShablonDoc = () => {
+    const [content, setContent] = useState('');
+
+    useEffect(() => {
+        const savedContent = localStorage.getItem('savedContent');
+        if (savedContent) {
+            setContent(savedContent);
+        }
+    }, []);
+
+    const handleSave = (content) => {
+        localStorage.setItem('savedContent', content);
+        console.log('Document saved');
+    };
+
+    return (
+        <main id='main' style={{ color: 'black' }}>
             <Editor
-                apiKey={import.meta.env.VITE_TINYMCE_API_KEY}
-               
+                initialValue={content}
+                tinymceScriptSrc={'/tinymce/tinymce.min.js'}
                 init={{
-                    plugins: 'ai tinycomments mentions anchor autolink charmap codesample emoticons image link lists media searchreplace table visualblocks wordcount checklist mediaembed casechange export formatpainter pageembed permanentpen footnotes advtemplate advtable advcode editimage tableofcontents mergetags powerpaste tinymcespellchecker autocorrect a11ychecker typography inlinecss',
-                    toolbar: 'undo redo | blocks fontfamily fontsize | bold italic underline strikethrough | link image media table mergetags | align lineheight | tinycomments | checklist numlist bullist indent outdent | emoticons charmap | removeformat',
-                    tinycomments_mode: 'embedded',
-                    tinycomments_author: 'Author name',
-                    language: 'ru',
-                    mergetags_list: [
-                    { value: 'First.Name', title: 'First Name' },
-                    { value: 'Email', title: 'Email' },
+                    selector: 'textarea#file-picker',
+                    promotion: false,
+                    statusbar: false,
+                    height: 700,
+                    menubar: true,
+                    file_picker_types: 'image',
+                    link_title: false,
+                    plugins: [
+                        'advlist', 'autolink', 'lists', 'link', 'image', 'charmap',
+                        'anchor', 'searchreplace', 'visualblocks', 'code', 'fullscreen',
+                        'insertdatetime', 'media', 'table', 'preview', 'help', 'wordcount', 'save'
                     ],
-                    ai_request: (request, respondWith) => respondWith.string(() => Promise.reject("See docs to implement AI Assistant")),
+                    toolbar: 'undo redo | blocks | ' +
+                        'bold italic forecolor | alignleft aligncenter ' +
+                        'alignright alignjustify | bullist numlist outdent indent | ' +
+                        'removeformat save',
+                    file_picker_callback: (cb, value, meta) => {
+                        const input = document.createElement('input');
+                        input.setAttribute('type', 'file');
+                        input.setAttribute('accept', 'image/*');
+                    
+                        input.addEventListener('change', (e) => {
+                          const file = e.target.files[0];
+                          const reader = new FileReader();
+                          reader.addEventListener('load', () => {
+                            const id = 'blobid' + (new Date()).getTime();
+                            const blobCache =  tinymce.activeEditor.editorUpload.blobCache;
+                            const base64 = reader.result.split(',')[1];
+                            const blobInfo = blobCache.create(id, file, base64);
+                            blobCache.add(blobInfo);
+                            cb(blobInfo.blobUri(), { title: file.name });
+                          });
+                          reader.readAsDataURL(file);
+                        });
+                    
+                        input.click();
+                      },
+                    save_onsavecallback: (editor) => {
+                        handleSave(editor.getContent());
+                    },
+                    content_style: 'body { font-family:Helvetica,Arial,sans-serif; font-size:14px }',
                 }}
-                initialValue="Welcome to TinyMCE!"
-            />           
+            />
         </main>
-    )
-}
+    );
+};
+
 export default ShablonDoc;
