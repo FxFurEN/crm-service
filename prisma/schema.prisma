@@ -74,6 +74,7 @@ model Stage {
 
 model Execution{
   id              Int       @id @default(autoincrement())
+  name            String   @db.VarChar(255)
   executionDate   DateTime  @default(now())
   employee        Employee  @relation(fields: [employeeId], references: [id])
   employeeId      Int
