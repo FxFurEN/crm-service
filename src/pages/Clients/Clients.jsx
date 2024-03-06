@@ -169,13 +169,13 @@ function Clients() {
     dataIndex: 'sign', 
     key: 'sign',
     filters: [
-      { text: 'Физ. лицо', value: 'true' },
-      { text: 'Юр. лицо', value: 'false' },
+      { text: 'Физ. лицо', value: 'false' },
+      { text: 'Юр. лицо', value: 'true' },
     ],
     responsive: ['md'],
     onFilter: (value, record) => String(record.sign) === value,
     render: (text) => (
-      <span>{text ? 'Физ. лицо' : 'Юр. лицо'}</span>
+      <span>{text ? ' Юр. лицо' : 'Физ. лицо'}</span>
     ),
   },
   {
