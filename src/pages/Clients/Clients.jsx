@@ -130,63 +130,73 @@ function Clients() {
       ),
   });
   const columns = [
-    {
-      title: 'Имя',
-      width: 100,
-      dataIndex: 'name',
-      key: 'name',
-      fixed: 'left',
-      ...getColumnSearchProps('name'),
-    },
-    {
-      title: 'Телефон',
-      width: 150,
-      dataIndex: 'phone',
-      key: 'phone',
-      ...getColumnSearchProps('phone'),
-    },
-    {
-      title: 'Почта',
-      width: 100,
-      dataIndex: 'email',
-      key: 'email',
-      responsive: ['md'],
-      ...getColumnSearchProps('email'),
-    },
-    {
-      title: 'Тип клиента',
-      width: 150,
-      dataIndex: 'clientType',
-      key: 'clientType',
-      filters: [
-        {
-          text: 'Физ. лицо',
-          value: '1',
-        },
-        {
-          text: 'Юр. лицо',
-          value: '2',
-        },
-      ],
-      responsive: ['md'],
-      onFilter: (value, record) => record.clientType.startsWith(value),
-      render: (text) => (
-        <span>
-          {text === '1' ? 'Физ. лицо' : 'Юр. лицо'}
-        </span>
-      ),
-    },
+      {
+          title: 'Имя',
+          width: 100,
+          dataIndex: 'name',
+          key: 'name',
+          fixed: 'left',
+          ...getColumnSearchProps('name'),
+      },
+      {
+          title: 'Телефон',
+          width: 150,
+          dataIndex: 'phone',
+          key: 'phone',
+          ...getColumnSearchProps('phone'),
+      },
+      {
+          title: 'Почта',
+          width: 100,
+          dataIndex: 'email',
+          key: 'email',
+          responsive: ['md'],
+          ...getColumnSearchProps('email'),
+      },
+      {
+          title: 'Тип клиента',
+          width: 150,
+          dataIndex: 'clientType',
+          key: 'clientType',
+          filters: [
+              { text: 'Физ. лицо', value: '1' },
+              { text: 'Юр. лицо', value: '2' },
+          ],
+          responsive: ['md'],
+          onFilter: (value, record) => record.clientType.startsWith(value),
+          render: (text) => (
+              <span>{text === '1' ? 'Физ. лицо' : 'Юр. лицо'}</span>
+          ),
+      },
+      {
+          title: 'ИНН',
+          width: 100,
+          dataIndex: 'inn',
+          key: 'inn',
+          responsive: ['md'],
+          ...getColumnSearchProps('inn'),
+      },
+      {
+          title: 'ФИО',
+          width: 100,
+          dataIndex: 'initials',
+          key: 'initials',
+          responsive: ['md'],
+          ...getColumnSearchProps('initials'),
+      },
   ];
   const data = [];
   for (let i = 0; i < 30; i++) {
     data.push({
-      key: i,
-      name: `Edward ${i}`,
-      phone: `+375(29) 501-27-66`,
-      email: `example${i}@gmail.com`,
-      clientType: i % 2 === 0 ? '1' : '2',
+        key: i,
+        name: `Компания ${i}`,
+        phone: `+375(29) 501-27-66`,
+        email: `example${i}@gmail.com`,
+        clientType: i % 2 === 0 ? '1' : '2',
+        inn: i % 2 === 0 ? `123456789${i}` : '',
+        initials: i % 2 !== 0 ? `John Doe ${i}` : '',
     });
-  }
+}
 
   return (
       <main id="main">
