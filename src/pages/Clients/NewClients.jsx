@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Modal, Input, Flex, Button, Radio } from 'antd';
+import { Modal, Input, Flex, Button, Radio, message } from 'antd';
 import InputMask from 'react-input-mask';
 import { crmAPI } from '@service/api'; 
 
@@ -11,10 +11,12 @@ const NewClients = ({ visible, handleOk, handleCancel }) => {
         setConfirmLoading(true);
         try {
             console.log(clientData)
-            await crmAPI.createClient(clientData); 
+            await crmAPI.createClient(clientData);
             handleOk(clientData);
+            message.success('Клиент успешно добавлен'); 
         } catch (error) {
             console.error('Error creating client:', error);
+            message.error('Ошибка при добавлении клиента: ' + error.message);
         } finally {
             setConfirmLoading(false);
         }
