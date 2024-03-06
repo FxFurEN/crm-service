@@ -800,16 +800,6 @@
   dependencies:
     call-bind "^1.0.5"
 
-"@maskito/core@^2.0.2":
-  version "2.0.2"
-  resolved "https://registry.yarnpkg.com/@maskito/core/-/core-2.0.2.tgz#3eb0fa40d8f4d24aeb5df3f6d41029bd02188362"
-  integrity sha512-OUdylgfQ06kBu3QvFikxz0FsZT4GJxnpIR3+YmQBzyWAnuZKJkjwl8C0UTjWD3mvsnMHak4GRCveJZKtApF7aA==
-
-"@maskito/react@^2.0.2":
-  version "2.0.2"
-  resolved "https://registry.yarnpkg.com/@maskito/react/-/react-2.0.2.tgz#db87ba2ef6fdb15d2a7b1a7e88efaf737ed828a7"
-  integrity sha512-3LBkjqGnmJK7x4AWMGYEavj2ZmoJwyoYwf9KAd13rkO/RIqxd7XPKYYi+0a1K4fjl2ry97Nrkz94PCDvmU9biA==
-
 "@nodelib/fs.scandir@2.1.5":
   version "2.1.5"
   resolved "https://registry.yarnpkg.com/@nodelib/fs.scandir/-/fs.scandir-2.1.5.tgz#7619c2eb21b25483f6d167548b4cfd5a7488c3d5"
@@ -1591,11 +1581,6 @@ classnames@2.x, classnames@^2.2.1, classnames@^2.2.3, classnames@^2.2.5, classna
   resolved "https://registry.yarnpkg.com/classnames/-/classnames-2.5.1.tgz#ba774c614be0f016da105c858e7159eae8e7687b"
   integrity sha512-saHYOzhIQs6wy2sVxTM6bUDsQO4F50V9RQ22qBpEdCW+I+/Wmke2HOl6lS6dTpdxVhb88/I6+Hs+438c3lfUow==
 
-clipboard-copy@^4.0.1:
-  version "4.0.1"
-  resolved "https://registry.yarnpkg.com/clipboard-copy/-/clipboard-copy-4.0.1.tgz#326ef9726d4ffe72d9a82a7bbe19379de692017d"
-  integrity sha512-wOlqdqziE/NNTUJsfSgXmBMIrYmfd5V0HCGsR8uAKHcg+h9NENWINcfRjtWGU77wDHC8B8ijV4hMTGYbrKovng==
-
 cliui@^2.1.0:
   version "2.1.0"
   resolved "https://registry.yarnpkg.com/cliui/-/cliui-2.1.0.tgz#4b475760ff80264c762c3a1719032e91c7fea0d1"
@@ -1886,11 +1871,6 @@ doctrine@^3.0.0:
   integrity sha512-yS+Q5i3hBf7GBkd4KG8a7eBNNWNGLTaEwwYWUijIYM7zrlYDM0BFXHjjPWlWZ1Rg7UaddZeIDmi9jF3HmqiQ2w==
   dependencies:
     esutils "^2.0.2"
-
-dotenv@^16.4.1:
-  version "16.4.5"
-  resolved "https://registry.yarnpkg.com/dotenv/-/dotenv-16.4.5.tgz#cdd3b3b604cb327e286b4762e13502f717cb099f"
-  integrity sha512-ZmdL2rui+eB2YwhsWzjInR8LldtZHGDoQ1ugH85ppHKwpUHL7j7rN0Ti9NCnGiQbhaZ11FpR+7ao1dNsmduNUg==
 
 dotignore@~0.1.2:
   version "0.1.2"
@@ -3626,11 +3606,6 @@ rc-virtual-list@^3.11.1, rc-virtual-list@^3.5.1, rc-virtual-list@^3.5.2:
     classnames "^2.2.6"
     rc-resize-observer "^1.0.0"
     rc-util "^5.36.0"
-
-react-colorful@^5.6.1:
-  version "5.6.1"
-  resolved "https://registry.yarnpkg.com/react-colorful/-/react-colorful-5.6.1.tgz#7dc2aed2d7c72fac89694e834d179e32f3da563b"
-  integrity sha512-1exovf0uGTGyq5mXQT0zgQ80uvj2PCwvF8zY1RN9/vbJVSjSo3fsB/4L3ObbF7u70NduSiK4xu4Y6q1MHoUGEw==
 
 react-dom@^18.2.0:
   version "18.2.0"
