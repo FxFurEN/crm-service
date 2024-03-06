@@ -1,22 +1,23 @@
 import { useState } from 'react';
-import { Modal, Input, Flex, Button, Radio, message } from 'antd';
+import { Modal, Input, Flex, Button, Radio, Form, message } from 'antd';
 import InputMask from 'react-input-mask';
 import { crmAPI } from '@service/api'; 
 
 const NewClients = ({ visible, handleOk, handleCancel }) => {
+    const [form] = Form.useForm();
     const [confirmLoading, setConfirmLoading] = useState(false);
     const [clientData, setClientData] = useState({ name: '', phone: '', email: '', initials: '', unp: '', isLegalEntity: false });
 
     const handleOkAsync = async () => {
-        setConfirmLoading(true);
         try {
-            console.log(clientData)
-            await crmAPI.createClient(clientData);
-            handleOk(clientData);
+            await form.validateFields();
+            setConfirmLoading(true);
+            await crmAPI.createClient(clientData); 
             message.success('Клиент успешно добавлен'); 
-        } catch (error) {
-            console.error('Error creating client:', error);
-            message.error('Ошибка при добавлении клиента: ' + error.message);
+            handleOk(clientData);
+        } catch (errorInfo) {
+            console.error('Error creating client:', errorInfo);
+            message.error('Пожалуйста, заполните обязательные поля.');
         } finally {
             setConfirmLoading(false);
         }
@@ -35,7 +36,7 @@ const NewClients = ({ visible, handleOk, handleCancel }) => {
         <Modal
             title="Добавить клиента"
             centered
-            open={visible}
+            visible={visible}
             onOk={handleOkAsync}
             confirmLoading={confirmLoading}
             onCancel={handleCancel}
@@ -45,63 +46,97 @@ const NewClients = ({ visible, handleOk, handleCancel }) => {
                 </Button>
             ]}
         >
-            <Flex vertical gap={20}>
-                <Flex horizontal>
-                    <Radio.Group onChange={(e) => {
-                        handleChange('isLegalEntity', e.target.value);
-                        setClientData(prevState => ({
-                            ...prevState,
-                            name: '',
-                            unp: '',
-                            initials: '',
-                        }));
-                    }} value={clientData.isLegalEntity}>
-                        <Radio value={false}>Физ. лицо</Radio>
-                        <Radio value={true}>Юр.лицо</Radio>
-                    </Radio.Group>
+            <Form
+                form={form}
+                layout="vertical"
+                onFinish={handleOkAsync}
+            >
+                <Flex vertical gap={5}>
+                    <Flex horizontal>
+                        <Radio.Group onChange={(e) => {
+                            handleChange('isLegalEntity', e.target.value);
+                            form.resetFields(['name', 'unp', 'initials']);
+                        }} value={clientData.isLegalEntity}>
+                            <Radio value={false}>Физ. лицо</Radio>
+                            <Radio value={true}>Юр.лицо</Radio>
+                        </Radio.Group>
+                    </Flex>
+                    {clientData.isLegalEntity ? (
+                        <>
+                            <Form.Item
+                                name="name"
+                                label="Название организации"
+                                rules={[{ required: true, message: 'Пожалуйста, введите название организации' }]}
+                                style={{ marginBottom: -5 }} 
+                            >
+                                <Input
+                                    style={{ ...baseStyle }}
+                                    placeholder="Название организации"
+                                    value={clientData.name}
+                                    onChange={(e) => handleChange('name', e.target.value)}
+                                />
+                            </Form.Item>
+                            <Form.Item
+                                name="unp"
+                                label="УНП"
+                                rules={[{ required: true, message: 'Пожалуйста, введите УНП' }]}
+                                style={{ marginBottom: -5 }} 
+                            >
+                                <Input
+                                    count={{
+                                        show: true,
+                                        max: 9,
+                                    }}
+                                    maxLength={9}
+                                    style={{ ...baseStyle }}
+                                    placeholder="УНП"
+                                    value={clientData.unp}
+                                    onChange={(e) => handleChange('unp', e.target.value)}
+                                />
+                            </Form.Item>
+                        </>
+                    ) : (
+                        <Form.Item
+                            name="initials"
+                            label="ФИО"
+                            rules={[{ required: true, message: 'Пожалуйста, введите ФИО' }]}
+                            style={{ marginBottom: -5 }} 
+                        >
+                            <Input
+                                style={{ ...baseStyle }}
+                                placeholder="ФИО"
+                                value={clientData.initials}
+                                onChange={(e) => handleChange('initials', e.target.value)}
+                            />
+                        </Form.Item>
+                    )}
+                    <Form.Item
+                        name="phone"
+                        label="Телефон"
+                        rules={[{ required: true, message: 'Пожалуйста, введите телефон' }]}
+                        style={{ marginBottom: -5 }} 
+                    >
+                        <InputMask
+                            mask="+375 (99) 999-99-99"
+                            value={clientData.phone}
+                            onChange={(e) => handleChange('phone', e.target.value)}
+                        >
+                            {(inputProps) => <Input {...inputProps} style={{ ...baseStyle }} placeholder="Телефон" />}
+                        </InputMask>
+                    </Form.Item>
+                    <Form.Item
+                        name="email"
+                        label="Почта" 
+                    >
+                        <Input
+                            style={{ ...baseStyle }}
+                            placeholder="Почта"
+                            value={clientData.email}
+                            onChange={(e) => handleChange('email', e.target.value)}
+                        />
+                    </Form.Item>
                 </Flex>
-                {clientData.isLegalEntity ? (
-                    <>
-                        <Input
-                            style={{ ...baseStyle }}
-                            placeholder="Название организации"
-                            value={clientData.name}
-                            onChange={(e) => handleChange('name', e.target.value)}
-                        />
-                        <Input
-                            count={{
-                                show: true,
-                                max: 9,
-                              }}
-                            maxLength={9}
-                            style={{ ...baseStyle }}
-                            placeholder="УНП"
-                            value={clientData.unp}
-                            onChange={(e) => handleChange('unp', e.target.value)}
-                        />
-                    </>
-                ) : (
-                    <Input
-                        style={{ ...baseStyle }}
-                        placeholder="ФИО"
-                        value={clientData.initials}
-                        onChange={(e) => handleChange('initials', e.target.value)}
-                    />
-                )}
-                <InputMask
-                    mask="+375 (99) 999-99-99"
-                    value={clientData.phone}
-                    onChange={(e) => handleChange('phone', e.target.value)}
-                >
-                    {(inputProps) => <Input {...inputProps} style={{ ...baseStyle }} placeholder="Телефон" />}
-                </InputMask>
-                <Input
-                    style={{ ...baseStyle }}
-                    placeholder="Почта"
-                    value={clientData.email}
-                    onChange={(e) => handleChange('email', e.target.value)}
-                />
-            </Flex>
+            </Form>
         </Modal>
     );
 };
