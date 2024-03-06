@@ -1,7 +1,8 @@
-import { useState, useRef} from 'react';
+import { useState, useRef, useEffect} from 'react';
 import { PlusOutlined, SearchOutlined } from '@ant-design/icons';
 import { Button, Input, Space, Table } from 'antd';
 import Highlighter from 'react-highlight-words';
+import { crmAPI } from '@service/api'; 
 
 import '@assets/styles/main.scss';
 import '@assets/styles/global.scss';
@@ -9,10 +10,19 @@ import Floatbutton from '@components/float-button/FloatButton';
 import NewClients from './NewClients';
 import InfoClients from './InfoClients';
 function Clients() {
+  const [data, setData] = useState([]);
   const [selectionType] = useState('checkbox');
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [isModalVisible1, setIsModalVisible1] = useState(false);
   const [selectedClient, setSelectedClient] = useState(null);
+
+
+  useEffect(() => {
+    crmAPI.getAllClientsData()
+      .then(response => setData(response.data))
+      .catch(error => console.error("Ошибка при получении данных:", error));
+  }, []);
+
 
   const handleAddClient = () => {
     setIsModalVisible(true); 
@@ -58,7 +68,7 @@ function Clients() {
       >
         <Input
           ref={searchInput}
-          placeholder={`Поиск ${dataIndex === 'name' ? 'Имени' : dataIndex === 'phone' ? 'Телефона' : dataIndex === 'email' ? 'Почты' : 'Типа клиента'}`}
+          placeholder={`Поиск ${dataIndex === 'name' ? 'названия' : dataIndex === 'phone' ? 'телефона' : dataIndex === 'email' ? 'почты' : dataIndex === 'unp' ? 'УНП' : dataIndex === 'initials' ? 'по инициалам' : 'Типа клиента' }`}
           value={selectedKeys[0]}
           onChange={(e) => setSelectedKeys(e.target.value ? [e.target.value] : [])}
           onPressEnter={() => handleSearch(selectedKeys, confirm, dataIndex)}
@@ -130,73 +140,62 @@ function Clients() {
       ),
   });
   const columns = [
-      {
-          title: 'Имя',
-          width: 100,
-          dataIndex: 'name',
-          key: 'name',
-          fixed: 'left',
-          ...getColumnSearchProps('name'),
-      },
-      {
-          title: 'Телефон',
-          width: 150,
-          dataIndex: 'phone',
-          key: 'phone',
-          ...getColumnSearchProps('phone'),
-      },
-      {
-          title: 'Почта',
-          width: 100,
-          dataIndex: 'email',
-          key: 'email',
-          responsive: ['md'],
-          ...getColumnSearchProps('email'),
-      },
-      {
-          title: 'Тип клиента',
-          width: 150,
-          dataIndex: 'clientType',
-          key: 'clientType',
-          filters: [
-              { text: 'Физ. лицо', value: '1' },
-              { text: 'Юр. лицо', value: '2' },
-          ],
-          responsive: ['md'],
-          onFilter: (value, record) => record.clientType.startsWith(value),
-          render: (text) => (
-              <span>{text === '1' ? 'Физ. лицо' : 'Юр. лицо'}</span>
-          ),
-      },
-      {
-          title: 'ИНН',
-          width: 100,
-          dataIndex: 'inn',
-          key: 'inn',
-          responsive: ['md'],
-          ...getColumnSearchProps('inn'),
-      },
-      {
-          title: 'ФИО',
-          width: 100,
-          dataIndex: 'initials',
-          key: 'initials',
-          responsive: ['md'],
-          ...getColumnSearchProps('initials'),
-      },
-  ];
-  const data = [];
-  for (let i = 0; i < 30; i++) {
-    data.push({
-        key: i,
-        name: i % 2 === 0 ? `Компания ${i}` : '',
-        phone: `+375(29) 501-27-66`,
-        email: `example${i}@gmail.com`,
-        clientType: i % 2 === 0 ? '' : '1',
-        inn: i % 2 === 0 ? `123456789${i}` : '',
-        initials: i % 2 !== 0 ? `Абметка Валерий ${i}` : '',
-    });
-}
+  {
+    title: 'Имя',
+    width: 100,
+    dataIndex: 'name',
+    key: 'name',
+    fixed: 'left',
+    ...getColumnSearchProps('name'),
+  },
+  {
+    title: 'Телефон',
+    width: 150,
+    dataIndex: 'phone',
+    key: 'phone',
+    ...getColumnSearchProps('phone'),
+  },
+  {
+    title: 'Почта',
+    width: 100,
+    dataIndex: 'email',
+    key: 'email',
+    responsive: ['md'],
+    ...getColumnSearchProps('email'),
+  },
+  {
+    title: 'Тип клиента',
+    width: 150,
+    dataIndex: 'sign', 
+    key: 'sign',
+    filters: [
+      { text: 'Физ. лицо', value: 'true' },
+      { text: 'Юр. лицо', value: 'false' },
+    ],
+    responsive: ['md'],
+    onFilter: (value, record) => String(record.sign) === value,
+    render: (text) => (
+      <span>{text ? 'Физ. лицо' : 'Юр. лицо'}</span>
+    ),
+  },
+  {
+    title: 'ИНН',
+    width: 100,
+    dataIndex: 'unp',
+    key: 'unp',
+    responsive: ['md'],
+    ...getColumnSearchProps('unp'),
+  },
+  {
+    title: 'ФИО',
+    width: 100,
+    dataIndex: 'initials',
+    key: 'initials',
+    responsive: ['md'],
+    ...getColumnSearchProps('initials'),
+  },
+];
+  
 
   return (
       <main id="main">

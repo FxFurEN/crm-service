@@ -6,6 +6,6 @@ const instance = axios.create({
 
 export const crmAPI = {
     getAllClientsData() {
-        return instance.get('/clientsData');
+        return instance.get('/crm/clientsData');
       },
 }
