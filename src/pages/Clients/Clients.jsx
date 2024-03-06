@@ -189,12 +189,12 @@ function Clients() {
   for (let i = 0; i < 30; i++) {
     data.push({
         key: i,
-        name: `Компания ${i}`,
+        name: i % 2 === 0 ? `Компания ${i}` : '',
         phone: `+375(29) 501-27-66`,
         email: `example${i}@gmail.com`,
-        clientType: i % 2 === 0 ? '1' : '2',
+        clientType: i % 2 === 0 ? '' : '1',
         inn: i % 2 === 0 ? `123456789${i}` : '',
-        initials: i % 2 !== 0 ? `John Doe ${i}` : '',
+        initials: i % 2 !== 0 ? `Абметка Валерий ${i}` : '',
     });
 }
 
@@ -205,12 +205,17 @@ function Clients() {
             columns={columns} 
             dataSource={data} 
             pagination={{
-              position: ['bottomCenter'],
+              pageSize: 50,
+              position: ['none'],
             }}
             onRow={(record, rowIndex) => {
               return {
                 onClick: () => handleInfoModal(record),   
               };
+            }}
+
+            scroll={{
+              y: 600,
             }}
             summary={() => (
               <Table.Summary >
