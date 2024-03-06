@@ -1,13 +1,14 @@
 {
   "name": "crm-service",
-  "private": true,
+  "private": false,
   "version": "0.0.0",
   "type": "module",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
     "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "postinstall": "node ./postinstall.js"
   },
   "dependencies": {
     "@ant-design/charts": "^2.0.3",
@@ -17,16 +18,19 @@
     "@dnd-kit/sortable": "^8.0.0",
     "@maskito/core": "^2.0.2",
     "@maskito/react": "^2.0.2",
+    "@react-pdf/renderer": "^3.3.8",
     "@reduxjs/toolkit": "^2.1.0",
     "@tinymce/tinymce-react": "^4.3.2",
     "antd": "^5.14.0",
     "axios": "^1.6.5",
     "clipboard-copy": "^4.0.1",
     "dotenv": "^16.4.1",
+    "fs-extra": "^11.2.0",
     "lodash": "^4.17.21",
     "react": "^18.2.0",
     "react-colorful": "^5.6.1",
     "react-dom": "^18.2.0",
+    "react-easy-print": "^0.6.0",
     "react-highlight-words": "^0.20.0",
     "react-redux": "^9.1.0",
     "react-router-dom": "^6.21.2",
@@ -42,5 +46,9 @@
     "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-plugin-react-refresh": "^0.4.4",
     "vite": "^5.0.0"
-  }
+  },
+  "main": "index.js",
+  "repository": "https://github.com/FxFurEN/crm-service",
+  "author": "FxFurEN <nikitostimoshenko@gmail.com>",
+  "license": "MIT"
 }

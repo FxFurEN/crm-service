@@ -6,6 +6,7 @@ const visibilitySlice = createSlice({
     isSkladVisible: true,
     isMagazinVisible: true,
     isOrdersVisible: true,
+    documentContent: "", // Добавляем поле для хранения содержимого документа
   },
   reducers: {
     setVisibility: (state, action) => {
@@ -21,9 +22,14 @@ const visibilitySlice = createSlice({
         [field]: !state[field],
       };
     },
+    // Добавляем действие для сохранения содержимого документа
+    setDocumentContent: (state, action) => {
+      state.documentContent = action.payload;
+    },
   },
 });
 
-export const { setVisibility, toggleVisibility } = visibilitySlice.actions;
+export const { setVisibility, toggleVisibility, setDocumentContent } = visibilitySlice.actions;
 export const selectVisibility = (state) => state.visibility;
+export const selectDocumentContent = (state) => state.visibility.documentContent; // Создаем селектор для получения содержимого документа
 export default visibilitySlice.reducer;

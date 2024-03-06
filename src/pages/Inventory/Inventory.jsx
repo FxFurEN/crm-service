@@ -1,22 +1,15 @@
 import { useState, useRef } from 'react';
-import { Button, ConfigProvider, Flex, Space, Tooltip, Input, Table, List } from 'antd';
-import {PlusOutlined, SearchOutlined, SmileOutlined} from '@ant-design/icons';
+import { Button, Flex, Space, Tooltip, Input, Table, List } from 'antd';
+import {PlusOutlined, SearchOutlined} from '@ant-design/icons';
 import Highlighter from 'react-highlight-words';
 import AddCategory from './AddCetegory'
 import InfoInventory from './InfoInventory';
 
 const Inventory = () =>{
-  const [selectionType] = useState('checkbox');
-  const [customize] = useState(true);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [isAddCategoryModalVisible, setIsAddCategoryModalVisible] = useState(false);
   const [selectedItem, setSelectedItem] = useState(null);
   
-
-
-  const showModal = () => {
-    setIsModalVisible(true);
-  };
   const showAddCategoryModal = () => {
     setIsAddCategoryModalVisible(true);
   };
@@ -169,20 +162,6 @@ const Inventory = () =>{
       },
   ];
 
-  const customizeRenderEmpty = () => (
-    <div
-      style={{
-        textAlign: 'center',
-      }}
-    >
-      <SmileOutlined
-        style={{
-          fontSize: 20,
-        }}
-      />
-      <p>Данные не найдены</p>
-    </div>
-  );
     return(
       <main id="main">
       <Flex  wrap="wrap" gap="large">
@@ -222,7 +201,6 @@ const Inventory = () =>{
         </div>
 
         <div style={{ flex: '1 1' }}>
-          <ConfigProvider renderEmpty={customize ? customizeRenderEmpty : undefined}>
             <Table
               columns={columns}
               dataSource={data}
@@ -244,7 +222,6 @@ const Inventory = () =>{
                 onClick: () => handleRowClick(record),
               })}
             />
-          </ConfigProvider>
         </div>
       </Flex>
       <AddCategory 

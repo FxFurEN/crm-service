@@ -14,7 +14,6 @@ import Settings from '@pages/Settings/Settings.jsx';
 import Profile from '@pages/Settings/company-block/profile/Profile.jsx';
 import Modules from '@pages/Settings/company-block/modules/Modules.jsx';
 import Documents from '@pages/Settings/company-block/documents/Documents.jsx';
-import StatementOfWork from '@pages/Settings/company-block/documents/statementOfWork/StatementOfWork.jsx';
 import Employees from '@pages/Settings/company-block/employees/Employees.jsx';
 import GeneralOrders from '@pages/Settings/orders-block/general-orders/GeneralOrders.jsx';
 import GeneralCompany from '@pages/Settings/company-block/general-company/GeneralCompany.jsx'
@@ -27,7 +26,8 @@ import TypeClients from '@pages/Settings/forms-block/type-clients/TypeClients.js
 import Handbooks from '@pages/Settings/forms-block/handbooks/Handbooks.jsx';
 import FieldsHandBooks from '@pages/Settings/forms-block/handbooks/fieldsHandBook/FieldsHandBook.jsx';
 import Notification from '@pages/Settings/notification-block/Notification.jsx';
-import App from '../../App';
+import NonPage from '@pages/NonPage';
+import ShablonDoc from '@pages/Settings/company-block/documents/ShablonDoc';
 
 
 
@@ -52,7 +52,7 @@ const Router = () => {
                     <Route path="/settings/profile" element={<Profile />} />
                     <Route path="/settings/modules" element={<Modules />} />
                     <Route path="/settings/documents" element={<Documents />} />
-                    <Route path="/settings/documents/statementOfWork" element={<StatementOfWork/>} />
+                    <Route path="/settings/documents/shablondoc" element={<ShablonDoc/>} />
                     <Route path="/settings/employees" element={<Employees/>} />
                     <Route path="/settings/general/orders" element={<GeneralOrders />} />
                     <Route path="/settings/statuses" element={<Statuses />} />
@@ -65,9 +65,11 @@ const Router = () => {
                     <Route path='/settings/handbooks/:id' element={<FieldsHandBooks />} />
                     <Route path="/settings/notifications" element={<Notification/>} />
 
-                    <Route path="*" element={<App/>} />
-                    <Route path="" element={<Navigate to={'/home'} />}/>
+                    <Route path="/404" element={<NonPage />} />
+                    <Route path="/" element={<Navigate to="/home" />} />
+                    <Route path="*" element={<Navigate to="/404" />} />
                   </Route>
+                  
               </Routes>
             </BrowserRouter>
         </PersistGate>

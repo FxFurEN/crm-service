@@ -1,11 +1,10 @@
-import { SearchOutlined, SmileOutlined } from "@ant-design/icons";
-import { Button, ConfigProvider, Space, Table, Input } from "antd";
+import { SearchOutlined } from "@ant-design/icons";
+import { Button, Space, Table, Input } from "antd";
 import { useRef, useState } from "react";
 import Highlighter from "react-highlight-words";
 
 const Shop = () =>{
   const [selectionType] = useState('checkbox');
-  const [customize] = useState(true);
   const rowSelection = {
     onChange: (selectedRowKeys, selectedRows) => {
       console.log(
@@ -154,24 +153,8 @@ const Shop = () =>{
       price: `${i}.00`,
     });
   }
-
-  const customizeRenderEmpty = () => (
-    <div
-      style={{
-        textAlign: 'center',
-      }}
-    >
-      <SmileOutlined
-        style={{
-          fontSize: 20,
-        }}
-      />
-      <p>Данные не найдены</p>
-    </div>
-  );
   return (
       <main id="main">
-        <ConfigProvider renderEmpty={customize ? customizeRenderEmpty : undefined}>
           <Table
             rowSelection={{ type: selectionType, ...rowSelection }} 
             columns={columns} 
@@ -188,7 +171,6 @@ const Shop = () =>{
               </Table.Summary>
             )}
             />
-        </ConfigProvider>
       </main>
   );
 }

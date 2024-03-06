@@ -1,7 +1,7 @@
 import { useState, useRef } from 'react';
-import { Button, ConfigProvider, Input, Space, Table, Tag, Timeline} from 'antd';
+import { Button, Input, Space, Table, Tag, Timeline} from 'antd';
 import Highlighter from 'react-highlight-words';
-import { ClockCircleOutlined, PlusOutlined, SearchOutlined, SmileOutlined } from '@ant-design/icons';
+import { ClockCircleOutlined, PlusOutlined, SearchOutlined } from '@ant-design/icons';
 import InfoOrders from './InfoOrders';
 import NewOrders from './NewOrders';
 import Floatbutton from '@components/float-button/FloatButton';
@@ -10,11 +10,8 @@ const Orders = () => {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [isModalVisibleNew, setIsModalVisibleNew] = useState(false);
   const [selectedOrder, setSelectedOrder] = useState(null);
-
-
   const [searchText, setSearchText] = useState('');
   const [searchedColumn, setSearchedColumn] = useState('');
-  const [customize] = useState(true);
   const searchInput = useRef(null);
   const handleSearch = (selectedKeys, confirm, dataIndex) => {
     confirm();
@@ -213,24 +210,10 @@ const Orders = () => {
     setIsModalVisibleNew(false);
   };
 
-  const customizeRenderEmpty = () => (
-    <div
-      style={{
-        textAlign: 'center',
-      }}
-    >
-      <SmileOutlined
-        style={{
-          fontSize: 20,
-        }}
-      />
-      <p>Данные не найдены</p>
-    </div>
-  );
+ 
   return (
     <>
       <main id="main">
-        <ConfigProvider renderEmpty={customize ? customizeRenderEmpty : undefined}>
           <Table
             columns={columns}
             dataSource={data}
@@ -267,7 +250,6 @@ const Orders = () => {
               };
             }}
           />
-        </ConfigProvider>
         <Floatbutton onClick={handleNewOrderModal} icon={<PlusOutlined />} >Добавить заказ</Floatbutton>
         <InfoOrders
           visible={isModalVisible}
