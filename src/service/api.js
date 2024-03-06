@@ -8,4 +8,7 @@ export const crmAPI = {
     getAllClientsData() {
         return instance.get('/crm/clientsData');
       },
+      createClient(clientData) {
+        return instance.post('/crm/createClient', clientData);
+    }
 }

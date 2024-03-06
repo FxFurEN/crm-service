@@ -1,18 +1,23 @@
 import { useState } from 'react';
 import { Modal, Input, Flex, Button, Radio } from 'antd';
 import InputMask from 'react-input-mask';
+import { crmAPI } from '@service/api'; 
 
 const NewClients = ({ visible, handleOk, handleCancel }) => {
     const [confirmLoading, setConfirmLoading] = useState(false);
-    const [clientData, setClientData] = useState({ name: '', phone: '', email: '', initials: '' });
-    const [isLegalEntity, setIsLegalEntity] = useState(false); 
+    const [clientData, setClientData] = useState({ name: '', phone: '', email: '', initials: '', unp: '', isLegalEntity: false });
 
-    const handleOkAsync = () => {
+    const handleOkAsync = async () => {
         setConfirmLoading(true);
-        setTimeout(() => { 
-            handleOk(clientData); 
+        try {
+            console.log(clientData)
+            await crmAPI.createClient(clientData); 
+            handleOk(clientData);
+        } catch (error) {
+            console.error('Error creating client:', error);
+        } finally {
             setConfirmLoading(false);
-        }, 2000);
+        }
     };
 
     const baseStyle = {
@@ -40,12 +45,12 @@ const NewClients = ({ visible, handleOk, handleCancel }) => {
         >
             <Flex vertical gap={20}>
                 <Flex horizontal>
-                    <Radio.Group onChange={(e) => setIsLegalEntity(e.target.value)} value={isLegalEntity}>
+                    <Radio.Group onChange={(e) => handleChange('isLegalEntity', e.target.value)} value={clientData.isLegalEntity}>
                         <Radio value={false}>Физ. лицо</Radio>
                         <Radio value={true}>Юр.лицо</Radio>
                     </Radio.Group>
                 </Flex>
-                {isLegalEntity ? (
+                {clientData.isLegalEntity ? (
                     <>
                         <Input
                             style={{ ...baseStyle }}
@@ -61,8 +66,8 @@ const NewClients = ({ visible, handleOk, handleCancel }) => {
                             maxLength={9}
                             style={{ ...baseStyle }}
                             placeholder="УНП"
-                            value={clientData.inn}
-                            onChange={(e) => handleChange('inn', e.target.value)}
+                            value={clientData.unp}
+                            onChange={(e) => handleChange('unp', e.target.value)}
                         />
                     </>
                 ) : (
