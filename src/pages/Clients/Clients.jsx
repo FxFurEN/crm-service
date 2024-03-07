@@ -1,8 +1,10 @@
 import { useState, useRef, useEffect} from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { PlusOutlined, SearchOutlined } from '@ant-design/icons';
 import { Button, Input, Space, Table } from 'antd';
 import Highlighter from 'react-highlight-words';
 import { crmAPI } from '@service/api'; 
+import { setClientsData, selectClientsData } from '@store/clientsSlice';
 
 import '@assets/styles/main.scss';
 import '@assets/styles/global.scss';
@@ -10,11 +12,12 @@ import Floatbutton from '@components/float-button/FloatButton';
 import NewClients from './NewClients';
 import InfoClients from './InfoClients';
 function Clients() {
-  const [data, setData] = useState([]);
   const [selectionType] = useState('checkbox');
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [isModalVisible1, setIsModalVisible1] = useState(false);
   const [selectedClient, setSelectedClient] = useState(null);
+  const dispatch = useDispatch();
+  const clientsData = useSelector(selectClientsData);
 
 
   useEffect(() => {
@@ -23,7 +26,7 @@ function Clients() {
 
   const fetchClientsData = () => {
     crmAPI.getAllClientsData()
-      .then(response => setData(response.data))
+      .then(response => dispatch(setClientsData(response.data)))
       .catch(error => console.error("Ошибка при получении данных:", error));
   }
 
@@ -206,7 +209,7 @@ function Clients() {
           <Table 
             rowSelection={{ type: selectionType, ...rowSelection }} 
             columns={columns} 
-            dataSource={data} 
+            dataSource={clientsData} 
             pagination={{
               pageSize: 50,
               position: ['none'],
