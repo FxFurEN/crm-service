@@ -117,7 +117,7 @@ const NewClients = ({ visible, handleOk, handleCancel }) => {
                         style={{ marginBottom: -5 }} 
                     >
                         <InputMask
-                            mask="+375 (99) 999-99-99"
+                            mask="+375 (99) 999-99-99 "
                             value={clientData.phone}
                             onChange={(e) => handleChange('phone', e.target.value)}
                         >
