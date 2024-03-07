@@ -1,7 +1,10 @@
-import { useState, useRef} from 'react';
+import { useState, useRef, useEffect} from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { PlusOutlined, SearchOutlined } from '@ant-design/icons';
 import { Button, Input, Space, Table } from 'antd';
 import Highlighter from 'react-highlight-words';
+import { crmAPI } from '@service/api'; 
+import { setClientsData, selectClientsData } from '@store/clientsSlice';
 
 import '@assets/styles/main.scss';
 import '@assets/styles/global.scss';
@@ -9,10 +12,23 @@ import Floatbutton from '@components/float-button/FloatButton';
 import NewClients from './NewClients';
 import InfoClients from './InfoClients';
 function Clients() {
-  const [selectionType] = useState('checkbox');
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [isModalVisible1, setIsModalVisible1] = useState(false);
   const [selectedClient, setSelectedClient] = useState(null);
+  const dispatch = useDispatch();
+  const clientsData = useSelector(selectClientsData);
+
+
+  useEffect(() => {
+    fetchClientsData();
+  }, []);
+
+  const fetchClientsData = () => {
+    crmAPI.getAllClientsData()
+      .then(response => dispatch(setClientsData(response.data)))
+      .catch(error => console.error("Ошибка при получении данных:", error));
+  }
+
 
   const handleAddClient = () => {
     setIsModalVisible(true); 
@@ -23,19 +39,6 @@ function Clients() {
     
   };
 
-  const rowSelection = {
-    onChange: (selectedRowKeys, selectedRows) => {
-      console.log(
-        `selectedRowKeys: ${selectedRowKeys}`,
-        'selectedRows: ',
-        selectedRows
-      );
-    },
-    getCheckboxProps: (record) => ({
-      disabled: record.name === 'Disabled User',
-      name: record.name,
-    }),
-  };
   const [searchText, setSearchText] = useState('');
   const [searchedColumn, setSearchedColumn] = useState('');
   const searchInput = useRef(null);
@@ -58,7 +61,7 @@ function Clients() {
       >
         <Input
           ref={searchInput}
-          placeholder={`Поиск ${dataIndex === 'name' ? 'Имени' : dataIndex === 'phone' ? 'Телефона' : dataIndex === 'email' ? 'Почты' : 'Типа клиента'}`}
+          placeholder={`Поиск ${dataIndex === 'name' ? 'названия' : dataIndex === 'phone' ? 'телефона' : dataIndex === 'email' ? 'почты' : dataIndex === 'unp' ? 'УНП' : dataIndex === 'initials' ? 'по инициалам' : 'Типа клиента' }`}
           value={selectedKeys[0]}
           onChange={(e) => setSelectedKeys(e.target.value ? [e.target.value] : [])}
           onPressEnter={() => handleSearch(selectedKeys, confirm, dataIndex)}
@@ -130,77 +133,80 @@ function Clients() {
       ),
   });
   const columns = [
-    {
-      title: 'Имя',
-      width: 100,
-      dataIndex: 'name',
-      key: 'name',
-      fixed: 'left',
-      ...getColumnSearchProps('name'),
-    },
-    {
-      title: 'Телефон',
-      width: 150,
-      dataIndex: 'phone',
-      key: 'phone',
-      ...getColumnSearchProps('phone'),
-    },
-    {
-      title: 'Почта',
-      width: 100,
-      dataIndex: 'email',
-      key: 'email',
-      responsive: ['md'],
-      ...getColumnSearchProps('email'),
-    },
-    {
-      title: 'Тип клиента',
-      width: 150,
-      dataIndex: 'clientType',
-      key: 'clientType',
-      filters: [
-        {
-          text: 'Физ. лицо',
-          value: '1',
-        },
-        {
-          text: 'Юр. лицо',
-          value: '2',
-        },
-      ],
-      responsive: ['md'],
-      onFilter: (value, record) => record.clientType.startsWith(value),
-      render: (text) => (
-        <span>
-          {text === '1' ? 'Физ. лицо' : 'Юр. лицо'}
-        </span>
-      ),
-    },
-  ];
-  const data = [];
-  for (let i = 0; i < 30; i++) {
-    data.push({
-      key: i,
-      name: `Edward ${i}`,
-      phone: `+375(29) 501-27-66`,
-      email: `example${i}@gmail.com`,
-      clientType: i % 2 === 0 ? '1' : '2',
-    });
-  }
+  {
+    title: 'Имя',
+    width: 100,
+    dataIndex: 'name',
+    key: 'name',
+    fixed: 'left',
+    ...getColumnSearchProps('name'),
+  },
+  {
+    title: 'Телефон',
+    width: 150,
+    dataIndex: 'phone',
+    key: 'phone',
+    ...getColumnSearchProps('phone'),
+  },
+  {
+    title: 'Почта',
+    width: 100,
+    dataIndex: 'email',
+    key: 'email',
+    responsive: ['md'],
+    ...getColumnSearchProps('email'),
+  },
+  {
+    title: 'Тип клиента',
+    width: 150,
+    dataIndex: 'sign', 
+    key: 'sign',
+    filters: [
+      { text: 'Физ. лицо', value: 'false' },
+      { text: 'Юр. лицо', value: 'true' },
+    ],
+    responsive: ['md'],
+    onFilter: (value, record) => String(record.sign) === value,
+    render: (text) => (
+      <span>{text ? ' Юр. лицо' : 'Физ. лицо'}</span>
+    ),
+  },
+  {
+    title: 'УНП',
+    width: 100,
+    dataIndex: 'unp',
+    key: 'unp',
+    responsive: ['md'],
+    ...getColumnSearchProps('unp'),
+  },
+  {
+    title: 'ФИО',
+    width: 100,
+    dataIndex: 'initials',
+    key: 'initials',
+    responsive: ['md'],
+    ...getColumnSearchProps('initials'),
+  },
+];
+  
 
   return (
       <main id="main">
           <Table 
-            rowSelection={{ type: selectionType, ...rowSelection }} 
             columns={columns} 
-            dataSource={data} 
+            dataSource={clientsData} 
             pagination={{
-              position: ['bottomCenter'],
+              pageSize: 50,
+              position: ['none'],
             }}
             onRow={(record, rowIndex) => {
               return {
                 onClick: () => handleInfoModal(record),   
               };
+            }}
+
+            scroll={{
+              y: 600,
             }}
             summary={() => (
               <Table.Summary >
@@ -218,7 +224,10 @@ function Clients() {
         />
         <NewClients
           visible={isModalVisible} 
-          handleOk={() => setIsModalVisible(false)} 
+          handleOk={() => {
+            setIsModalVisible(false);
+            fetchClientsData(); 
+          }} 
           handleCancel={() => setIsModalVisible(false)}
         />
        <InfoClients 
