@@ -18,8 +18,6 @@ const dataNotifaction = [
     { title: 'Уведомления', link: '/settings/notifications', icon: <NotificationOutlined /> },
 ];
 const dataForms = [
-    { title: 'Типы заказа', link: '/settings/orderType', icon: <ScheduleOutlined /> },
-    { title: 'Типы клиентов', link: '/settings/clientType', icon: <ContactsOutlined /> },
     { title: 'Поле: заказы', link: '/settings/fields/order', icon: <ScheduleOutlined />},
     { title: 'Поле: клиенты', link: '/settings/fields/client', icon: <ContactsOutlined /> },
     { title: 'Справочник', link: '/settings/handbooks', icon: <BookOutlined/> },
