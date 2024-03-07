@@ -3,6 +3,8 @@ import { Button, ConfigProvider, Flex, Space, Tooltip, Input, Table, List } from
 import {PlusOutlined, SearchOutlined, SmileOutlined} from '@ant-design/icons';
 import Highlighter from 'react-highlight-words';
 import { crmAPI } from '@service/api';
+import { setServicesData } from '@store/serviceSlice'; 
+import { useDispatch, useSelector } from 'react-redux';
 
 const Services = () =>{
   const [selectionType] = useState('checkbox');
@@ -24,10 +26,8 @@ const Services = () =>{
   const [searchText, setSearchText] = useState('');
   const [searchedColumn, setSearchedColumn] = useState('');
   const searchInput = useRef(null);
-  const [services, setServices] = useState([]);
-  const [categories, setDataCategory] = useState([]);
   const [loading, setLoading] = useState(false);
-
+  const dispatch = useDispatch();
 
 
   useEffect(() => {
@@ -36,9 +36,8 @@ const Services = () =>{
       .then(response => {
         const servicesData = response.data;
         const categoriesData = servicesData.map(service => service.category);
-  
-        setServices(servicesData);
-        setDataCategory(categoriesData);
+
+        dispatch(setServicesData({ services: servicesData, categories: categoriesData }));
         setLoading(false);
       })
       .catch(error => {
@@ -46,6 +45,9 @@ const Services = () =>{
         setLoading(false);
       });
   }, []);
+
+  const services = useSelector(state => state.services.services); 
+  const categories = useSelector(state => state.services.categories); 
 
 
 
