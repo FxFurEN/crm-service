@@ -42,7 +42,7 @@ const InfoClients = ({ visible, handleOk, handleCancel, client }) => {
             <Modal
                 title="Информация о заказе"
                 centered
-                visible={visible} // Changed "open" to "visible"
+                open={visible} // Changed "open" to "visible"
                 onOk={handleOkAsync}
                 confirmLoading={confirmLoading}
                 onCancel={handleCancel}

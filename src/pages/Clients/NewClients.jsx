@@ -36,7 +36,7 @@ const NewClients = ({ visible, handleOk, handleCancel }) => {
         <Modal
             title="Добавить клиента"
             centered
-            visible={visible}
+            open={visible}
             onOk={handleOkAsync}
             confirmLoading={confirmLoading}
             onCancel={handleCancel}
