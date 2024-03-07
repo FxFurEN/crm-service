@@ -18,10 +18,14 @@ function Clients() {
 
 
   useEffect(() => {
+    fetchClientsData();
+  }, []);
+
+  const fetchClientsData = () => {
     crmAPI.getAllClientsData()
       .then(response => setData(response.data))
       .catch(error => console.error("Ошибка при получении данных:", error));
-  }, []);
+  }
 
 
   const handleAddClient = () => {
@@ -232,7 +236,10 @@ function Clients() {
         />
         <NewClients
           visible={isModalVisible} 
-          handleOk={() => setIsModalVisible(false)} 
+          handleOk={() => {
+            setIsModalVisible(false);
+            fetchClientsData(); 
+          }} 
           handleCancel={() => setIsModalVisible(false)}
         />
        <InfoClients 
