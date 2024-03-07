@@ -12,7 +12,6 @@ import Floatbutton from '@components/float-button/FloatButton';
 import NewClients from './NewClients';
 import InfoClients from './InfoClients';
 function Clients() {
-  const [selectionType] = useState('checkbox');
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [isModalVisible1, setIsModalVisible1] = useState(false);
   const [selectedClient, setSelectedClient] = useState(null);
@@ -40,19 +39,6 @@ function Clients() {
     
   };
 
-  const rowSelection = {
-    onChange: (selectedRowKeys, selectedRows) => {
-      console.log(
-        `selectedRowKeys: ${selectedRowKeys}`,
-        'selectedRows: ',
-        selectedRows
-      );
-    },
-    getCheckboxProps: (record) => ({
-      disabled: record.name === 'Disabled User',
-      name: record.name,
-    }),
-  };
   const [searchText, setSearchText] = useState('');
   const [searchedColumn, setSearchedColumn] = useState('');
   const searchInput = useRef(null);
@@ -207,7 +193,6 @@ function Clients() {
   return (
       <main id="main">
           <Table 
-            rowSelection={{ type: selectionType, ...rowSelection }} 
             columns={columns} 
             dataSource={clientsData} 
             pagination={{
