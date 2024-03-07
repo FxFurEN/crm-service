@@ -10,5 +10,8 @@ export const crmAPI = {
       },
       createClient(clientData) {
         return instance.post('/crm/createClient', clientData);
-    }
+    },
+    getAllServices() {
+        return instance.get('/crm/services');
+    },
 }

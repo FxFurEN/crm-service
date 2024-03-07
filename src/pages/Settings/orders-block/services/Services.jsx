@@ -1,7 +1,8 @@
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { Button, ConfigProvider, Flex, Space, Tooltip, Input, Table, List } from 'antd';
 import {PlusOutlined, SearchOutlined, SmileOutlined} from '@ant-design/icons';
 import Highlighter from 'react-highlight-words';
+import { crmAPI } from '@service/api';
 
 const Services = () =>{
   const [selectionType] = useState('checkbox');
@@ -19,9 +20,35 @@ const Services = () =>{
       name: record.name,
     }),
   };
+  
   const [searchText, setSearchText] = useState('');
   const [searchedColumn, setSearchedColumn] = useState('');
   const searchInput = useRef(null);
+  const [services, setServices] = useState([]);
+  const [categories, setDataCategory] = useState([]);
+  const [loading, setLoading] = useState(false);
+
+
+
+  useEffect(() => {
+    setLoading(true);
+    crmAPI.getAllServices()
+      .then(response => {
+        const servicesData = response.data;
+        const categoriesData = servicesData.map(service => service.category);
+  
+        setServices(servicesData);
+        setDataCategory(categoriesData);
+        setLoading(false);
+      })
+      .catch(error => {
+        console.error('Error fetching services:', error);
+        setLoading(false);
+      });
+  }, []);
+
+
+
   const handleSearch = (selectedKeys, confirm, dataIndex) => {
     confirm();
     setSearchText(selectedKeys[0]);
@@ -136,33 +163,17 @@ const Services = () =>{
       defaultSortOrder: 'descend',
       sorter: (a, b) => a.price - b.price,
     },
-    {
-        title: 'Себестоимость',
-        dataIndex: 'SelfCost',
-        key: 'SelfCost',
-        width: 150,
-        responsive: ['md'],
-        defaultSortOrder: 'descend',
-        sorter: (a, b) => a.SelfCost - b.SelfCost,
-      },
   ];
-  const data = [];
-  for (let i = 1; i < 11; i++) {
-    const article = String(i).padStart(6, '0');
-    data.push({
-      key: i,
-      article: article,
-      service: `Услуга ${i}`,
-      categoryService: `Категория ${i}`,
-      price: `10.${i}`,
-      SelfCost: `8.${i}`,
-    });
-  }
-  const dataCategory = [
-      {
-        description: ['Диагностика', 'Замена стекла']
-      },
-  ];
+  const data = services.map((service, index) => ({
+    key: index + 1,
+    service: service.name,
+    categoryService: service.category.name,
+    price: service.price,
+  }));
+  const dataCategory = categories.map(category => ({
+    description: [category.name],
+  }));
+  
 
   const customizeRenderEmpty = () => (
     <div
