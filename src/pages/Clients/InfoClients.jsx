@@ -57,7 +57,7 @@ const InfoClients = ({ visible, handleOk, handleCancel, client }) => {
                         { title: 'Телефон', value: client.phone },
                         { title: 'Почта', value: client.email },
                         { title: 'Тип клиента', value: client.clientType === '1' ? 'Физ. лицо' : 'Юр. лицо' },
-                        { title: 'ИНН', value: client.inn },
+                        { title: 'УНП', value: client.unp },
                         { title: 'ФИО', value: client.initials },
                     ]}
                     renderItem={(item) => (

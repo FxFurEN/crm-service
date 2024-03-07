@@ -179,7 +179,7 @@ function Clients() {
     ),
   },
   {
-    title: 'ИНН',
+    title: 'УНП',
     width: 100,
     dataIndex: 'unp',
     key: 'unp',
