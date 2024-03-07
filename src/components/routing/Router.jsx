@@ -21,8 +21,6 @@ import Statuses from '@pages/Settings/orders-block/statuses/Statuses.jsx';
 import Services from '@pages/Settings/orders-block/services/Services.jsx';
 import FieldOrders from '@pages/Settings/forms-block/field-orders/FieldOrders.jsx';
 import FieldClients from '@pages/Settings/forms-block/field-clients/FieldClients.jsx';
-import TypeOrders from '@pages/Settings/forms-block/type-orders/TypeOrders.jsx';
-import TypeClients from '@pages/Settings/forms-block/type-clients/TypeClients.jsx';
 import Handbooks from '@pages/Settings/forms-block/handbooks/Handbooks.jsx';
 import FieldsHandBooks from '@pages/Settings/forms-block/handbooks/fieldsHandBook/FieldsHandBook.jsx';
 import Notification from '@pages/Settings/notification-block/Notification.jsx';
@@ -59,8 +57,6 @@ const Router = () => {
                     <Route path='/settings/services' element={<Services />} />
                     <Route path='/settings/fields/order' element={<FieldOrders />} />
                     <Route path='/settings/fields/client' element={<FieldClients />} />
-                    <Route path='/settings/orderType' element={<TypeOrders />} />
-                    <Route path='/settings/clientType' element={<TypeClients />} />
                     <Route path='/settings/handbooks' element={<Handbooks />} />
                     <Route path='/settings/handbooks/:id' element={<FieldsHandBooks />} />
                     <Route path="/settings/notifications" element={<Notification/>} />
