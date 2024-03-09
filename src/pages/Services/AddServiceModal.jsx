@@ -1,28 +1,38 @@
-import { Modal, Form, Input, Select } from 'antd';
+import { Modal, Form, Input, Select, message } from 'antd';
 import { crmAPI } from '@service/api';
+import { useState } from 'react';
 
 const { Option } = Select;
 
 const AddServiceModal = ({ visible, categories, handleOk, handleCancel }) => {
   const [form] = Form.useForm();
+  const [confirmLoading, setConfirmLoading] = useState(false); 
 
   const onFinish = (values) => {
+    setConfirmLoading(true); 
     crmAPI.createService(values)
       .then((response) => {
         handleOk(response.data);
         form.resetFields();
+        message.success('Услуга успешно добавлена');
+        handleCancel();
       })
       .catch((error) => {
         console.error('Error creating service:', error);
+        message.error('Ошибка при добавлении услуги');
+      })
+      .finally(() => {
+        setConfirmLoading(false);
       });
   };
 
   return (
     <Modal
       title="Добавить услугу"
-      visible={visible}
+      open={visible}
       onOk={form.submit}
       onCancel={handleCancel}
+      confirmLoading={confirmLoading} 
     >
       <Form form={form} onFinish={onFinish}>
         <Form.Item
