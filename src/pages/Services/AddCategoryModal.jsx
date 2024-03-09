@@ -1,4 +1,4 @@
-import { Modal, Form, Input, message } from 'antd';
+import { Modal, Form, Input, message, Button } from 'antd';
 import { crmAPI } from '@service/api';
 import { useState } from 'react';
 
@@ -24,21 +24,37 @@ const AddCategoryModal = ({ visible, handleOk, handleCancel }) => {
       });
   };
 
+  const baseStyle = {
+    width: 'clamp(200px, 100%, 500px)',
+    height: 40,
+  };
+
   return (
     <Modal
+      centered
       title="Добавить категорию"
       open={visible}
       onOk={form.submit}
       onCancel={handleCancel}
       confirmLoading={confirmLoading} 
+      footer={[
+        <Button key="submit" style={{ ...baseStyle }} loading={confirmLoading} onClick={() => form.submit()}>
+            Добавить
+        </Button>
+    ]}
     >
-      <Form form={form} onFinish={onFinish}>
+      <Form form={form} onFinish={onFinish}    layout="vertical">
         <Form.Item
           name="category"
           label="Категория"
           rules={[{ required: true, message: 'Пожалуйста, введите название категории!' }]}
+          style={{ marginBottom: -5 }} 
+          
         >
-          <Input />
+          <Input
+               style={{ ...baseStyle }}
+               placeholder="Название категории" 
+          />
         </Form.Item>
       </Form>
     </Modal>
