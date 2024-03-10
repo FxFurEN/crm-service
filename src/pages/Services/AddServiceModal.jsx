@@ -1,4 +1,4 @@
-import { Modal, Form, Input, Select, message, Flex, Button } from 'antd';
+import { Modal, Form, Input, Select, message, Flex, Button, InputNumber } from 'antd';
 import { crmAPI } from '@service/api';
 import { useState } from 'react';
 
@@ -78,9 +78,13 @@ const AddServiceModal = ({ visible, categories, handleOk, handleCancel }) => {
               rules={[{ required: true, message: 'Пожалуйста, введите цену услуги!' }]}
               style={{ marginBottom: -5 }} 
             >
-              <Input 
-                style={{ ...baseStyle }}
-                placeholder="Цена услуги"
+               <InputNumber
+                  style={{ ...baseStyle }}
+                  placeholder="Цена услуги"
+                  min="0"
+                  max="1000"
+                  step="0.01"
+                  stringMode
               />
             </Form.Item>
         </Flex>
