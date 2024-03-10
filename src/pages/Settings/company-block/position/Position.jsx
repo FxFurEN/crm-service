@@ -27,7 +27,7 @@ const PositionModal = ({ visible, handleCancel, handleSave, position }) => {
   return (
     <Modal
       title={position ? "Редактировать должность" : "Добавить должность"}
-      visible={visible}
+      open={visible}
       onCancel={handleClose}
       footer={[
         <Button key="cancel" onClick={handleClose}>
