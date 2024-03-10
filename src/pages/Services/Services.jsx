@@ -1,27 +1,101 @@
-import { useState, useRef } from 'react';
-import { Button, ConfigProvider, Flex, Space, Tooltip, Input, Table, List } from 'antd';
-import {PlusOutlined, SearchOutlined, SmileOutlined} from '@ant-design/icons';
+import { useState, useRef, useEffect } from 'react';
+import { Button, Flex, Space, Tooltip, Input, Table, List } from 'antd';
+import {PlusOutlined, SearchOutlined} from '@ant-design/icons';
 import Highlighter from 'react-highlight-words';
+import { crmAPI } from '@service/api';
+import { setServicesData } from '@store/serviceSlice'; 
+import { useDispatch, useSelector } from 'react-redux';
+import AddServiceModal from './AddServiceModal';
+import AddCategoryModal from './AddCategoryModal';
+import Floatbutton from '@components/float-button/FloatButton';
 
 const Services = () =>{
   const [selectionType] = useState('checkbox');
-  const [customize] = useState(true);
+  const [visibleCategoryModal, setVisibleCategoryModal] = useState(false);
+  const [visibleServiceModal, setVisibleServiceModal] = useState(false);
   const rowSelection = {
-    onChange: (selectedRowKeys, selectedRows) => {
-      console.log(
-        `selectedRowKeys: ${selectedRowKeys}`,
-        'selectedRows: ',
-        selectedRows
-      );
-    },
     getCheckboxProps: (record) => ({
       disabled: record.name === 'Disabled User',
       name: record.name,
     }),
   };
+  
   const [searchText, setSearchText] = useState('');
   const [searchedColumn, setSearchedColumn] = useState('');
   const searchInput = useRef(null);
+  const [loading, setLoading] = useState(false);
+  const dispatch = useDispatch();
+  const [categories, setCategories] = useState([]);
+
+
+  useEffect(() => {
+    fetchCategories();
+    fetchServices();
+  }, []);
+
+
+
+  const fetchServices = () => {
+    setLoading(true);
+    crmAPI.getAllServices()
+      .then(response => {
+        const servicesData = response.data;
+        const categoriesData = servicesData.map(service => service.category);
+
+        dispatch(setServicesData({ services: servicesData, categories: categoriesData }));
+        setLoading(false);
+      })
+      .catch(error => {
+        console.error('Error fetching services:', error);
+        setLoading(false);
+      });
+  };
+
+  const fetchCategories = () => {
+      setLoading(true);
+      crmAPI.getAllCategories()
+        .then(response => {
+          const categoriesData = response.data;
+          setCategories(categoriesData);
+          setLoading(false);
+        })
+        .catch(error => {
+          console.error('Error fetching categories:', error);
+          setLoading(false);
+        });
+    };
+
+  
+
+  const services = useSelector(state => state.services.services);
+
+
+  const showModalCategory = () => {
+    setVisibleCategoryModal(true);
+  };
+
+  const handleOkCategory = (values) => {
+    setVisibleCategoryModal(false);
+  };
+
+  const handleCancelCategory = () => {
+    setVisibleCategoryModal(false);
+  };
+
+  const showModalService = () => {
+    setVisibleServiceModal(true);
+  };
+
+  const handleOkService = (values) => {
+    setVisibleServiceModal(false);
+  };
+
+  const handleCancelService = () => {
+    setVisibleServiceModal(false);
+  };
+
+
+
   const handleSearch = (selectedKeys, confirm, dataIndex) => {
     confirm();
     setSearchText(selectedKeys[0]);
@@ -136,57 +210,32 @@ const Services = () =>{
       defaultSortOrder: 'descend',
       sorter: (a, b) => a.price - b.price,
     },
-    {
-        title: 'Себестоимость',
-        dataIndex: 'SelfCost',
-        key: 'SelfCost',
-        width: 150,
-        responsive: ['md'],
-        defaultSortOrder: 'descend',
-        sorter: (a, b) => a.SelfCost - b.SelfCost,
-      },
   ];
-  const data = [];
-  for (let i = 1; i < 11; i++) {
-    const article = String(i).padStart(6, '0');
-    data.push({
-      key: i,
-      article: article,
-      service: `Услуга ${i}`,
-      categoryService: `Категория ${i}`,
-      price: `10.${i}`,
-      SelfCost: `8.${i}`,
-    });
-  }
-  const dataCategory = [
-      {
-        description: ['Диагностика', 'Замена стекла']
-      },
-  ];
+  const data = services.map((service, index) => ({
+    key: index + 1,
+    service: service.name,
+    categoryService: service.category.name,
+    price: service.price,
+  }));
+  const dataCategory = categories.map(category => ({
+    description: [category.name],
+  }));
 
-  const customizeRenderEmpty = () => (
-    <div
-      style={{
-        textAlign: 'center',
-      }}
-    >
-      <SmileOutlined
-        style={{
-          fontSize: 20,
-        }}
-      />
-      <p>Данные не найдены</p>
-    </div>
-  );
-    return(
-      <main id="main">
-      <Flex  wrap="wrap" gap="large">
-        <div style={{ marginLeft: '1em',}}>
-        <Space size={100}>
-          Все категории
-          <Tooltip title="Добавить категорию" >
-            <Button shape="circle" icon={<PlusOutlined />} type="text" style={{ color: 'white' }} />
-          </Tooltip>
+  return (
+    <main id="main">
+      <Flex wrap="wrap" gap="large">
+        <div style={{ marginLeft: '1em', }}>
+          <Space size={100}>
+            Все категории
+            <Tooltip title="Добавить категорию" >
+              <Button
+                shape="circle"
+                icon={<PlusOutlined />}
+                type="text"
+                style={{ color: 'white' }}
+                onClick={showModalCategory}
+              />
+            </Tooltip>
           </Space>
           <List
             itemLayout="horizontal"
@@ -211,7 +260,6 @@ const Services = () =>{
         </div>
 
         <div style={{ flex: '1 1' }}>
-          <ConfigProvider renderEmpty={customize ? customizeRenderEmpty : undefined}>
             <Table
               rowSelection={{ type: selectionType, ...rowSelection }}
               columns={columns}
@@ -227,12 +275,30 @@ const Services = () =>{
                 </Table.Summary>
               )}
             />
-          </ConfigProvider>
         </div>
       </Flex>
+      <Floatbutton onClick={showModalService} icon={<PlusOutlined />} >Добавить услугу
+      </Floatbutton>
+      <AddCategoryModal
+        visible={visibleCategoryModal}
+        handleOk={() => {
+          handleOkCategory,
+          fetchCategories(); 
+        }} 
+        handleCancel={handleCancelCategory}
+      />
+
+      <AddServiceModal
+        visible={visibleServiceModal}
+        categories={categories}
+        handleOk={() => {
+          handleOkService,
+          fetchServices(); 
+        }} 
+        handleCancel={handleCancelService}
+      />
     </main>
-        
-    )
+  );
 }
 
 export default Services

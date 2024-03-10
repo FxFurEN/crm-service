@@ -1,4 +1,4 @@
-import { AppstoreOutlined, BarsOutlined, BookOutlined, ContactsOutlined, ControlOutlined, FileOutlined, NotificationOutlined, ScheduleOutlined, TeamOutlined, ToolOutlined, UserOutlined } from '@ant-design/icons';
+import { AppstoreOutlined, BarsOutlined, BookOutlined, ContactsOutlined, ControlOutlined, FileOutlined, NotificationOutlined, ScheduleOutlined, TeamOutlined, ToolOutlined, UserOutlined, UserSwitchOutlined } from '@ant-design/icons';
 import { Button, Col, Row } from 'antd';
 import { Link, Outlet } from 'react-router-dom';
 
@@ -8,18 +8,16 @@ const dataCompany = [
     { title: 'Документы', link: '/settings/documents', icon: <FileOutlined /> },
     { title: 'Сотрудники', link: '/settings/employees', icon: <TeamOutlined /> },
     { title: 'Модули', link: '/settings/modules', icon: <ControlOutlined /> },
+    { title: 'Должности', link: '/settings/position', icon: <UserSwitchOutlined /> },
 ];
 const dataOrder = [
     { title: 'Общее', link: '/settings/general/orders', icon: <AppstoreOutlined /> },
     { title: 'Статусы', link: '/settings/statuses', icon: <BarsOutlined /> },
-    { title: 'Услуги', link: '/settings/services', icon: <ToolOutlined /> },
 ];
 const dataNotifaction = [
     { title: 'Уведомления', link: '/settings/notifications', icon: <NotificationOutlined /> },
 ];
 const dataForms = [
-    { title: 'Типы заказа', link: '/settings/orderType', icon: <ScheduleOutlined /> },
-    { title: 'Типы клиентов', link: '/settings/clientType', icon: <ContactsOutlined /> },
     { title: 'Поле: заказы', link: '/settings/fields/order', icon: <ScheduleOutlined />},
     { title: 'Поле: клиенты', link: '/settings/fields/client', icon: <ContactsOutlined /> },
     { title: 'Справочник', link: '/settings/handbooks', icon: <BookOutlined/> },

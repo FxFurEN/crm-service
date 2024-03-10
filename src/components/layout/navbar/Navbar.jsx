@@ -13,7 +13,8 @@ import {
   SettingOutlined,
   ShoppingCartOutlined,
   TagsOutlined,
-  TeamOutlined
+  TeamOutlined,
+  ToolOutlined
 } from '@ant-design/icons';
 
 const colors = {
@@ -83,17 +84,20 @@ const Navbar = () => {
           <Menu.Item key="4" icon={<LineChartOutlined style={iconStyle} />}>
             <Link to='/report'>Отчет</Link>
           </Menu.Item>
+          <Menu.Item key="5" icon={<ToolOutlined style={iconStyle} />}>
+            <Link to='/services'>Услуги</Link>
+          </Menu.Item>
           {isSkladVisible && (
-            <Menu.Item key="5" icon={<InboxOutlined style={iconStyle} />}>
+            <Menu.Item key="6" icon={<InboxOutlined style={iconStyle} />}>
               <Link to='/inventory'>Склад</Link>
             </Menu.Item>
           )}
           {isMagazinVisible && (
-            <Menu.Item key="6" icon={<ShoppingCartOutlined style={iconStyle} />}>
+            <Menu.Item key="7" icon={<ShoppingCartOutlined style={iconStyle} />}>
               <Link to='/shop'>Магазин</Link>
             </Menu.Item>
           )}
-          <Menu.Item key="7" icon={<SettingOutlined style={iconStyle} />}>
+          <Menu.Item key="8" icon={<SettingOutlined style={iconStyle} />}>
             <Link to='/settings'>Настройки</Link>
           </Menu.Item>
         </Menu>
