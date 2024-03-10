@@ -1,4 +1,4 @@
-import { AppstoreOutlined, BarsOutlined, BookOutlined, ContactsOutlined, ControlOutlined, FileOutlined, NotificationOutlined, ScheduleOutlined, TeamOutlined, ToolOutlined, UserOutlined } from '@ant-design/icons';
+import { AppstoreOutlined, BarsOutlined, BookOutlined, ContactsOutlined, ControlOutlined, FileOutlined, NotificationOutlined, ScheduleOutlined, TeamOutlined, ToolOutlined, UserOutlined, UserSwitchOutlined } from '@ant-design/icons';
 import { Button, Col, Row } from 'antd';
 import { Link, Outlet } from 'react-router-dom';
 
@@ -8,6 +8,7 @@ const dataCompany = [
     { title: 'Документы', link: '/settings/documents', icon: <FileOutlined /> },
     { title: 'Сотрудники', link: '/settings/employees', icon: <TeamOutlined /> },
     { title: 'Модули', link: '/settings/modules', icon: <ControlOutlined /> },
+    { title: 'Должности', link: '/settings/position', icon: <UserSwitchOutlined /> },
 ];
 const dataOrder = [
     { title: 'Общее', link: '/settings/general/orders', icon: <AppstoreOutlined /> },

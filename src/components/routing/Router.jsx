@@ -26,6 +26,7 @@ import FieldsHandBooks from '@pages/Settings/forms-block/handbooks/fieldsHandBoo
 import Notification from '@pages/Settings/notification-block/Notification.jsx';
 import NonPage from '@pages/NonPage';
 import ShablonDoc from '@pages/Settings/company-block/documents/ShablonDoc';
+import Position from '@pages/Settings/company-block/position/Position';
 
 
 
@@ -49,6 +50,7 @@ const Router = () => {
                     <Route path="/settings/general/company" element={<GeneralCompany />} />
                     <Route path="/settings/profile" element={<Profile />} />
                     <Route path="/settings/modules" element={<Modules />} />
+                    <Route path="/settings/position" element={<Position />} />
                     <Route path="/settings/documents" element={<Documents />} />
                     <Route path="/settings/documents/shablondoc" element={<ShablonDoc/>} />
                     <Route path="/settings/employees" element={<Employees/>} />
