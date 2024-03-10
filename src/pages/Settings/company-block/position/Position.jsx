@@ -1,6 +1,7 @@
 import { Modal, Form, Input, Button, Table } from 'antd';
-import { EditOutlined } from '@ant-design/icons';
-import { useState } from 'react';
+import { EditOutlined, PlusOutlined } from '@ant-design/icons';
+import { useState, useEffect } from 'react';
+import Floatbutton from '@components/float-button/FloatButton';
 
 const PositionModal = ({ visible, handleCancel, handleSave, position }) => {
   const [form] = Form.useForm();
@@ -11,22 +12,32 @@ const PositionModal = ({ visible, handleCancel, handleSave, position }) => {
     });
   };
 
+  const handleClose = () => {
+    form.resetFields();
+    handleCancel();
+  };
+
+  useEffect(() => {
+    if (visible) {
+      form.setFieldsValue({ name: position ? position.name : '' });
+    }
+  }, [visible, form, position]);
+
   return (
     <Modal
-      centered
-      title="Редактировать должность"
+      title={position ? "Редактировать должность" : "Добавить должность"}
       open={visible}
-      onCancel={handleCancel}
+      onCancel={handleClose}
       footer={[
-        <Button key="cancel" onClick={handleCancel}>
+        <Button key="cancel" onClick={handleClose}>
           Отмена
         </Button>,
         <Button key="submit" type="primary" onClick={onFinish}>
-          Сохранить
+          {position ? "Сохранить" : "Добавить"}
         </Button>,
       ]}
     >
-      <Form form={form} initialValues={position} layout="vertical">
+      <Form form={form}>
         <Form.Item
           name="name"
           label="Название"
@@ -48,14 +59,16 @@ const Position = () => {
     setVisible(true);
   };
 
-  const handleSave = (values) => {
-    // Здесь вы можете добавить код для сохранения обновленной должности
-    console.log('Сохранено', values);
+  const handleSave = () => {
     setVisible(false);
   };
 
   const handleCancel = () => {
     setVisible(false);
+  };
+
+  const showModalService = () => {
+    setVisible(true);
   };
 
   const columns = [
@@ -74,7 +87,7 @@ const Position = () => {
           style={{ color: '#1890ff', cursor: 'pointer' }}
           onClick={() => handleEdit(record)}
         >
-          <EditOutlined />
+          <EditOutlined /> Редактировать
         </span>
       ),
     },
@@ -90,6 +103,9 @@ const Position = () => {
 
   return (
     <main id="main">
+      <Floatbutton type="primary" onClick={showModalService} icon={<PlusOutlined />}>
+        Добавить должность
+      </Floatbutton>
       <Table columns={columns} dataSource={data} />
       <PositionModal
         visible={visible}
