@@ -1,7 +1,8 @@
-import { Modal, Form, Input, Button, Table } from 'antd';
+import { Modal, Form, Input, Button, Table, message } from 'antd';
 import { EditOutlined, PlusOutlined } from '@ant-design/icons';
 import { useState, useEffect } from 'react';
 import Floatbutton from '@components/float-button/FloatButton';
+import { crmAPI } from '@service/api';
 
 const PositionModal = ({ visible, handleCancel, handleSave, position }) => {
   const [form] = Form.useForm();
@@ -26,7 +27,7 @@ const PositionModal = ({ visible, handleCancel, handleSave, position }) => {
   return (
     <Modal
       title={position ? "Редактировать должность" : "Добавить должность"}
-      open={visible}
+      visible={visible}
       onCancel={handleClose}
       footer={[
         <Button key="cancel" onClick={handleClose}>
@@ -53,14 +54,42 @@ const PositionModal = ({ visible, handleCancel, handleSave, position }) => {
 const Position = () => {
   const [visible, setVisible] = useState(false);
   const [position, setPosition] = useState(null);
+  const [positions, setPositions] = useState([]);
+
+  const fetchPositions = async () => {
+    try {
+      const response = await crmAPI.getAllPositions();
+      setPositions(response.data);
+    } catch (error) {
+      console.error('Ошибка при загрузке должностей:', error);
+      message.error('Ошибка при загрузке должностей');
+    }
+  };
+
+  useEffect(() => {
+    fetchPositions();
+  }, []);
 
   const handleEdit = (record) => {
     setPosition(record);
     setVisible(true);
   };
 
-  const handleSave = () => {
-    setVisible(false);
+  const handleSave = async (values) => {
+    try {
+      if (position) {
+        await crmAPI.updatePosition(position.id, values);
+        message.success('Должность успешно отредактирована');
+      } else {
+        await crmAPI.createPosition(values);
+        message.success('Должность успешно создана');
+      }
+      setVisible(false);
+      fetchPositions();
+    } catch (error) {
+      console.error('Ошибка при сохранении должности:', error);
+      message.error('Ошибка при сохранении должности');
+    }
   };
 
   const handleCancel = () => {
@@ -68,6 +97,7 @@ const Position = () => {
   };
 
   const showModalService = () => {
+    setPosition(null); 
     setVisible(true);
   };
 
@@ -93,20 +123,12 @@ const Position = () => {
     },
   ];
 
-  const data = [];
-  for (let i = 1; i < 5; i++) {
-    data.push({
-      key: i,
-      name: `Должность ${i}`,
-    });
-  }
-
   return (
     <main id="main">
       <Floatbutton type="primary" onClick={showModalService} icon={<PlusOutlined />}>
         Добавить должность
       </Floatbutton>
-      <Table columns={columns} dataSource={data} />
+      <Table columns={columns} dataSource={positions} />
       <PositionModal
         visible={visible}
         handleCancel={handleCancel}
