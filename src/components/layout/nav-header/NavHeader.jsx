@@ -22,7 +22,7 @@ const NavHeader = () => {
     ['/settings/documents/statementOfWork', 'Акт выполненных работ'],
     ['/settings/general/company', 'Компания'],
     ['/settings/general/orders', 'Общие заказы'],
-    ['/settings/statuses', 'Статусы'],
+    ['/settings/statuses', 'Этапы'],
     ['/settings/services', 'Услуги'],
     ['/settings/fields/order', 'Поля заказов'],
     ['/settings/fields/client', 'Поля клиентов'],
