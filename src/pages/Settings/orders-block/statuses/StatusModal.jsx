@@ -29,20 +29,24 @@ const StatusModal = ({ visible, handleOk, handleCancel, selectedStage }) => {
         .then(() => {
           setConfirmLoading(false);
           handleOk();
+          message.success('Этап успешно обновлен');
         })
         .catch((error) => {
           console.error('Error updating stage:', error);
-          message.error('Failed to update stage');
+          message.error('Не удалось обновить этап');
+          setConfirmLoading(false);
         });
     } else {
       crmAPI.createStage(stageData)
         .then(() => {
           setConfirmLoading(false);
           handleOk();
+          message.success('Этап успешно создан');
         })
         .catch((error) => {
           console.error('Error creating stage:', error);
-          message.error('Failed to create stage');
+          message.error('Не удалось создать этап');
+          setConfirmLoading(false);
         });
     }
   };
