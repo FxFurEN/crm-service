@@ -42,4 +42,13 @@ export const crmAPI = {
     deleteEmployee(id) {
         return instance.delete(`/crm/employees/${id}`);
     },
+    getAllStages() {
+        return instance.get('/crm/stages');
+    },
+    createStage(stageData) {
+        return instance.post('/crm/stages', stageData);
+    },
+    updateStage(stageId, stageData) {
+        return instance.put(`/crm/stages/${stageId}`, stageData);
+    },
 }
