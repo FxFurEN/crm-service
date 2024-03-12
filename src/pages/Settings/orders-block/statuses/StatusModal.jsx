@@ -81,6 +81,7 @@ const StatusModal = ({ visible, handleOk, handleCancel, selectedStage }) => {
         <Typography.Text>Цвет</Typography.Text>
         <ColorPicker
           value={color}
+          defaultValue={'white'}
           size="large"
           showText={(color) => <span>Цвет: ({color.toHexString()})</span>}
           onChange={handleColorChange}
