@@ -51,4 +51,11 @@ export const crmAPI = {
     updateStage(stageId, stageData) {
         return instance.put(`/crm/stages/${stageId}`, stageData);
     },
+    getOrders() {
+        return instance.get('/crm/orders');
+    },
+    
+    createOrder(orderData) {
+        return instance.post('/crm/orders', orderData);
+    },
 }

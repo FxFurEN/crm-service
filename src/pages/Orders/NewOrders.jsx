@@ -1,9 +1,10 @@
 import { Modal, Button, Typography, Select, Spin, Input, DatePicker, Form } from 'antd';
 import { useState } from 'react';
-const { TextArea } = Input;
 import debounce from 'lodash/debounce';
 import dayjs from 'dayjs';
+import { crmAPI } from '@service/api';
 
+const { TextArea } = Input;
 const { useForm } = Form;
 const { Option } = Select;
 
@@ -16,17 +17,29 @@ const NewOrders = ({ visible, handleOk, handleCancel }) => {
   const handleOkAsync = () => {
     form
       .validateFields()
-      .then((values) => {
+      .then(async (values) => {
         setConfirmLoading(true);
-        setTimeout(() => {
+        try {
+          const serviceId = values.service;
+          const clientId = values.client;
+          const employeeId = values.employee;
+          const comments = values.comments;
+          const createdAt = values.createdAt;
+          const leadTime = values.leadTime;
+  
+          await crmAPI.createOrder({ serviceId, clientId, employeeId, comments, createdAt, leadTime });
           handleOk();
+        } catch (error) {
+          console.error('Error creating order:', error);
+        } finally {
           setConfirmLoading(false);
-        }, 2000);
+        }
       })
       .catch((error) => {
         console.error('Validation error:', error);
       });
   };
+  
 
   const baseStyle = {
     width: 'clamp(200px, 100%, 500px)',
@@ -42,6 +55,32 @@ const NewOrders = ({ visible, handleOk, handleCancel }) => {
       })
       .catch((error) => {
         console.error('Error fetching user list:', error);
+        setFetching(false);
+      });
+  }, 800);
+
+  const handleServiceSearch = debounce((value) => {
+    setFetching(true);
+    fetchServiceList(value)
+      .then((newOptions) => {
+        setOptions(newOptions);
+        setFetching(false);
+      })
+      .catch((error) => {
+        console.error('Error fetching service list:', error);
+        setFetching(false);
+      });
+  }, 800);
+
+  const handleEmployeeSearch = debounce((value) => {
+    setFetching(true);
+    fetchEmployeeList(value)
+      .then((newOptions) => {
+        setOptions(newOptions);
+        setFetching(false);
+      })
+      .catch((error) => {
+        console.error('Error fetching employee list:', error);
         setFetching(false);
       });
   }, 800);
@@ -62,10 +101,7 @@ const NewOrders = ({ visible, handleOk, handleCancel }) => {
     >
       <Form form={form} layout="vertical">
         <Typography.Title level={4}>Клиент</Typography.Title>
-        <Form.Item
-          name="client"
-          rules={[{ required: true, message: 'Пожалуйста, выберите клиента' }]}
-        >
+        <Form.Item name="client" rules={[{ required: true, message: 'Пожалуйста, выберите клиента' }]}>
           <Select
             showSearch
             placeholder="Имя"
@@ -83,53 +119,14 @@ const NewOrders = ({ visible, handleOk, handleCancel }) => {
         </Form.Item>
 
         <Typography.Title level={4}>Информация о заказе</Typography.Title>
-        <Form.Item 
-          name="serviceName" 
-          rules={[{ required: true, message: 'Пожалуйста, введите наименование услуги' }]} 
-          label="Услуга"
-          style={{ marginBottom: -2 }} >
-          <Select
-              showSearch
-              placeholder="Наименование услуги"
-              style={{ ...baseStyle }}
-              notFoundContent={fetching ? <Spin size="small" /> : null}
-              filterOption={false}
-              onSearch={handleUserSearch}
-            >
-              {options.map((option) => (
-                <Option key={option.value} value={option.value}>
-                  {option.label}
-                </Option>
-              ))}
-            </Select>
-        </Form.Item>
-        <Form.Item 
-          name="date" 
-          rules={[{ required: true, message: 'Пожалуйста, выберите дату проведения' }]} 
-          label="Дата обращения"
-          style={{ marginBottom: -2 }} 
-          >
-          <DatePicker style={{ ...baseStyle }} placeholder="Дата проведения" />
-        </Form.Item>
-        <Form.Item name="notes" label="Коментарии к заказу">
-          <TextArea 
-          style={{ ...baseStyle }} 
-          placeholder="Коментарии" 
-            autoSize={{
-            minRows: 3,
-            maxRows: 5,
-          }} />
-        </Form.Item>
-
-        <Typography.Title level={4}>Дополнительно</Typography.Title>
-        <Form.Item name="performer" label="Исполнитель" style={{ marginBottom: -2 }} >
+        <Form.Item name="service" rules={[{ required: true, message: 'Пожалуйста, введите наименование услуги' }]} label="Услуга" style={{ marginBottom: -2 }}>
         <Select
             showSearch
-            placeholder="Исполнитель"
+            placeholder="Наименование услуги"
             style={{ ...baseStyle }}
             notFoundContent={fetching ? <Spin size="small" /> : null}
             filterOption={false}
-            onSearch={handleUserSearch}
+            onSearch={handleServiceSearch}
           >
             {options.map((option) => (
               <Option key={option.value} value={option.value}>
@@ -138,24 +135,91 @@ const NewOrders = ({ visible, handleOk, handleCancel }) => {
             ))}
           </Select>
         </Form.Item>
-        <Form.Item name="deadline" label="Дата срока выполнения">
+        <Form.Item name="createdAt" rules={[{ required: true, message: 'Пожалуйста, выберите дату проведения' }]} label="Дата обращения" style={{ marginBottom: -2 }}>
+          <DatePicker style={{ ...baseStyle }} placeholder="Дата проведения" />
+        </Form.Item>
+        <Form.Item name="comments" label="Коментарии к заказу">
+          <TextArea
+            style={{ ...baseStyle }}
+            placeholder="Коментарии"
+            autoSize={{
+              minRows: 3,
+              maxRows: 5,
+            }}
+          />
+        </Form.Item>
+
+        <Typography.Title level={4}>Дополнительно</Typography.Title>
+        <Form.Item name="employee" label="Исполнитель" style={{ marginBottom: -2 }}>
+          <Select
+            showSearch
+            placeholder="Исполнитель"
+            style={{ ...baseStyle }}
+            notFoundContent={fetching ? <Spin size="small" /> : null}
+            filterOption={false}
+            onSearch={handleEmployeeSearch}
+          >
+            {options.map((option) => (
+              <Option key={option.value} value={option.value}>
+                {option.label}
+              </Option>
+            ))}
+          </Select>
+        </Form.Item>
+        <Form.Item name="leadTime" label="Дата срока выполнения">
           <DatePicker style={{ ...baseStyle }} placeholder="Срок" defaultValue={dayjs('2024-03-01')} />
         </Form.Item>
-      </Form>
+    </Form>
     </Modal>
   );
 };
 
 async function fetchUserList(username) {
   console.log('fetching user', username);
-  return fetch('https://randomuser.me/api/?results=10')
-    .then((response) => response.json())
-    .then((body) =>
-      body.results.map((user) => ({
-        label: `${user.name.first} ${user.name.last}`,
-        value: user.login.username,
-      })),
-    );
+  try {
+    const response = await crmAPI.getAllClientsData();
+    console.log(response.data);
+    const clients = response.data;
+    return clients.map((client) => ({
+      label: `${client.phone}`,
+      value: client.id,
+    }));
+  } catch (error) {
+    console.error('Error fetching user list:', error);
+    return [];
+  }
+}
+
+async function fetchServiceList(serviceName) {
+  console.log('fetching service', serviceName);
+  try {
+    const response = await crmAPI.getAllServices();
+    console.log(response.data);
+    const services = response.data;
+    return services.map((service) => ({
+      label: service.name,
+      value: service.id,
+    }));
+  } catch (error) {
+    console.error('Error fetching service list:', error);
+    return [];
+  }
+}
+
+async function fetchEmployeeList(employeeName) {
+  console.log('fetching employee', employeeName);
+  try {
+    const response = await crmAPI.getAllEmployees();
+    console.log(response.data);
+    const employees = response.data;
+    return employees.map((employee) => ({
+      label: `${employee.initials}`,
+      value: employee.id,
+    }));
+  } catch (error) {
+    console.error('Error fetching employee list:', error);
+    return [];
+  }
 }
 
 export default NewOrders;
