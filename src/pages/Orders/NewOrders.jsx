@@ -10,8 +10,12 @@ const { Option } = Select;
 
 const NewOrders = ({ visible, handleOk, handleCancel }) => {
   const [confirmLoading, setConfirmLoading] = useState(false);
-  const [fetching, setFetching] = useState(false);
-  const [options, setOptions] = useState([]);
+  const [fetchingClient, setFetchingClient] = useState(false);
+  const [fetchingService, setFetchingService] = useState(false);
+  const [fetchingEmployee, setFetchingEmployee] = useState(false);
+  const [optionsClient, setOptionsClient] = useState([]);
+  const [optionsService, setOptionsService] = useState([]);
+  const [optionsEmployee, setOptionsEmployee] = useState([]);
   const [form] = useForm();
 
   const handleOkAsync = () => {
@@ -46,44 +50,45 @@ const NewOrders = ({ visible, handleOk, handleCancel }) => {
     height: 40,
   };
 
-  const handleUserSearch = debounce((value) => {
-    setFetching(true);
+  const handleClientSearch = debounce((value) => {
+    setFetchingClient(true);
     fetchUserList(value)
       .then((newOptions) => {
-        setOptions(newOptions);
-        setFetching(false);
+        setOptionsClient(newOptions);
+        setFetchingClient(false);
       })
       .catch((error) => {
         console.error('Error fetching user list:', error);
-        setFetching(false);
+        setFetchingClient(false);
       });
   }, 800);
-
+  
   const handleServiceSearch = debounce((value) => {
-    setFetching(true);
+    setFetchingService(true);
     fetchServiceList(value)
       .then((newOptions) => {
-        setOptions(newOptions);
-        setFetching(false);
+        setOptionsService(newOptions);
+        setFetchingService(false);
       })
       .catch((error) => {
         console.error('Error fetching service list:', error);
-        setFetching(false);
+        setFetchingService(false);
       });
   }, 800);
-
+  
   const handleEmployeeSearch = debounce((value) => {
-    setFetching(true);
+    setFetchingEmployee(true);
     fetchEmployeeList(value)
       .then((newOptions) => {
-        setOptions(newOptions);
-        setFetching(false);
+        setOptionsEmployee(newOptions);
+        setFetchingEmployee(false);
       })
       .catch((error) => {
         console.error('Error fetching employee list:', error);
-        setFetching(false);
+        setFetchingEmployee(false);
       });
   }, 800);
+  
 
   return (
     <Modal
@@ -106,11 +111,11 @@ const NewOrders = ({ visible, handleOk, handleCancel }) => {
             showSearch
             placeholder="Имя"
             style={{ ...baseStyle }}
-            notFoundContent={fetching ? <Spin size="small" /> : null}
+            notFoundContent={fetchingClient ? <Spin size="small" /> : null}
             filterOption={false}
-            onSearch={handleUserSearch}
+            onSearch={handleClientSearch}
           >
-            {options.map((option) => (
+            {optionsClient.map((option) => (
               <Option key={option.value} value={option.value}>
                 {option.label}
               </Option>
@@ -120,15 +125,15 @@ const NewOrders = ({ visible, handleOk, handleCancel }) => {
 
         <Typography.Title level={4}>Информация о заказе</Typography.Title>
         <Form.Item name="service" rules={[{ required: true, message: 'Пожалуйста, введите наименование услуги' }]} label="Услуга" style={{ marginBottom: -2 }}>
-        <Select
+          <Select
             showSearch
             placeholder="Наименование услуги"
             style={{ ...baseStyle }}
-            notFoundContent={fetching ? <Spin size="small" /> : null}
+            notFoundContent={fetchingService ? <Spin size="small" /> : null}
             filterOption={false}
             onSearch={handleServiceSearch}
           >
-            {options.map((option) => (
+            {optionsService.map((option) => (
               <Option key={option.value} value={option.value}>
                 {option.label}
               </Option>
@@ -155,11 +160,11 @@ const NewOrders = ({ visible, handleOk, handleCancel }) => {
             showSearch
             placeholder="Исполнитель"
             style={{ ...baseStyle }}
-            notFoundContent={fetching ? <Spin size="small" /> : null}
+            notFoundContent={fetchingEmployee ? <Spin size="small" /> : null}
             filterOption={false}
             onSearch={handleEmployeeSearch}
           >
-            {options.map((option) => (
+            {optionsEmployee.map((option) => (
               <Option key={option.value} value={option.value}>
                 {option.label}
               </Option>
@@ -174,8 +179,7 @@ const NewOrders = ({ visible, handleOk, handleCancel }) => {
   );
 };
 
-async function fetchUserList(username) {
-  console.log('fetching user', username);
+async function fetchUserList() {
   try {
     const response = await crmAPI.getAllClientsData();
     console.log(response.data);
@@ -190,11 +194,9 @@ async function fetchUserList(username) {
   }
 }
 
-async function fetchServiceList(serviceName) {
-  console.log('fetching service', serviceName);
+async function fetchServiceList() {
   try {
     const response = await crmAPI.getAllServices();
-    console.log(response.data);
     const services = response.data;
     return services.map((service) => ({
       label: service.name,
@@ -206,11 +208,9 @@ async function fetchServiceList(serviceName) {
   }
 }
 
-async function fetchEmployeeList(employeeName) {
-  console.log('fetching employee', employeeName);
+async function fetchEmployeeList() {
   try {
     const response = await crmAPI.getAllEmployees();
-    console.log(response.data);
     const employees = response.data;
     return employees.map((employee) => ({
       label: `${employee.initials}`,
