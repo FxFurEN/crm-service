@@ -30,7 +30,7 @@ const NewOrders = ({ visible, handleOk, handleCancel }) => {
           const comments = values.comments;
           const createdAt = values.createdAt;
           const leadTime = values.leadTime;
-  
+
           await crmAPI.createOrder({ serviceId, clientId, employeeId, comments, createdAt, leadTime });
           message.success('Заказ успешно создан');
           handleOk();
@@ -44,8 +44,6 @@ const NewOrders = ({ visible, handleOk, handleCancel }) => {
         message.error('Ошибка валидации');
       });
   };
-  
-  
 
   const baseStyle = {
     width: 'clamp(200px, 100%, 500px)',
@@ -64,7 +62,7 @@ const NewOrders = ({ visible, handleOk, handleCancel }) => {
         setFetchingClient(false);
       });
   }, 800);
-  
+
   const handleServiceSearch = debounce((value) => {
     setFetchingService(true);
     fetchServiceList(value)
@@ -77,7 +75,7 @@ const NewOrders = ({ visible, handleOk, handleCancel }) => {
         setFetchingService(false);
       });
   }, 800);
-  
+
   const handleEmployeeSearch = debounce((value) => {
     setFetchingEmployee(true);
     fetchEmployeeList(value)
@@ -90,7 +88,13 @@ const NewOrders = ({ visible, handleOk, handleCancel }) => {
         setFetchingEmployee(false);
       });
   }, 800);
-  
+  const validateCreatedAt = async (_, value) => {
+    const leadTimeValue = form.getFieldValue('leadTime');
+    if (value && leadTimeValue && value.isAfter(leadTimeValue, 'day')) {
+      return Promise.reject('Дата обращения не должна быть больше даты срока выполнения');
+    }
+    return Promise.resolve();
+  };
 
   return (
     <Modal
@@ -108,7 +112,11 @@ const NewOrders = ({ visible, handleOk, handleCancel }) => {
     >
       <Form form={form} layout="vertical">
         <Typography.Title level={4}>Клиент</Typography.Title>
-        <Form.Item name="client" label="Клиент" rules={[{ required: true, message: 'Пожалуйста, выберите клиента' }]}>
+        <Form.Item
+          name="client"
+          label="Клиент"
+          rules={[{ required: true, message: 'Пожалуйста, выберите клиента' }]}
+        >
           <Select
             showSearch
             placeholder="Имя"
@@ -126,7 +134,12 @@ const NewOrders = ({ visible, handleOk, handleCancel }) => {
         </Form.Item>
 
         <Typography.Title level={4}>Информация о заказе</Typography.Title>
-        <Form.Item name="service" rules={[{ required: true, message: 'Пожалуйста, введите наименование услуги' }]} label="Услуга" style={{ marginBottom: -2 }}>
+        <Form.Item
+          name="service"
+          rules={[{ required: true, message: 'Пожалуйста, введите наименование услуги' }]}
+          label="Услуга"
+          style={{ marginBottom: -2 }}
+        >
           <Select
             showSearch
             placeholder="Наименование услуги"
@@ -142,7 +155,15 @@ const NewOrders = ({ visible, handleOk, handleCancel }) => {
             ))}
           </Select>
         </Form.Item>
-        <Form.Item name="createdAt" rules={[{ required: true, message: 'Пожалуйста, выберите дату проведения' }]} label="Дата обращения" style={{ marginBottom: -2 }}>
+        <Form.Item
+          name="createdAt"
+          rules={[
+            { required: true, message: 'Пожалуйста, выберите дату проведения' },
+            { validator: validateCreatedAt },
+          ]}
+          label="Дата обращения"
+          style={{ marginBottom: -2 }}
+        >
           <DatePicker style={{ ...baseStyle }} placeholder="Дата проведения" />
         </Form.Item>
         <Form.Item name="comments" label="Коментарии к заказу">
@@ -157,7 +178,12 @@ const NewOrders = ({ visible, handleOk, handleCancel }) => {
         </Form.Item>
 
         <Typography.Title level={4}>Дополнительно</Typography.Title>
-        <Form.Item name="employee" label="Исполнитель" style={{ marginBottom: -2 }} rules={[{ required: true, message: 'Пожалуйста, введите исполнителя' }]}>
+        <Form.Item
+          name="employee"
+          label="Исполнитель"
+          style={{ marginBottom: -2 }}
+          rules={[{ required: true, message: 'Пожалуйста, введите исполнителя' }]}
+        >
           <Select
             showSearch
             placeholder="Исполнитель"
@@ -173,10 +199,14 @@ const NewOrders = ({ visible, handleOk, handleCancel }) => {
             ))}
           </Select>
         </Form.Item>
-        <Form.Item name="leadTime" label="Дата срока выполнения" rules={[{ required: true, message: 'Пожалуйста, выберите дату срока выполнения' }]}>
+        <Form.Item
+          name="leadTime"
+          label="Дата срока выполнения"
+          rules={[{ required: true, message: 'Пожалуйста, выберите дату срока выполнения' }]}
+        >
           <DatePicker style={{ ...baseStyle }} placeholder="Срок" defaultValue={dayjs('2024-03-01')} />
         </Form.Item>
-    </Form>
+      </Form>
     </Modal>
   );
 };
