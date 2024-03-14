@@ -69,8 +69,8 @@ const Router = () => {
                     <Route path="/" element={<Navigate to="/home" />} />
                     <Route path="*" element={<Navigate to="/404" />} />
                   </Route>
-                  <Route path="/login" element={<Auth />} />
-                  <Route path="/reg" element={<Reg />} />
+                  <Route path="/signin" element={<Auth />} />
+                  <Route path="/signup" element={<Reg />} />
               </Routes>
             </BrowserRouter>
         </PersistGate>

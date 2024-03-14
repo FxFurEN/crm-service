@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Button, Checkbox, Form, Input, Spin, Typography } from "antd";
 import { AimOutlined } from "@ant-design/icons";
-import { Navigate } from "react-router-dom";
+import { Link, Navigate } from "react-router-dom";
 const {Title } = Typography;
 
 const containerStyle = {
@@ -90,11 +90,11 @@ const Auth = () => {
               </Button>
             </Form.Item>
             <Title level={5} align="center" style={{ marginBottom: "1.5em" }}>или </Title>
-            <Form.Item>
-              <Button type="primary" htmlType="submit" style={inputStyle}>
+            <Link to="/signup">
+              <Button type="primary" style={inputStyle}>
                 Создать аккаунт
               </Button>
-            </Form.Item>
+            </Link>
           </Form>
         </Spin>
       </div>
