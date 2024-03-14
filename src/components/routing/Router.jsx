@@ -27,6 +27,7 @@ import Notification from '@pages/Settings/notification-block/Notification.jsx';
 import NonPage from '@pages/NonPage';
 import ShablonDoc from '@pages/Settings/company-block/documents/ShablonDoc';
 import Position from '@pages/Settings/company-block/position/Position';
+import Auth from '@pages/Auth/Auth';
 
 
 
@@ -67,7 +68,7 @@ const Router = () => {
                     <Route path="/" element={<Navigate to="/home" />} />
                     <Route path="*" element={<Navigate to="/404" />} />
                   </Route>
-                  
+                  <Route path="/login" element={<Auth />} />
               </Routes>
             </BrowserRouter>
         </PersistGate>
