@@ -6,6 +6,7 @@ import InfoOrders from './InfoOrders';
 import NewOrders from './NewOrders';
 import Floatbutton from '@components/float-button/FloatButton';
 import { crmAPI } from '@service/api';
+import dayjs from 'dayjs';
 
 const Orders = () => {
   const [isModalVisible, setIsModalVisible] = useState(false);
@@ -116,8 +117,8 @@ const Orders = () => {
       const orders = response.data.map(order => ({
         key: order.id,
         service: order.service.name,
-        createdAt: order.createdAt, 
-        leadTime: order.leadTime, 
+        createdAt: dayjs(order.createdAt).format('DD.MM.YYYY'),
+        leadTime: dayjs(order.leadTime).format('DD.MM.YYYY'), 
         client: order.client.phone, 
         employee: order.employee.initials, 
         comments: order.comments 
