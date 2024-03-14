@@ -1,24 +1,101 @@
-import { Modal, Button, Flex, Typography, Space, Select, Spin, List, Tag, Input, DatePicker, Checkbox} from 'antd';
-import { useMemo, useRef, useState } from 'react';
+import { Modal, Button, Typography, Select, Spin, Input, DatePicker, Form, message } from 'antd';
+import { useState } from 'react';
 import debounce from 'lodash/debounce';
 import dayjs from 'dayjs';
+import { crmAPI } from '@service/api';
 
-
+const { TextArea } = Input;
+const { useForm } = Form;
+const { Option } = Select;
 
 const NewOrders = ({ visible, handleOk, handleCancel }) => {
   const [confirmLoading, setConfirmLoading] = useState(false);
-  const [value, setValue] = useState([]);
+  const [fetchingClient, setFetchingClient] = useState(false);
+  const [fetchingService, setFetchingService] = useState(false);
+  const [fetchingEmployee, setFetchingEmployee] = useState(false);
+  const [optionsClient, setOptionsClient] = useState([]);
+  const [optionsService, setOptionsService] = useState([]);
+  const [optionsEmployee, setOptionsEmployee] = useState([]);
+  const [form] = useForm();
+
   const handleOkAsync = () => {
-    setConfirmLoading(true);
-    setTimeout(() => {
-      handleOk();
-      setConfirmLoading(false);
-    }, 2000);
+    form
+      .validateFields()
+      .then(async (values) => {
+        setConfirmLoading(true);
+        try {
+          const serviceId = values.service;
+          const clientId = values.client;
+          const employeeId = values.employee;
+          const comments = values.comments;
+          const createdAt = values.createdAt;
+          const leadTime = values.leadTime;
+
+          await crmAPI.createOrder({ serviceId, clientId, employeeId, comments, createdAt, leadTime });
+          message.success('Заказ успешно создан');
+          handleOk();
+        } catch {
+          message.error('Ошибка при создании заказа');
+        } finally {
+          setConfirmLoading(false);
+        }
+      })
+      .catch(() => {
+        message.error('Ошибка валидации');
+      });
   };
+
   const baseStyle = {
     width: 'clamp(200px, 100%, 500px)',
     height: 40,
   };
+
+  const handleClientSearch = debounce((value) => {
+    setFetchingClient(true);
+    fetchClientList(value)
+      .then((newOptions) => {
+        setOptionsClient(newOptions);
+        setFetchingClient(false);
+      })
+      .catch(() => {
+        message.error('Ошибка получения списка клиентов', 5);
+        setFetchingClient(false);
+      });
+  }, 800);
+
+  const handleServiceSearch = debounce((value) => {
+    setFetchingService(true);
+    fetchServiceList(value)
+      .then((newOptions) => {
+        setOptionsService(newOptions);
+        setFetchingService(false);
+      })
+      .catch(() => {
+        message.error('Ошибка получения списка услуг', 5);
+        setFetchingService(false);
+      });
+  }, 800);
+
+  const handleEmployeeSearch = debounce((value) => {
+    setFetchingEmployee(true);
+    fetchEmployeeList(value)
+      .then((newOptions) => {
+        setOptionsEmployee(newOptions);
+        setFetchingEmployee(false);
+      })
+      .catch(() => {
+        message.error('Ошибка получения списка сотрудников', 5);
+        setFetchingEmployee(false);
+      });
+  }, 800);
+  const validateCreatedAt = async (_, value) => {
+    const leadTimeValue = form.getFieldValue('leadTime');
+    if (value && leadTimeValue && value.isAfter(leadTimeValue, 'day')) {
+      return Promise.reject('Дата обращения не должна быть больше даты срока выполнения');
+    }
+    return Promise.resolve();
+  };
+
   return (
     <Modal
       title="Добавить заказ"
@@ -27,113 +104,153 @@ const NewOrders = ({ visible, handleOk, handleCancel }) => {
       onOk={handleOkAsync}
       confirmLoading={confirmLoading}
       onCancel={handleCancel}
-      width={1000}
       footer={[
-        <Button key="submit" loading={confirmLoading} onClick={handleOkAsync} style={{...baseStyle, width: '100%'} }>
+        <Button key="submit" loading={confirmLoading} onClick={handleOkAsync} style={{ ...baseStyle, width: '100%' }}>
           Добавить
         </Button>,
       ]}
     >
-        <Flex wrap="wrap" gap="large" direction="row">
-          <div style={{ flex: 1, minWidth: 200, maxWidth: '100%' }}>
-            <Typography.Text strong>Клиент</Typography.Text>
-                 <DebounceSelect
-                     showSearch
-                    value={value}
-                    placeholder="Имя"
-                    style={{...baseStyle} }
-                    fetchOptions={fetchUserList}
-                    onChange={(newValue) => {
-                        setValue(newValue);
-                    }}
-                />
-          </div>
-          <div style={{ flex: 1, minWidth: 200, maxWidth: '100%' }}>
-            <Typography.Text strong>Информация о заказе</Typography.Text>
-                <Space direction="vertical" size="small" style={{ display: 'flex' }}>
-                    <Input
-                            style={{...baseStyle} }
-                            placeholder="Наименование услуги"
-                        />
-                    <DatePicker
-                    placeholder="Дата проведения"
-                    style={{...baseStyle} }/>
-                    <Input
-                            style={{...baseStyle} }
-                            placeholder="Ориентированная стоимость"
-                        />
-                    <Input
-                            style={{...baseStyle} }
-                            placeholder="Заметки администрации"
-                        />
-                </Space>
-          </div>
-          <div style={{ flex: 1, minWidth: 200, maxWidth: '100%' }}>
-            <Typography.Text strong>Дополнительно</Typography.Text>
-                <Space direction="vertical" size="small" style={{ display: 'flex' }}>
-                    <Input
-                            style={{...baseStyle} }
-                            placeholder="Исполнитель"
-                        />
-                    <Input
-                            style={{...baseStyle} }
-                            placeholder="Менеджер"
-                        />
-                   <DatePicker
-                    placeholder="Срок"
-                    defaultValue={dayjs('2024-03-01')}
-                    style={{...baseStyle} }/>
-                </Space>
-           
-          </div>
-        </Flex>
+      <Form form={form} layout="vertical" initialValues={{ leadTime: dayjs() }}>
+        <Typography.Title level={4}>Клиент</Typography.Title>
+        <Form.Item
+          name="client"
+          label="Клиент"
+          rules={[{ required: true, message: 'Пожалуйста, выберите клиента' }]}
+        >
+          <Select
+            showSearch
+            placeholder="Имя"
+            style={{ ...baseStyle }}
+            notFoundContent={fetchingClient ? <Spin size="small" /> : null}
+            filterOption={false}
+            onSearch={handleClientSearch}
+          >
+            {optionsClient.map((option) => (
+              <Option key={option.value} value={option.value}>
+                {option.label}
+              </Option>
+            ))}
+          </Select>
+        </Form.Item>
+
+        <Typography.Title level={4}>Информация о заказе</Typography.Title>
+        <Form.Item
+          name="service"
+          rules={[{ required: true, message: 'Пожалуйста, введите наименование услуги' }]}
+          label="Услуга"
+          style={{ marginBottom: -2 }}
+        >
+          <Select
+            showSearch
+            placeholder="Наименование услуги"
+            style={{ ...baseStyle }}
+            notFoundContent={fetchingService ? <Spin size="small" /> : null}
+            filterOption={false}
+            onSearch={handleServiceSearch}
+          >
+            {optionsService.map((option) => (
+              <Option key={option.value} value={option.value}>
+                {option.label}
+              </Option>
+            ))}
+          </Select>
+        </Form.Item>
+        <Form.Item
+          name="createdAt"
+          rules={[
+            { required: true, message: 'Пожалуйста, выберите дату проведения' },
+            { validator: validateCreatedAt },
+          ]}
+          label="Дата обращения"
+          style={{ marginBottom: -2 }}
+        >
+          <DatePicker style={{ ...baseStyle }} placeholder="Дата проведения" />
+        </Form.Item>
+        <Form.Item name="comments" label="Коментарии к заказу">
+          <TextArea
+            style={{ ...baseStyle }}
+            placeholder="Коментарии"
+            autoSize={{
+              minRows: 3,
+              maxRows: 5,
+            }}
+          />
+        </Form.Item>
+
+        <Typography.Title level={4}>Дополнительно</Typography.Title>
+        <Form.Item
+          name="employee"
+          label="Исполнитель"
+          style={{ marginBottom: -2 }}
+          rules={[{ required: true, message: 'Пожалуйста, введите исполнителя' }]}
+        >
+          <Select
+            showSearch
+            placeholder="Исполнитель"
+            style={{ ...baseStyle }}
+            notFoundContent={fetchingEmployee ? <Spin size="small" /> : null}
+            filterOption={false}
+            onSearch={handleEmployeeSearch}
+          >
+            {optionsEmployee.map((option) => (
+              <Option key={option.value} value={option.value}>
+                {option.label}
+              </Option>
+            ))}
+          </Select>
+        </Form.Item>
+        <Form.Item
+          name="leadTime"
+          label="Дата срока выполнения"
+          rules={[{ required: true, message: 'Пожалуйста, выберите дату срока выполнения' }]}
+        >
+          <DatePicker style={{ ...baseStyle }} placeholder="Срок"/>
+        </Form.Item>
+      </Form>
     </Modal>
   );
 };
 
-function DebounceSelect({ fetchOptions, debounceTimeout = 800, ...props }) {
-    const [fetching, setFetching] = useState(false);
-    const [options, setOptions] = useState([]);
-    const fetchRef = useRef(0);
-    const debounceFetcher = useMemo(() => {
-      const loadOptions = (value) => {
-        fetchRef.current += 1;
-        const fetchId = fetchRef.current;
-        setOptions([]);
-        setFetching(true);
-        fetchOptions(value).then((newOptions) => {
-          if (fetchId !== fetchRef.current) {
-            // for fetch callback order
-            return;
-          }
-          setOptions(newOptions);
-          setFetching(false);
-        });
-      };
-      return debounce(loadOptions, debounceTimeout);
-    }, [fetchOptions, debounceTimeout]);
-    return (
-      <Select
-        labelInValue
-        filterOption={false}
-        onSearch={debounceFetcher}
-        notFoundContent={fetching ? <Spin size="small" /> : null}
-        {...props}
-        options={options}
-      />
-    );
+async function fetchClientList() {
+  try {
+    const response = await crmAPI.getAllClientsData();
+    const clients = response.data;
+    return clients.map((client) => ({
+      label: `${client.phone}`,
+      value: client.id,
+    }));
+  } catch (error) {
+    message.error('Ошибка получения списка клиентов', 5);
+    return [];
+  }
 }
 
-async function fetchUserList(username) {
-    console.log('fetching user', username);
-    return fetch('https://randomuser.me/api/?results=5')
-      .then((response) => response.json())
-      .then((body) =>
-        body.results.map((user) => ({
-          label: `${user.name.first} ${user.name.last}`,
-          value: user.login.username,
-        })),
-      );
+async function fetchServiceList() {
+  try {
+    const response = await crmAPI.getAllServices();
+    const services = response.data;
+    return services.map((service) => ({
+      label: service.name,
+      value: service.id,
+    }));
+  } catch (error) {
+    message.error('Ошибка получения списка услуг', 5);
+    return [];
   }
+}
+
+async function fetchEmployeeList() {
+  try {
+    const response = await crmAPI.getAllEmployees();
+    const employees = response.data;
+    return employees.map((employee) => ({
+      label: `${employee.initials}`,
+      value: employee.id,
+    }));
+  } catch (error) {
+    message.error('Ошибка получения списка сотрудников', 5);
+    return [];
+  }
+}
 
 export default NewOrders;

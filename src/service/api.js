@@ -27,10 +27,35 @@ export const crmAPI = {
     getAllPositions() {
         return instance.get('/crm/positions');
     },
-      createPosition(positionData) {
+    createPosition(positionData) {
         return instance.post('/crm/createPosition', positionData);
     },
-      updatePosition(positionId, positionData) {
+    updatePosition(positionId, positionData) {
         return instance.put(`/crm/positions/${positionId}`, positionData);
+    },
+    getAllEmployees() {
+        return instance.get('/crm/employees');
+    },
+    createEmployee(employeeData) {
+        return instance.post('/crm/createEmployee', employeeData);
+    },
+    deleteEmployee(id) {
+        return instance.delete(`/crm/employees/${id}`);
+    },
+    getAllStages() {
+        return instance.get('/crm/stages');
+    },
+    createStage(stageData) {
+        return instance.post('/crm/stages', stageData);
+    },
+    updateStage(stageId, stageData) {
+        return instance.put(`/crm/stages/${stageId}`, stageData);
+    },
+    getOrders() {
+        return instance.get('/crm/orders');
+    },
+    
+    createOrder(orderData) {
+        return instance.post('/crm/orders', orderData);
     },
 }

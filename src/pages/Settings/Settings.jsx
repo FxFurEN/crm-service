@@ -12,7 +12,7 @@ const dataCompany = [
 ];
 const dataOrder = [
     { title: 'Общее', link: '/settings/general/orders', icon: <AppstoreOutlined /> },
-    { title: 'Статусы', link: '/settings/statuses', icon: <BarsOutlined /> },
+    { title: 'Этапы', link: '/settings/statuses', icon: <BarsOutlined /> },
 ];
 const dataNotifaction = [
     { title: 'Уведомления', link: '/settings/notifications', icon: <NotificationOutlined /> },

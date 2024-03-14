@@ -1,4 +1,4 @@
-import { List, Tag } from 'antd';
+import { List, Tag, message } from 'antd';
 import { DndContext } from '@dnd-kit/core';
 import { restrictToVerticalAxis } from '@dnd-kit/modifiers';
 import {
@@ -8,40 +8,45 @@ import {
   verticalListSortingStrategy,
 } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { MenuOutlined, PlusOutlined } from '@ant-design/icons';
 import Floatbutton from '@components/float-button/FloatButton';
 import StatusModal from './StatusModal';
+import { crmAPI } from '@service/api';
 
-const Statuses = () => {
+const Stages = () => {
   const [isModalVisible, setIsModalVisible] = useState(false);
-  const [selectedStatus, setSelectedStatus] = useState('');
-  const [selectedColor, setSelectedColor] = useState('#1677ff');
-  const [dataSource, setDataSource] = useState([
-    { id: '1', color: '#ff5252', title: 'Диагностика' },
-    { id: '2', color: 'violet', title: 'Новый' },
-    { id: '3', color: 'blue', title: 'В работе' },
-    { id: '4', color: '#fca503', title: 'Ждет запчасть' },
-    { id: '5', color: 'seagreen', title: 'Готов' },
-    { id: '6', color: 'seagreen', title: 'Закрыт' },
-    { id: '7', color: 'gray', title: 'Закрыт неуспешно' },
-    { id: '8', color: 'yellow', title: 'На гарантии' },
-  ]);
+  const [selectedStage, setSelectedStage] = useState({});
+  const [dataSource, setDataSource] = useState([]);
+
+  useEffect(() => {
+    fetchStages();
+  }, []);
+
+  const fetchStages = () => {
+    crmAPI.getAllStages()
+      .then((response) => {
+        setDataSource(response.data);
+      })
+      .catch((error) => {
+        console.error('Error fetching stages:', error);
+        message.error('Ошибка при загрузке этапов');
+      });
+  };
 
   const handlerModal = () => {
-    setSelectedStatus('');
-    setSelectedColor('#1677ff');
+    setSelectedStage({});
     setIsModalVisible(true);
   };
 
-  const handleStatusClick = (status, color) => {
-    setSelectedStatus(status);
-    setSelectedColor(color);
+  const handleStageClick = (stage) => {
+    setSelectedStage(stage);
     setIsModalVisible(true);
   };
 
   const handleOk = () => {
     setIsModalVisible(false);
+    fetchStages();
   };
 
   const handleCancel = () => {
@@ -79,11 +84,11 @@ const Statuses = () => {
                     display: 'flex',
                     justifyContent: 'center',
                     alignItems: 'center',
-                    cursor: 'pointer', // Add cursor pointer for indicating clickable
+                    cursor: 'pointer', 
                   }}
-                  onClick={() => handleStatusClick(item.title, item.color)} // Handle click event
+                  onClick={() => handleStageClick(item)}
                 >
-                  {item.title}
+                  {item.name}
                 </Tag>
               </SortableItem>
             )}
@@ -91,17 +96,17 @@ const Statuses = () => {
         </SortableContext>
       </DndContext>
       <Floatbutton
-        text="Добавить статус"
+        text="Добавить этап"
         onClick={handlerModal}
         icon={<PlusOutlined />}
       />
       <StatusModal
-        visible={isModalVisible}
-        handleOk={handleOk}
-        handleCancel={handleCancel}
-        selectedStatus={selectedStatus} // Pass selected status
-        selectedColor={selectedColor} // Pass selected color
-      />
+          visible={isModalVisible}
+          handleOk={handleOk}
+          handleCancel={handleCancel}
+          selectedStage={selectedStage} 
+          selectedColor={selectedStage.color}
+        />
     </main>
   );
 };
@@ -145,4 +150,4 @@ const SortableItem = ({ children, id }) => {
   );
 };
 
-export default Statuses;
+export default Stages;
