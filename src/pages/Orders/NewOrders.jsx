@@ -1,4 +1,4 @@
-import { Modal, Button, Typography, Select, Spin, Input, DatePicker, Form } from 'antd';
+import { Modal, Button, Typography, Select, Spin, Input, DatePicker, Form, message } from 'antd';
 import { useState } from 'react';
 import debounce from 'lodash/debounce';
 import dayjs from 'dayjs';
@@ -32,17 +32,19 @@ const NewOrders = ({ visible, handleOk, handleCancel }) => {
           const leadTime = values.leadTime;
   
           await crmAPI.createOrder({ serviceId, clientId, employeeId, comments, createdAt, leadTime });
+          message.success('Заказ успешно создан');
           handleOk();
-        } catch (error) {
-          console.error('Error creating order:', error);
+        } catch {
+          message.error('Ошибка при создании заказа');
         } finally {
           setConfirmLoading(false);
         }
       })
-      .catch((error) => {
-        console.error('Validation error:', error);
+      .catch(() => {
+        message.error('Ошибка валидации');
       });
   };
+  
   
 
   const baseStyle = {
@@ -52,13 +54,13 @@ const NewOrders = ({ visible, handleOk, handleCancel }) => {
 
   const handleClientSearch = debounce((value) => {
     setFetchingClient(true);
-    fetchUserList(value)
+    fetchClientList(value)
       .then((newOptions) => {
         setOptionsClient(newOptions);
         setFetchingClient(false);
       })
-      .catch((error) => {
-        console.error('Error fetching user list:', error);
+      .catch(() => {
+        message.error('Ошибка получения списка клиентов', 5);
         setFetchingClient(false);
       });
   }, 800);
@@ -70,8 +72,8 @@ const NewOrders = ({ visible, handleOk, handleCancel }) => {
         setOptionsService(newOptions);
         setFetchingService(false);
       })
-      .catch((error) => {
-        console.error('Error fetching service list:', error);
+      .catch(() => {
+        message.error('Ошибка получения списка услуг', 5);
         setFetchingService(false);
       });
   }, 800);
@@ -83,8 +85,8 @@ const NewOrders = ({ visible, handleOk, handleCancel }) => {
         setOptionsEmployee(newOptions);
         setFetchingEmployee(false);
       })
-      .catch((error) => {
-        console.error('Error fetching employee list:', error);
+      .catch(() => {
+        message.error('Ошибка получения списка сотрудников', 5);
         setFetchingEmployee(false);
       });
   }, 800);
@@ -179,17 +181,16 @@ const NewOrders = ({ visible, handleOk, handleCancel }) => {
   );
 };
 
-async function fetchUserList() {
+async function fetchClientList() {
   try {
     const response = await crmAPI.getAllClientsData();
-    console.log(response.data);
     const clients = response.data;
     return clients.map((client) => ({
       label: `${client.phone}`,
       value: client.id,
     }));
   } catch (error) {
-    console.error('Error fetching user list:', error);
+    message.error('Ошибка получения списка клиентов', 5);
     return [];
   }
 }
@@ -203,7 +204,7 @@ async function fetchServiceList() {
       value: service.id,
     }));
   } catch (error) {
-    console.error('Error fetching service list:', error);
+    message.error('Ошибка получения списка услуг', 5);
     return [];
   }
 }
@@ -217,7 +218,7 @@ async function fetchEmployeeList() {
       value: employee.id,
     }));
   } catch (error) {
-    console.error('Error fetching employee list:', error);
+    message.error('Ошибка получения списка сотрудников', 5);
     return [];
   }
 }
