@@ -1,5 +1,5 @@
 import { Link, useLocation } from 'react-router-dom';
-import { Avatar, Breadcrumb, Layout } from 'antd';
+import { Avatar, Breadcrumb, Button, Layout, Space, Typography } from 'antd';
 import { Header } from 'antd/es/layout/layout';
 
 import '../navbar/navbar.scss';
@@ -88,7 +88,9 @@ const NavHeader = () => {
           </div>
           <div>
               <Link to='/settings/profile'>
-                <Avatar size={40} icon={<UserOutlined />} />
+                <Button type="text" icon={<UserOutlined />} size="large" style={{ color: 'white' }}>
+                    Профиль
+                </Button>
               </Link>
           </div>
       
