@@ -110,7 +110,7 @@ const NewOrders = ({ visible, handleOk, handleCancel }) => {
         </Button>,
       ]}
     >
-      <Form form={form} layout="vertical">
+      <Form form={form} layout="vertical" initialValues={{ leadTime: dayjs() }}>
         <Typography.Title level={4}>Клиент</Typography.Title>
         <Form.Item
           name="client"
@@ -204,7 +204,7 @@ const NewOrders = ({ visible, handleOk, handleCancel }) => {
           label="Дата срока выполнения"
           rules={[{ required: true, message: 'Пожалуйста, выберите дату срока выполнения' }]}
         >
-          <DatePicker style={{ ...baseStyle }} placeholder="Срок" defaultValue={dayjs('2024-03-01')} />
+          <DatePicker style={{ ...baseStyle }} placeholder="Срок"/>
         </Form.Item>
       </Form>
     </Modal>
