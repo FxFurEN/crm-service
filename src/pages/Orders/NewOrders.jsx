@@ -108,7 +108,7 @@ const NewOrders = ({ visible, handleOk, handleCancel }) => {
     >
       <Form form={form} layout="vertical">
         <Typography.Title level={4}>Клиент</Typography.Title>
-        <Form.Item name="client" rules={[{ required: true, message: 'Пожалуйста, выберите клиента' }]}>
+        <Form.Item name="client" label="Клиент" rules={[{ required: true, message: 'Пожалуйста, выберите клиента' }]}>
           <Select
             showSearch
             placeholder="Имя"
@@ -157,7 +157,7 @@ const NewOrders = ({ visible, handleOk, handleCancel }) => {
         </Form.Item>
 
         <Typography.Title level={4}>Дополнительно</Typography.Title>
-        <Form.Item name="employee" label="Исполнитель" style={{ marginBottom: -2 }}>
+        <Form.Item name="employee" label="Исполнитель" style={{ marginBottom: -2 }} rules={[{ required: true, message: 'Пожалуйста, введите исполнителя' }]}>
           <Select
             showSearch
             placeholder="Исполнитель"
@@ -173,7 +173,7 @@ const NewOrders = ({ visible, handleOk, handleCancel }) => {
             ))}
           </Select>
         </Form.Item>
-        <Form.Item name="leadTime" label="Дата срока выполнения">
+        <Form.Item name="leadTime" label="Дата срока выполнения" rules={[{ required: true, message: 'Пожалуйста, выберите дату срока выполнения' }]}>
           <DatePicker style={{ ...baseStyle }} placeholder="Срок" defaultValue={dayjs('2024-03-01')} />
         </Form.Item>
     </Form>
