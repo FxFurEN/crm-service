@@ -140,10 +140,12 @@ const Orders = () => {
 
   const handleOk = () => {
     setIsModalVisible(false);
+    fetchOrders();
   };
 
   const handleOkNew = () => {
     setIsModalVisibleNew(false);
+    fetchOrders();
   };
 
   const handleCancel = () => {
