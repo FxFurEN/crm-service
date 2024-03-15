@@ -1,5 +1,4 @@
-import { SmileOutlined } from '@ant-design/icons';
-import { Modal, Table, Typography, ConfigProvider, Spin, List } from 'antd';
+import { Modal, Table, Typography, Spin, List } from 'antd';
 import { useState, useEffect } from 'react';
 import { crmAPI } from '@service/api';
 import dayjs from 'dayjs';
@@ -37,25 +36,6 @@ const InfoClients = ({ visible, handleOk, handleCancel, client }) => {
         }, 2000);
     };
 
-    const customizeRenderEmpty = () => (
-        <div
-          style={{
-            display: 'flex',
-            flexDirection: 'column',
-            justifyContent: 'center',
-            alignItems: 'center',
-            height: '8em',
-          }}
-        >
-          <SmileOutlined
-            style={{
-              fontSize: 20,
-            }}
-          />
-          <p>Данные не найдены</p>
-        </div>
-    );
-
     const columns = [
         {
             title: 'Название услуги',
@@ -82,7 +62,6 @@ const InfoClients = ({ visible, handleOk, handleCancel, client }) => {
     ];
 
     return (
-        <ConfigProvider renderEmpty={customizeRenderEmpty}>
             <Modal
                 title="Информация о клиенте"
                 centered
@@ -114,7 +93,6 @@ const InfoClients = ({ visible, handleOk, handleCancel, client }) => {
                 <Typography.Text strong>Платежи</Typography.Text>
                 <List bordered/>
             </Modal>
-        </ConfigProvider>
     );
 };
 
