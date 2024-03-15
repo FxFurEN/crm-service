@@ -133,60 +133,47 @@ function Clients() {
       ),
   });
   const columns = [
-  {
-    title: 'Имя',
-    width: 100,
-    dataIndex: 'name',
-    key: 'name',
-    fixed: 'left',
-    ...getColumnSearchProps('name'),
-  },
-  {
-    title: 'Телефон',
-    width: 150,
-    dataIndex: 'phone',
-    key: 'phone',
-    ...getColumnSearchProps('phone'),
-  },
-  {
-    title: 'Почта',
-    width: 100,
-    dataIndex: 'email',
-    key: 'email',
-    responsive: ['md'],
-    ...getColumnSearchProps('email'),
-  },
-  {
-    title: 'Тип клиента',
-    width: 150,
-    dataIndex: 'sign', 
-    key: 'sign',
-    filters: [
-      { text: 'Физ. лицо', value: 'false' },
-      { text: 'Юр. лицо', value: 'true' },
-    ],
-    responsive: ['md'],
-    onFilter: (value, record) => String(record.sign) === value,
-    render: (text) => (
-      <span>{text ? ' Юр. лицо' : 'Физ. лицо'}</span>
-    ),
-  },
-  {
-    title: 'УНП',
-    width: 100,
-    dataIndex: 'unp',
-    key: 'unp',
-    responsive: ['md'],
-    ...getColumnSearchProps('unp'),
-  },
-  {
-    title: 'ФИО',
-    width: 100,
-    dataIndex: 'initials',
-    key: 'initials',
-    responsive: ['md'],
-    ...getColumnSearchProps('initials'),
-  },
+    {
+      title: 'Имя',
+      width: 100,
+      dataIndex: 'name',
+      key: 'name',
+      fixed: 'left',
+      ...getColumnSearchProps('name'),
+      render: (text, record) => (
+        <span>{record.initials || record.name}</span>
+      ),
+    },
+    {
+      title: 'Телефон',
+      width: 150,
+      dataIndex: 'phone',
+      key: 'phone',
+      ...getColumnSearchProps('phone'),
+    },
+    {
+      title: 'Почта',
+      width: 100,
+      dataIndex: 'email',
+      key: 'email',
+      responsive: ['md'],
+      ...getColumnSearchProps('email'),
+    },
+    {
+      title: 'Тип клиента',
+      width: 150,
+      dataIndex: 'sign', 
+      key: 'sign',
+      filters: [
+        { text: 'Физ. лицо', value: 'false' },
+        { text: 'Юр. лицо', value: 'true' },
+      ],
+      responsive: ['md'],
+      onFilter: (value, record) => String(record.sign) === value,
+      render: (text) => (
+        <span>{text ? ' Юр. лицо' : 'Физ. лицо'}</span>
+      ),
+    },
 ];
   
 
