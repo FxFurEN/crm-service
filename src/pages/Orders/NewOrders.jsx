@@ -218,7 +218,8 @@ async function fetchClientList(searchText) {
     const filteredClients = clients.filter(client =>
       client.sign ? client.name.toLowerCase().startsWith(searchText.toLowerCase()) : client.initials.toLowerCase().startsWith(searchText.toLowerCase())
     );
-    return filteredClients.map(client => ({
+    const limitedClients = filteredClients.slice(0, 5);
+    return limitedClients.map(client => ({
       label: client.sign ? `${client.name}` : `${client.initials}`,
       value: client.id,
     }));
@@ -227,6 +228,7 @@ async function fetchClientList(searchText) {
     return [];
   }
 }
+
 
 
 
