@@ -1,4 +1,4 @@
-import { Modal, Table, Typography, Spin, List } from 'antd';
+import { Modal, Table, Typography, Spin, List, Row, Col } from 'antd';
 import { useState, useEffect } from 'react';
 import { crmAPI } from '@service/api';
 import dayjs from 'dayjs';
@@ -62,37 +62,50 @@ const InfoClients = ({ visible, handleOk, handleCancel, client }) => {
     ];
 
     return (
-            <Modal
-                title="Информация о клиенте"
-                centered
-                open={visible}
-                onOk={handleOkAsync}
-                confirmLoading={confirmLoading}
-                onCancel={handleCancel}
-                footer={[]} 
-            >
-                <br/>
-                <Typography.Text strong>Клиент</Typography.Text>
-                <List
-                    bordered
-                    dataSource={clientFields}
-                    renderItem={(item) => (
-                        <List.Item>
-                            <Typography.Text strong>{item.title}: </Typography.Text>{item.value}
-                        </List.Item>
+        <Modal
+            title="Информация о клиенте"
+            centered
+            open={visible}
+            onOk={handleOkAsync}
+            confirmLoading={confirmLoading}
+            onCancel={handleCancel}
+            footer={[]}
+            width={1000}
+        >
+            <Row gutter={[20, 20]}>
+                <Col xs={24} sm={24} md={12} lg={12} xl={12}>
+                    <Typography.Text strong>Клиент</Typography.Text>
+                    {loading ? (
+                        <Spin />
+                    ) : (
+                        <>
+                        <List
+                        bordered
+                        dataSource={clientFields}
+                        renderItem={(item) => (
+                            <List.Item>
+                                <Typography.Text strong>{item.title}: </Typography.Text>{item.value}
+                            </List.Item>
+                        )}
+                        />
+                        <br/>
+                        <Typography.Text strong>Платежи</Typography.Text>
+                        <List bordered />
+                        </>
+                        
                     )}
-                />
-                <br/>
-                <Typography.Text strong>Заказы</Typography.Text>
-                {loading ? (
-                    <Spin />
-                ) : (
-                    <Table dataSource={orders} columns={columns} pagination={false} scroll={{ y: 100 }}/>
-                )}
-                <br/>
-                <Typography.Text strong>Платежи</Typography.Text>
-                <List bordered/>
-            </Modal>
+                </Col>
+                <Col xs={24} sm={24} md={12} lg={12} xl={12}>
+                    <Typography.Text strong>Заказы</Typography.Text>
+                    {loading ? (
+                        <Spin />
+                    ) : (
+                        <Table dataSource={orders} columns={columns} pagination={false} />
+                    )}
+                    <br/>
+                </Col>
+            </Row>
+        </Modal>
     );
 };
 
