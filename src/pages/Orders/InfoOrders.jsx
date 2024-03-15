@@ -1,10 +1,8 @@
-import { SmileOutlined } from '@ant-design/icons';
-import { Modal, List, Typography, Table, Flex, ConfigProvider, Tag } from 'antd';
+import { Modal, List, Typography, Table, Flex, Tag } from 'antd';
 import { useState } from 'react';
 
 const InfoOrders = ({ visible, handleOk, handleCancel, order }) => {
   const [confirmLoading, setConfirmLoading] = useState(false);
-  const [customize] = useState(true);
 
   if (!order) {
     return null;
@@ -51,27 +49,8 @@ const InfoOrders = ({ visible, handleOk, handleCancel, order }) => {
     { title: 'Изменение 1', date: '2024-02-14', description: 'Описание изменения 1' },
     { title: 'Изменение 2', date: '2024-02-15', description: 'Описание изменения 2' },
   ];
-  const customizeRenderEmpty = () => (
-    <div
-      style={{
-        display: 'flex',
-        flexDirection: 'column',
-        justifyContent: 'center',
-        alignItems: 'center',
-        height: '8em',
-      }}
-    >
-      <SmileOutlined
-        style={{
-          fontSize: 20,
-        }}
-      />
-      <p>Данные не найдены</p>
-    </div>
-  );
 
   return (
-    <ConfigProvider renderEmpty={customize ? customizeRenderEmpty : undefined}>
       <Modal
         title={`Заказ № ${order?.number}`}
         centered
@@ -139,7 +118,6 @@ const InfoOrders = ({ visible, handleOk, handleCancel, order }) => {
           />
         </div>
       </Modal>
-    </ConfigProvider>
 
   );
 };
