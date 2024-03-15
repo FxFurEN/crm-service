@@ -216,7 +216,7 @@ async function fetchClientList() {
     const response = await crmAPI.getAllClientsData();
     const clients = response.data;
     return clients.map((client) => ({
-      label: `${client.phone}`,
+      label: client.sign ? `${client.name}` : `${client.initials}`,
       value: client.id,
     }));
   } catch (error) {
@@ -224,6 +224,7 @@ async function fetchClientList() {
     return [];
   }
 }
+
 
 async function fetchServiceList() {
   try {
