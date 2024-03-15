@@ -236,7 +236,8 @@ async function fetchServiceList() {
   try {
     const response = await crmAPI.getAllServices();
     const services = response.data;
-    return services.map((service) => ({
+    const limitedServices = services.slice(0, 5);
+    return limitedServices.map((service) => ({
       label: service.name,
       value: service.id,
     }));
@@ -250,7 +251,8 @@ async function fetchEmployeeList() {
   try {
     const response = await crmAPI.getAllEmployees();
     const employees = response.data;
-    return employees.map((employee) => ({
+    const limitedEmployees = employees.slice(0, 5);
+    return limitedEmployees.map((employee) => ({
       label: `${employee.initials}`,
       value: employee.id,
     }));
