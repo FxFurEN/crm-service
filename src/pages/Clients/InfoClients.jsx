@@ -72,11 +72,19 @@ const InfoClients = ({ visible, handleOk, handleCancel, client }) => {
             render: (createdAt) => dayjs(createdAt).format('DD.MM.YYYY'),
         },
     ];
+    const isIndividual = !client.sign;
+
+    const clientFields = [
+        { title: 'Тип клиента', value: isIndividual ? 'Физ. лицо' : 'Юр. лицо' },
+        ...(isIndividual
+            ? [{ title: 'ФИО', value: client.initials }]
+            : [{ title: 'Имя', value: client.name }, { title: 'УНП', value: client.unp }])
+    ];
 
     return (
         <ConfigProvider renderEmpty={customizeRenderEmpty}>
             <Modal
-                title="Информация о заказе"
+                title="Информация о клиенте"
                 centered
                 open={visible}
                 onOk={handleOkAsync}
@@ -88,14 +96,7 @@ const InfoClients = ({ visible, handleOk, handleCancel, client }) => {
                 <Typography.Text strong>Клиент</Typography.Text>
                 <List
                     bordered
-                    dataSource={[
-                        { title: 'Имя', value: client.name },
-                        { title: 'Телефон', value: client.phone },
-                        { title: 'Почта', value: client.email },
-                        { title: 'Тип клиента', value: client.clientType === '1' ? 'Физ. лицо' : 'Юр. лицо' },
-                        { title: 'УНП', value: client.unp },
-                        { title: 'ФИО', value: client.initials },
-                    ]}
+                    dataSource={clientFields}
                     renderItem={(item) => (
                         <List.Item>
                             <Typography.Text strong>{item.title}: </Typography.Text>{item.value}
