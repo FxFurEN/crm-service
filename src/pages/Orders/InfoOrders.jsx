@@ -36,8 +36,8 @@ const InfoOrders = ({ visible, handleOk, handleCancel, order }) => {
   ];
   const dataClient = [
     { title: 'Клиент', value: order.client },
-    { title: 'Телефон', value: order.client },
-    { title: 'Почта', value: order.client },
+    { title: 'Телефон', value: order.clientPhone },
+    { title: 'Почта', value: order.clientEmail },
   ];
   const dataAdditional = [
     { title: 'Сотрудник', value: order.employee },
