@@ -61,7 +61,7 @@ const NewOrders = ({ visible, handleOk, handleCancel }) => {
         message.error('Ошибка получения списка клиентов', 5);
         setFetchingClient(false);
       });
-  }, 800);
+  }, 800);  
 
   const handleServiceSearch = debounce((value) => {
     setFetchingService(true);
@@ -211,11 +211,14 @@ const NewOrders = ({ visible, handleOk, handleCancel }) => {
   );
 };
 
-async function fetchClientList() {
+async function fetchClientList(searchText) {
   try {
     const response = await crmAPI.getAllClientsData();
     const clients = response.data;
-    return clients.map((client) => ({
+    const filteredClients = clients.filter(client =>
+      client.sign ? client.name.toLowerCase().startsWith(searchText.toLowerCase()) : client.initials.toLowerCase().startsWith(searchText.toLowerCase())
+    );
+    return filteredClients.map(client => ({
       label: client.sign ? `${client.name}` : `${client.initials}`,
       value: client.id,
     }));
@@ -224,6 +227,7 @@ async function fetchClientList() {
     return [];
   }
 }
+
 
 
 async function fetchServiceList() {
