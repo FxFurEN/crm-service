@@ -119,7 +119,10 @@ const Orders = () => {
         service: order.service.name,
         createdAt: dayjs(order.createdAt).format('DD.MM.YYYY'),
         leadTime: dayjs(order.leadTime).format('DD.MM.YYYY'), 
-        client: order.client.phone, 
+        client: order.client.sign ? order.client.name : order.client.initials,
+        clientPhone: order.client.phone, 
+        clientEmail: order.client.email, 
+        clientUnp: order.client.unp,
         employee: order.employee.initials, 
         comments: order.comments 
       }));
