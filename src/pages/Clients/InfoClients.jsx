@@ -1,13 +1,32 @@
 import { SmileOutlined } from '@ant-design/icons';
-import { Modal, List, Typography, ConfigProvider } from 'antd';
-import { useState } from 'react';
+import { Modal, List, Typography, ConfigProvider, Spin } from 'antd';
+import { useState, useEffect } from 'react';
+import { crmAPI } from '@service/api';
+import dayjs from 'dayjs';
 
 const InfoClients = ({ visible, handleOk, handleCancel, client }) => {
     const [confirmLoading, setConfirmLoading] = useState(false);
-    const [customize] = useState(true);
+    const [orders, setOrders] = useState([]);
+    const [loading, setLoading] = useState(false);
+
+    useEffect(() => {
+        if (client) {
+            setLoading(true);
+            crmAPI.getOrdersByClient(client.id)
+                .then(response => {
+                    setOrders(response.data);
+                })
+                .catch(error => {
+                    console.error('Error fetching client orders:', error);
+                })
+                .finally(() => {
+                    setLoading(false);
+                });
+        }
+    }, [client]);
 
     if (!client) {
-        return null; 
+        return null;
     }
 
     const handleOkAsync = () => {
@@ -38,15 +57,15 @@ const InfoClients = ({ visible, handleOk, handleCancel, client }) => {
     );
 
     return (
-        <ConfigProvider renderEmpty={customize ? customizeRenderEmpty : undefined}>
+        <ConfigProvider renderEmpty={customizeRenderEmpty}>
             <Modal
                 title="Информация о заказе"
                 centered
-                open={visible} // Changed "open" to "visible"
+                open={visible}
                 onOk={handleOkAsync}
                 confirmLoading={confirmLoading}
                 onCancel={handleCancel}
-                footer={[]} // Removed footer to customize it later
+                footer={[]} 
             >
                 <br/>
                 <Typography.Text strong>Клиент</Typography.Text>
@@ -68,7 +87,20 @@ const InfoClients = ({ visible, handleOk, handleCancel, client }) => {
                 />
                 <br/>
                 <Typography.Text strong>Заказы</Typography.Text>
-                <List bordered />
+                {loading ? (
+                    <Spin />
+                ) : (
+                    <List
+                        bordered
+                        dataSource={orders}
+                        renderItem={(order) => (
+                            <List.Item>
+                                <Typography.Text>{order.service.name}</Typography.Text>
+                                <Typography.Text>{dayjs(order.createdAt).format('DD.MM.YYYY')}</Typography.Text>
+                            </List.Item>
+                        )}
+                    />
+                )}
                 <br/>
                 <Typography.Text strong>Платежи</Typography.Text>
                 <List bordered/>

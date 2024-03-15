@@ -58,4 +58,7 @@ export const crmAPI = {
     createOrder(orderData) {
         return instance.post('/crm/orders', orderData);
     },
+    getOrdersByClient(clientId) {
+        return instance.get(`/crm/client/${clientId}/orders`);
+    },
 }
