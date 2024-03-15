@@ -1,5 +1,5 @@
 import { SmileOutlined } from '@ant-design/icons';
-import { Modal, List, Typography, ConfigProvider, Spin } from 'antd';
+import { Modal, Table, Typography, ConfigProvider, Spin, List } from 'antd';
 import { useState, useEffect } from 'react';
 import { crmAPI } from '@service/api';
 import dayjs from 'dayjs';
@@ -56,6 +56,23 @@ const InfoClients = ({ visible, handleOk, handleCancel, client }) => {
         </div>
     );
 
+    const columns = [
+        {
+            title: 'Название услуги',
+            dataIndex: 'service.name',
+            key: 'serviceName',
+            render: (text, record) => (
+                <Typography.Text>{record.service.name}</Typography.Text>
+            ),
+        },
+        {
+            title: 'Дата создания',
+            dataIndex: 'createdAt',
+            key: 'createdAt',
+            render: (createdAt) => dayjs(createdAt).format('DD.MM.YYYY'),
+        },
+    ];
+
     return (
         <ConfigProvider renderEmpty={customizeRenderEmpty}>
             <Modal
@@ -90,16 +107,7 @@ const InfoClients = ({ visible, handleOk, handleCancel, client }) => {
                 {loading ? (
                     <Spin />
                 ) : (
-                    <List
-                        bordered
-                        dataSource={orders}
-                        renderItem={(order) => (
-                            <List.Item>
-                                <Typography.Text>{order.service.name}</Typography.Text>
-                                <Typography.Text>{dayjs(order.createdAt).format('DD.MM.YYYY')}</Typography.Text>
-                            </List.Item>
-                        )}
-                    />
+                    <Table dataSource={orders} columns={columns} pagination={false} scroll={{ y: 100 }}/>
                 )}
                 <br/>
                 <Typography.Text strong>Платежи</Typography.Text>
