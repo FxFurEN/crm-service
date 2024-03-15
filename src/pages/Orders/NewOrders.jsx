@@ -110,7 +110,7 @@ const NewOrders = ({ visible, handleOk, handleCancel }) => {
         </Button>,
       ]}
     >
-      <Form form={form} layout="vertical" initialValues={{ leadTime: dayjs() }}>
+      <Form form={form} layout="vertical" initialValues={{ leadTime: dayjs(), createdAt: dayjs() }} >
         <Typography.Title level={4}>Клиент</Typography.Title>
         <Form.Item
           name="client"
