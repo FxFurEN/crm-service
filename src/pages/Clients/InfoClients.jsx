@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react';
 import { crmAPI } from '@service/api';
 import dayjs from 'dayjs';
 import EditClientModal from './EditClient'; 
+import { DeleteOutlined, EditOutlined } from '@ant-design/icons';
 
 const InfoClients = ({ visible, handleOk, handleCancel, client }) => {
     const [confirmLoading, setConfirmLoading] = useState(false);
@@ -85,25 +86,43 @@ const InfoClients = ({ visible, handleOk, handleCancel, client }) => {
     return (
         <>
             <Modal
-                title="Информация о клиенте"
+                 title={
+                    <span>
+                        Информация о клиенте
+                        <Button
+                            type="link"
+                            onClick={handleEditClient}
+                            style={{ right: 50, position: 'absolute', marginTop: -8.5 }}
+                            icon={<EditOutlined />}
+                        >
+                            Редактировать
+                        </Button>
+                        <Popconfirm
+                            key="delete"
+                            title="Вы уверены, что хотите удалить этого клиента?"
+                            onConfirm={handleDeleteClient}
+                            okText="Да"
+                            cancelText="Отмена"
+                        >
+                            <Button
+                            danger
+                            type="link"
+                            style={{ right: 200, position: 'absolute', marginTop: -8.5 }}
+                            icon={<DeleteOutlined />}
+                        >
+                            Удалить
+                        </Button>
+                        </Popconfirm>
+                        
+                    </span>
+                }
                 centered
                 open={visible}
                 onOk={handleOkAsync}
                 confirmLoading={confirmLoading}
                 onCancel={handleCancel}
                 footer={[
-                    <Popconfirm
-                        key="delete"
-                        title="Вы уверены, что хотите удалить этого клиента?"
-                        onConfirm={handleDeleteClient}
-                        okText="Да"
-                        cancelText="Отмена"
-                    >
-                        <Button>Удалить клиента</Button>
-                    </Popconfirm>,
-                    <Button key="edit" type="primary" onClick={handleEditClient}>
-                        Редактировать клиента
-                    </Button>,
+
                 ]}
                 width={1000}
             >
