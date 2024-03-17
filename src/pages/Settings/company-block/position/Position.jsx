@@ -1,10 +1,10 @@
-import { Modal, Form, Input, Button, Table, message } from 'antd';
-import { EditOutlined, PlusOutlined } from '@ant-design/icons';
+import { Modal, Form, Input, Button, Table, message, Popconfirm } from 'antd';
+import { DeleteOutlined, EditOutlined, PlusOutlined } from '@ant-design/icons';
 import { useState, useEffect } from 'react';
 import Floatbutton from '@components/float-button/FloatButton';
 import { crmAPI } from '@service/api';
 
-const PositionModal = ({ visible, handleCancel, handleSave, position }) => {
+const PositionModal = ({ visible, handleCancel, handleSave, handleDelete, position }) => {
   const [form] = Form.useForm();
 
   const onFinish = () => {
@@ -18,6 +18,11 @@ const PositionModal = ({ visible, handleCancel, handleSave, position }) => {
     handleCancel();
   };
 
+  const handleConfirmDelete = () => {
+    handleDelete(position.id);
+    handleClose();
+  };
+
   useEffect(() => {
     if (visible) {
       form.setFieldsValue({ name: position ? position.name : '' });
@@ -26,7 +31,26 @@ const PositionModal = ({ visible, handleCancel, handleSave, position }) => {
 
   return (
     <Modal
-      title={position ? "Редактировать должность" : "Добавить должность"}
+      title={position ? <span>
+                          Редактировать должность
+                          <Popconfirm
+                            key="delete"
+                            title="Вы уверены, что хотите удалить эту должность?"
+                            onConfirm={handleConfirmDelete}
+                            okText="Да"
+                            cancelText="Отмена"
+                        >
+                            <Button
+                            danger
+                            type="link"
+                            style={{ right: 50, position: 'absolute', marginTop: -8.5 }}
+                            icon={<DeleteOutlined />}
+                        >
+                            Удалить
+                        </Button>
+                        </Popconfirm>
+
+      </span> : "Добавить должность"}
       open={visible}
       onCancel={handleClose}
       footer={[
@@ -51,6 +75,7 @@ const PositionModal = ({ visible, handleCancel, handleSave, position }) => {
   );
 };
 
+
 const Position = () => {
   const [visible, setVisible] = useState(false);
   const [position, setPosition] = useState(null);
@@ -61,7 +86,6 @@ const Position = () => {
       const response = await crmAPI.getAllPositions();
       setPositions(response.data);
     } catch (error) {
-      console.error('Ошибка при загрузке должностей:', error);
       message.error('Ошибка при загрузке должностей');
     }
   };
@@ -87,8 +111,17 @@ const Position = () => {
       setVisible(false);
       fetchPositions();
     } catch (error) {
-      console.error('Ошибка при сохранении должности:', error);
       message.error('Ошибка при сохранении должности');
+    }
+  };
+
+  const handleDelete = async (positionId) => {
+    try {
+      await crmAPI.deletePosition(positionId);
+      message.success('Должность успешно удалена');
+      fetchPositions();
+    } catch (error) {
+      message.error('Ошибка при удалении должности');
     }
   };
 
@@ -133,6 +166,7 @@ const Position = () => {
         visible={visible}
         handleCancel={handleCancel}
         handleSave={handleSave}
+        handleDelete={handleDelete}
         position={position}
       />
     </main>
@@ -140,3 +174,4 @@ const Position = () => {
 };
 
 export default Position;
+

@@ -1,13 +1,34 @@
-import { SmileOutlined } from '@ant-design/icons';
-import { Modal, List, Typography, ConfigProvider } from 'antd';
-import { useState } from 'react';
+import { Modal, Table, Typography, Spin, List, Row, Col, Button, Popconfirm, message } from 'antd';
+import { useState, useEffect } from 'react';
+import { crmAPI } from '@service/api';
+import dayjs from 'dayjs';
+import EditClientModal from './EditClient'; 
+import { DeleteOutlined, EditOutlined } from '@ant-design/icons';
 
 const InfoClients = ({ visible, handleOk, handleCancel, client }) => {
     const [confirmLoading, setConfirmLoading] = useState(false);
-    const [customize] = useState(true);
+    const [orders, setOrders] = useState([]);
+    const [loading, setLoading] = useState(false);
+    const [editModalVisible, setEditModalVisible] = useState(false);
+
+    useEffect(() => {
+        if (client) {
+            setLoading(true);
+            crmAPI.getOrdersByClient(client.id)
+                .then(response => {
+                    setOrders(response.data);
+                })
+                .catch(error => {
+                    message.error('Error fetching client orders:', error);
+                })
+                .finally(() => {
+                    setLoading(false);
+                });
+        }
+    }, [client]);
 
     if (!client) {
-        return null; 
+        return null;
     }
 
     const handleOkAsync = () => {
@@ -18,62 +39,137 @@ const InfoClients = ({ visible, handleOk, handleCancel, client }) => {
         }, 2000);
     };
 
-    const customizeRenderEmpty = () => (
-        <div
-          style={{
-            display: 'flex',
-            flexDirection: 'column',
-            justifyContent: 'center',
-            alignItems: 'center',
-            height: '8em',
-          }}
-        >
-          <SmileOutlined
-            style={{
-              fontSize: 20,
-            }}
-          />
-          <p>Данные не найдены</p>
-        </div>
-    );
+    const handleDeleteClient = () => {
+        crmAPI.deleteClient(client.id)
+            .then(() => {
+                message.success('Клиент успешно удален');
+                handleOk(client);
+            })
+            .catch(() => {
+                message.error('Ошибка при удалении клиента');
+            });
+    };
+
+    const handleEditClient = () => {
+        setEditModalVisible(true);
+    };
+
+    const handleCloseEditModal = () => {
+        setEditModalVisible(false);
+    };
+
+    const columns = [
+        {
+            title: 'Название услуги',
+            dataIndex: 'service.name',
+            key: 'serviceName',
+            render: (text, record) => (
+                <Typography.Text>{record.service.name}</Typography.Text>
+            ),
+        },
+        {
+            title: 'Дата создания',
+            dataIndex: 'createdAt',
+            key: 'createdAt',
+            render: (createdAt) => dayjs(createdAt).format('DD.MM.YYYY'),
+        },
+    ];
+    const isIndividual = !client.sign;
+
+    const clientFields = [
+        { title: 'Тип клиента', value: isIndividual ? 'Физ. лицо' : 'Юр. лицо' },
+        ...(isIndividual
+            ? [{ title: 'ФИО', value: client.initials }]
+            : [{ title: 'Имя', value: client.name }, { title: 'УНП', value: client.unp }])
+    ];
 
     return (
-        <ConfigProvider renderEmpty={customize ? customizeRenderEmpty : undefined}>
+        <>
             <Modal
-                title="Информация о заказе"
+                 title={
+                    <span>
+                        Информация о клиенте
+                        <Button
+                            type="link"
+                            onClick={handleEditClient}
+                            style={{ right: 50, position: 'absolute', marginTop: -8.5 }}
+                            icon={<EditOutlined />}
+                        >
+                            Редактировать
+                        </Button>
+                        <Popconfirm
+                            key="delete"
+                            title="Вы уверены, что хотите удалить этого клиента?"
+                            onConfirm={handleDeleteClient}
+                            okText="Да"
+                            cancelText="Отмена"
+                        >
+                            <Button
+                            danger
+                            type="link"
+                            style={{ right: 200, position: 'absolute', marginTop: -8.5 }}
+                            icon={<DeleteOutlined />}
+                        >
+                            Удалить
+                        </Button>
+                        </Popconfirm>
+                        
+                    </span>
+                }
                 centered
-                open={visible} // Changed "open" to "visible"
+                open={visible}
                 onOk={handleOkAsync}
                 confirmLoading={confirmLoading}
                 onCancel={handleCancel}
-                footer={[]} // Removed footer to customize it later
+                footer={[
+
+                ]}
+                width={1000}
             >
-                <br/>
-                <Typography.Text strong>Клиент</Typography.Text>
-                <List
-                    bordered
-                    dataSource={[
-                        { title: 'Имя', value: client.name },
-                        { title: 'Телефон', value: client.phone },
-                        { title: 'Почта', value: client.email },
-                        { title: 'Тип клиента', value: client.clientType === '1' ? 'Физ. лицо' : 'Юр. лицо' },
-                        { title: 'УНП', value: client.unp },
-                        { title: 'ФИО', value: client.initials },
-                    ]}
-                    renderItem={(item) => (
-                        <List.Item>
-                            <Typography.Text strong>{item.title}: </Typography.Text>{item.value}
-                        </List.Item>
-                    )}
-                />
-                <br/>
-                <Typography.Text strong>Заказы</Typography.Text>
-                <List bordered />
-                <br/>
-                <Typography.Text strong>Платежи</Typography.Text>
-                <List bordered/>
+                <Row gutter={[20, 20]}>
+                    <Col xs={24} sm={24} md={12} lg={12} xl={12}>
+                        <Typography.Text strong>Клиент</Typography.Text>
+                        {loading ? (
+                            <Spin />
+                        ) : (
+                            <>
+                            <List
+                            bordered
+                            dataSource={clientFields}
+                            renderItem={(item) => (
+                                <List.Item>
+                                    <Typography.Text strong>{item.title}: </Typography.Text>{item.value}
+                                </List.Item>
+                            )}
+                            />
+                            <br/>
+                            <Typography.Text strong>Платежи</Typography.Text>
+                            <List bordered />
+                            </>
+                            
+                        )}
+                    </Col>
+                    <Col xs={24} sm={24} md={12} lg={12} xl={12}>
+                        <Typography.Text strong>Заказы</Typography.Text>
+                        {loading ? (
+                            <Spin />
+                        ) : (
+                            <Table dataSource={orders} columns={columns} pagination={false} />
+                        )}
+                        <br/>
+                    </Col>
+                </Row>
             </Modal>
-        </ConfigProvider>
+            <EditClientModal
+                visible={editModalVisible}
+                client={client}
+                handleOk={() => {
+                    handleOk(client);
+                    handleCloseEditModal();
+                }}
+                handleCancel={handleCloseEditModal}
+            />
+        </>
     );
 };
 

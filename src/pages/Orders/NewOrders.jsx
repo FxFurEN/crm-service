@@ -61,7 +61,7 @@ const NewOrders = ({ visible, handleOk, handleCancel }) => {
         message.error('Ошибка получения списка клиентов', 5);
         setFetchingClient(false);
       });
-  }, 800);
+  }, 800);  
 
   const handleServiceSearch = debounce((value) => {
     setFetchingService(true);
@@ -75,7 +75,7 @@ const NewOrders = ({ visible, handleOk, handleCancel }) => {
         setFetchingService(false);
       });
   }, 800);
-
+  
   const handleEmployeeSearch = debounce((value) => {
     setFetchingEmployee(true);
     fetchEmployeeList(value)
@@ -110,7 +110,7 @@ const NewOrders = ({ visible, handleOk, handleCancel }) => {
         </Button>,
       ]}
     >
-      <Form form={form} layout="vertical" initialValues={{ leadTime: dayjs() }}>
+      <Form form={form} layout="vertical" initialValues={{ leadTime: dayjs(), createdAt: dayjs() }} >
         <Typography.Title level={4}>Клиент</Typography.Title>
         <Form.Item
           name="client"
@@ -211,12 +211,16 @@ const NewOrders = ({ visible, handleOk, handleCancel }) => {
   );
 };
 
-async function fetchClientList() {
+async function fetchClientList(searchText) {
   try {
     const response = await crmAPI.getAllClientsData();
     const clients = response.data;
-    return clients.map((client) => ({
-      label: `${client.phone}`,
+    const filteredClients = clients.filter(client =>
+      client.sign ? client.name.toLowerCase().startsWith(searchText.toLowerCase()) : client.initials.toLowerCase().startsWith(searchText.toLowerCase())
+    );
+    const limitedClients = filteredClients.slice(0, 5);
+    return limitedClients.map(client => ({
+      label: client.sign ? `${client.name}` : `${client.initials}`,
       value: client.id,
     }));
   } catch (error) {
@@ -225,11 +229,18 @@ async function fetchClientList() {
   }
 }
 
-async function fetchServiceList() {
+
+
+
+async function fetchServiceList(searchText) {
   try {
     const response = await crmAPI.getAllServices();
     const services = response.data;
-    return services.map((service) => ({
+    const filteredServices = services.filter(service =>
+      service.name.toLowerCase().startsWith(searchText.toLowerCase())
+    );
+    const limitedServices = filteredServices.slice(0, 5);
+    return limitedServices.map((service) => ({
       label: service.name,
       value: service.id,
     }));
@@ -239,11 +250,15 @@ async function fetchServiceList() {
   }
 }
 
-async function fetchEmployeeList() {
+async function fetchEmployeeList(searchText) {
   try {
     const response = await crmAPI.getAllEmployees();
     const employees = response.data;
-    return employees.map((employee) => ({
+    const filteredEmployees = employees.filter(employee =>
+      employee.initials.toLowerCase().startsWith(searchText.toLowerCase())
+    );
+    const limitedEmployees = filteredEmployees.slice(0, 5);
+    return limitedEmployees.map((employee) => ({
       label: `${employee.initials}`,
       value: employee.id,
     }));

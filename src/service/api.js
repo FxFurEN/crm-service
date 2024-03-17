@@ -58,4 +58,19 @@ export const crmAPI = {
     createOrder(orderData) {
         return instance.post('/crm/orders', orderData);
     },
+    getOrdersByClient(clientId) {
+        return instance.get(`/crm/client/${clientId}/orders`);
+    },
+    deleteClient(clientId) {
+        return instance.delete(`/crm/deleteClient/${clientId}`);
+    },
+    updateClient(clientId, clientData) {
+        return instance.put(`/crm/updateClient/${clientId}`, clientData);
+    },
+    deletePosition(positionId) {
+        return instance.delete(`/crm/positions/${positionId}`);
+    },
+    updateEmployee(id, employeeData) {
+        return instance.put(`/crm/updateEmployee/${id}`, employeeData);
+    },     
 }

@@ -1,12 +1,17 @@
 import { useState } from 'react';
 import { Modal, Input, Flex, Button, Radio, Form, message } from 'antd';
-import InputMask from 'react-input-mask';
+import MaskedInput from 'antd-mask-input';
 import { crmAPI } from '@service/api'; 
 
 const NewClients = ({ visible, handleOk, handleCancel }) => {
     const [form] = Form.useForm();
     const [confirmLoading, setConfirmLoading] = useState(false);
-    const [clientData, setClientData] = useState({ name: '', phone: '', email: '', initials: '', unp: '', isLegalEntity: false });
+    const [clientData, setClientData] = useState({ name: null, phone: null, email: null, initials: null, unp: null, isLegalEntity: false });
+
+    const clearFormFields = () => {
+        setClientData({ name: null, phone: null, email: null, initials: null, unp: null, isLegalEntity: false });
+        form.resetFields();
+    };
 
     const handleOkAsync = async () => {
         try {
@@ -15,9 +20,15 @@ const NewClients = ({ visible, handleOk, handleCancel }) => {
             await crmAPI.createClient(clientData); 
             message.success('Клиент успешно добавлен'); 
             handleOk(clientData);
-        } catch (errorInfo) {
-            console.error('Error creating client:', errorInfo);
-            message.error('Пожалуйста, заполните обязательные поля.');
+            clearFormFields(); 
+            form.resetFields();
+        } catch (error) {
+            console.error('Error creating client:', error);
+            if (error.response && error.response.data && error.response.data.error === 'УНП уже существует') {
+                message.error('УНП уже существует');
+            } else {
+                message.error('Ошибка выполнения.');
+            }
         } finally {
             setConfirmLoading(false);
         }
@@ -36,10 +47,13 @@ const NewClients = ({ visible, handleOk, handleCancel }) => {
         <Modal
             title="Добавить клиента"
             centered
-            open={visible}
+            visible={visible}
             onOk={handleOkAsync}
             confirmLoading={confirmLoading}
-            onCancel={handleCancel}
+            onCancel={() => {
+                handleCancel();
+                clearFormFields();
+            }}
             footer={[
                 <Button key="submit" style={{ ...baseStyle }} loading={confirmLoading} onClick={handleOkAsync}>
                     Добавить
@@ -55,7 +69,7 @@ const NewClients = ({ visible, handleOk, handleCancel }) => {
                     <Flex horizontal>
                         <Radio.Group onChange={(e) => {
                             handleChange('isLegalEntity', e.target.value);
-                            form.resetFields(['name', 'unp', 'initials']);
+                            form.resetFields();
                         }} value={clientData.isLegalEntity}>
                             <Radio value={false}>Физ. лицо</Radio>
                             <Radio value={true}>Юр.лицо</Radio>
@@ -83,15 +97,11 @@ const NewClients = ({ visible, handleOk, handleCancel }) => {
                                 style={{ marginBottom: -5 }} 
                             >
                                 <Input
-                                    count={{
-                                        show: true,
-                                        max: 9,
-                                    }}
-                                    maxLength={9}
                                     style={{ ...baseStyle }}
                                     placeholder="УНП"
                                     value={clientData.unp}
                                     onChange={(e) => handleChange('unp', e.target.value)}
+                                    maxLength={9}
                                 />
                             </Form.Item>
                         </>
@@ -111,22 +121,22 @@ const NewClients = ({ visible, handleOk, handleCancel }) => {
                         </Form.Item>
                     )}
                     <Form.Item
-                        name="phone"
-                        label="Телефон"
-                        rules={[{ required: true, message: 'Пожалуйста, введите телефон' }]}
-                        style={{ marginBottom: -5 }} 
+                    label="Телефон"
+                    name="phone"
+                    initialValue={clientData.phone}
+                    rules={[{ required: true, message: 'Пожалуйста, введите телефон' }]}
                     >
-                        <InputMask
-                            mask="+375 (99) 999-99-99 "
-                            value={clientData.phone}
-                            onChange={(e) => handleChange('phone', e.target.value)}
-                        >
-                            {(inputProps) => <Input {...inputProps} style={{ ...baseStyle }} placeholder="Телефон" />}
-                        </InputMask>
+                    <MaskedInput
+                        mask="+375 (00) 000-00-00"
+                        onChange={(e) => handleChange('phone', e.target.value)}
+                        style={{ width: '100%' }}
+                        placeholder="Телефон"
+                    />
                     </Form.Item>
                     <Form.Item
                         name="email"
                         label="Почта" 
+                        rules={[{type: 'email', message: 'Пожалуйста, введите почту правильно' }]}
                     >
                         <Input
                             style={{ ...baseStyle }}
