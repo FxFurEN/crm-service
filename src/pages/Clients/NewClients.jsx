@@ -15,9 +15,13 @@ const NewClients = ({ visible, handleOk, handleCancel }) => {
             await crmAPI.createClient(clientData); 
             message.success('Клиент успешно добавлен'); 
             handleOk(clientData);
-        } catch (errorInfo) {
-            console.error('Error creating client:', errorInfo);
-            message.error('Пожалуйста, заполните обязательные поля.');
+        } catch (error) {
+            console.error('Error creating client:', error);
+            if (error.response && error.response.data && error.response.data.error === 'УНП уже существует') {
+                message.error('УНП уже существует');
+            } else {
+                message.error('Пожалуйста, заполните обязательные поля.');
+            }
         } finally {
             setConfirmLoading(false);
         }
