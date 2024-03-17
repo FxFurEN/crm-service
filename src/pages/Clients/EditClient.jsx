@@ -8,7 +8,7 @@ const EditClient = ({ visible, client, handleOk, handleCancel }) => {
 
     useEffect(() => {
         if (visible && client) {
-            form.setFieldsValue(client); // Загружаем данные клиента в форму при открытии модального окна
+            form.setFieldsValue(client);
         }
     }, [visible, client, form]);
 
@@ -21,7 +21,6 @@ const EditClient = ({ visible, client, handleOk, handleCancel }) => {
             message.success('Данные клиента успешно обновлены');
             handleOk();
         } catch (error) {
-            console.error('Error updating client:', error);
             message.error('Ошибка при обновлении данных клиента');
         } finally {
             setConfirmLoading(false);
@@ -32,6 +31,7 @@ const EditClient = ({ visible, client, handleOk, handleCancel }) => {
         form.resetFields();
         handleCancel();
     };
+
     const baseStyle = {
         width: 'clamp(200px, 100%, 500px)',
         height: 40,
@@ -41,7 +41,7 @@ const EditClient = ({ visible, client, handleOk, handleCancel }) => {
         <Modal
             title="Редактировать клиента"
             centered
-            visible={visible}
+            open={visible}
             onOk={handleOkAsync}
             confirmLoading={confirmLoading}
             onCancel={handleCancelClick}
@@ -52,7 +52,7 @@ const EditClient = ({ visible, client, handleOk, handleCancel }) => {
             ]}
         >
             <Form form={form} layout="vertical">
-                {client && ( // Проверяем, что клиент загружен
+                {client && (
                     <>
                         {client.sign ? (
                             <>

@@ -64,4 +64,7 @@ export const crmAPI = {
     deleteClient(clientId) {
         return instance.delete(`/crm/deleteClient/${clientId}`);
     },
+    updateClient(clientId, clientData) {
+        return instance.put(`/crm/updateClient/${clientId}`, clientData);
+    }
 }
