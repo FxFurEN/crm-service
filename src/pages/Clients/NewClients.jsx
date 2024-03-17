@@ -20,7 +20,7 @@ const NewClients = ({ visible, handleOk, handleCancel }) => {
             if (error.response && error.response.data && error.response.data.error === 'УНП уже существует') {
                 message.error('УНП уже существует');
             } else {
-                message.error('Пожалуйста, заполните обязательные поля.');
+                message.error('Ошибка выполнения.');
             }
         } finally {
             setConfirmLoading(false);
