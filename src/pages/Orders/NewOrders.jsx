@@ -75,7 +75,7 @@ const NewOrders = ({ visible, handleOk, handleCancel }) => {
         setFetchingService(false);
       });
   }, 800);
-
+  
   const handleEmployeeSearch = debounce((value) => {
     setFetchingEmployee(true);
     fetchEmployeeList(value)
@@ -232,11 +232,14 @@ async function fetchClientList(searchText) {
 
 
 
-async function fetchServiceList() {
+async function fetchServiceList(searchText) {
   try {
     const response = await crmAPI.getAllServices();
     const services = response.data;
-    const limitedServices = services.slice(0, 5);
+    const filteredServices = services.filter(service =>
+      service.name.toLowerCase().startsWith(searchText.toLowerCase())
+    );
+    const limitedServices = filteredServices.slice(0, 5);
     return limitedServices.map((service) => ({
       label: service.name,
       value: service.id,
@@ -247,11 +250,14 @@ async function fetchServiceList() {
   }
 }
 
-async function fetchEmployeeList() {
+async function fetchEmployeeList(searchText) {
   try {
     const response = await crmAPI.getAllEmployees();
     const employees = response.data;
-    const limitedEmployees = employees.slice(0, 5);
+    const filteredEmployees = employees.filter(employee =>
+      employee.initials.toLowerCase().startsWith(searchText.toLowerCase())
+    );
+    const limitedEmployees = filteredEmployees.slice(0, 5);
     return limitedEmployees.map((employee) => ({
       label: `${employee.initials}`,
       value: employee.id,
