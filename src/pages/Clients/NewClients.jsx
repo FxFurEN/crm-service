@@ -6,7 +6,12 @@ import { crmAPI } from '@service/api';
 const NewClients = ({ visible, handleOk, handleCancel }) => {
     const [form] = Form.useForm();
     const [confirmLoading, setConfirmLoading] = useState(false);
-    const [clientData, setClientData] = useState({ name: '', phone: '', email: '', initials: '', unp: '', isLegalEntity: false });
+    const [clientData, setClientData] = useState({ name: null, phone: null, email: null, initials: null, unp: null, isLegalEntity: false });
+
+    const clearFormFields = () => {
+        setClientData({ name: null, phone: null, email: null, initials: null, unp: null, isLegalEntity: false });
+        form.resetFields();
+    };
 
     const handleOkAsync = async () => {
         try {
@@ -15,6 +20,8 @@ const NewClients = ({ visible, handleOk, handleCancel }) => {
             await crmAPI.createClient(clientData); 
             message.success('Клиент успешно добавлен'); 
             handleOk(clientData);
+            clearFormFields(); 
+            form.resetFields();
         } catch (error) {
             console.error('Error creating client:', error);
             if (error.response && error.response.data && error.response.data.error === 'УНП уже существует') {
@@ -40,10 +47,13 @@ const NewClients = ({ visible, handleOk, handleCancel }) => {
         <Modal
             title="Добавить клиента"
             centered
-            visible={visible} // Change 'open' to 'visible'
+            visible={visible}
             onOk={handleOkAsync}
             confirmLoading={confirmLoading}
-            onCancel={handleCancel}
+            onCancel={() => {
+                handleCancel();
+                clearFormFields();
+            }}
             footer={[
                 <Button key="submit" style={{ ...baseStyle }} loading={confirmLoading} onClick={handleOkAsync}>
                     Добавить
@@ -59,7 +69,7 @@ const NewClients = ({ visible, handleOk, handleCancel }) => {
                     <Flex horizontal>
                         <Radio.Group onChange={(e) => {
                             handleChange('isLegalEntity', e.target.value);
-                            form.resetFields(['name', 'unp', 'initials', 'phone', 'email']);
+                            form.resetFields();
                         }} value={clientData.isLegalEntity}>
                             <Radio value={false}>Физ. лицо</Radio>
                             <Radio value={true}>Юр.лицо</Radio>
