@@ -70,5 +70,7 @@ export const crmAPI = {
     deletePosition(positionId) {
         return instance.delete(`/crm/positions/${positionId}`);
     },
-      
+    updateEmployee(id, employeeData) {
+        return instance.put(`/crm/updateEmployee/${id}`, employeeData);
+    },     
 }
