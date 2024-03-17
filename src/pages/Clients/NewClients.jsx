@@ -136,6 +136,7 @@ const NewClients = ({ visible, handleOk, handleCancel }) => {
                     <Form.Item
                         name="email"
                         label="Почта" 
+                        rules={[{type: 'email', message: 'Пожалуйста, введите почту правильно' }]}
                     >
                         <Input
                             style={{ ...baseStyle }}
