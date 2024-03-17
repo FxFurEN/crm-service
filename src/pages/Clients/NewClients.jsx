@@ -55,7 +55,7 @@ const NewClients = ({ visible, handleOk, handleCancel }) => {
                     <Flex horizontal>
                         <Radio.Group onChange={(e) => {
                             handleChange('isLegalEntity', e.target.value);
-                            form.resetFields(['name', 'unp', 'initials']);
+                            form.resetFields(['name', 'unp', 'initials', 'phone', 'email']);
                         }} value={clientData.isLegalEntity}>
                             <Radio value={false}>Физ. лицо</Radio>
                             <Radio value={true}>Юр.лицо</Radio>
