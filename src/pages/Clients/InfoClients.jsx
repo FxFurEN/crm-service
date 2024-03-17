@@ -1,4 +1,4 @@
-import { Modal, Table, Typography, Spin, List, Row, Col, Button, message } from 'antd';
+import { Modal, Table, Typography, Spin, List, Row, Col, Button, Popconfirm, message } from 'antd';
 import { useState, useEffect } from 'react';
 import { crmAPI } from '@service/api';
 import dayjs from 'dayjs';
@@ -18,7 +18,7 @@ const InfoClients = ({ visible, handleOk, handleCancel, client }) => {
                     setOrders(response.data);
                 })
                 .catch(error => {
-                    console.error('Error fetching client orders:', error);
+                    message.error('Error fetching client orders:', error);
                 })
                 .finally(() => {
                     setLoading(false);
@@ -39,8 +39,14 @@ const InfoClients = ({ visible, handleOk, handleCancel, client }) => {
     };
 
     const handleDeleteClient = () => {
-        message.success('Клиент успешно удален');
-        handleOk(client);
+        crmAPI.deleteClient(client.id)
+            .then(() => {
+                message.success('Клиент успешно удален');
+                handleOk(client);
+            })
+            .catch(() => {
+                message.error('Ошибка при удалении клиента');
+            });
     };
 
     const handleEditClient = () => {
@@ -81,14 +87,20 @@ const InfoClients = ({ visible, handleOk, handleCancel, client }) => {
             <Modal
                 title="Информация о клиенте"
                 centered
-                visible={visible}
+                open={visible}
                 onOk={handleOkAsync}
                 confirmLoading={confirmLoading}
                 onCancel={handleCancel}
                 footer={[
-                    <Button key="delete" onClick={() => handleDeleteClient()}>
-                        Удалить клиента
-                    </Button>,
+                    <Popconfirm
+                        key="delete"
+                        title="Вы уверены, что хотите удалить этого клиента?"
+                        onConfirm={handleDeleteClient}
+                        okText="Да"
+                        cancelText="Отмена"
+                    >
+                        <Button>Удалить клиента</Button>
+                    </Popconfirm>,
                     <Button key="edit" type="primary" onClick={handleEditClient}>
                         Редактировать клиента
                     </Button>,

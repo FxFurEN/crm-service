@@ -61,4 +61,7 @@ export const crmAPI = {
     getOrdersByClient(clientId) {
         return instance.get(`/crm/client/${clientId}/orders`);
     },
+    deleteClient(clientId) {
+        return instance.delete(`/crm/deleteClient/${clientId}`);
+    },
 }

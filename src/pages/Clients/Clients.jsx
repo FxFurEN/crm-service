@@ -219,7 +219,10 @@ function Clients() {
         />
        <InfoClients 
             visible={isModalVisible1} 
-            handleOk={() => setIsModalVisible1(false)} 
+            handleOk={() => {
+              setIsModalVisible1(false);
+              fetchClientsData();
+            }} 
             handleCancel={() => setIsModalVisible1(false)}
             client={selectedClient} 
         />
