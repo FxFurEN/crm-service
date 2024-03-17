@@ -1,10 +1,16 @@
 import { Modal, Input, Form, Button, message } from 'antd';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { crmAPI } from '@service/api';
 
 const EditClient = ({ visible, client, handleOk, handleCancel }) => {
     const [confirmLoading, setConfirmLoading] = useState(false);
     const [form] = Form.useForm();
+
+    useEffect(() => {
+        if (visible && client) {
+            form.setFieldsValue(client); // Загружаем данные клиента в форму при открытии модального окна
+        }
+    }, [visible, client, form]);
 
     const handleOkAsync = async () => {
         try {
@@ -45,33 +51,37 @@ const EditClient = ({ visible, client, handleOk, handleCancel }) => {
                 </Button>
             ]}
         >
-            <Form form={form} layout="vertical" initialValues={client}>
-                {client.sign ? (
+            <Form form={form} layout="vertical">
+                {client && ( // Проверяем, что клиент загружен
                     <>
-                        <Form.Item name="name" label="Название организации" rules={[{ required: true, message: 'Введите название организации' }]}>
-                            <Input />
-                        </Form.Item>
-                        <Form.Item name="phone" label="Телефон" rules={[{ required: true, message: 'Введите номер телефона' }]}>
-                            <Input />
-                        </Form.Item>
-                        <Form.Item name="email" label="Почта" rules={[{ type: 'email', message: 'Введите корректный email' }]}>
-                            <Input />
-                        </Form.Item>
-                        <Form.Item name="unp" label="УНП">
-                            <Input />
-                        </Form.Item>
-                    </>
-                ) : (
-                    <>
-                        <Form.Item name="initials" label="Имя" rules={[{ required: true, message: 'Введите имя клиента' }]}>
-                            <Input />
-                        </Form.Item>
-                        <Form.Item name="phone" label="Телефон" rules={[{ required: true, message: 'Введите номер телефона' }]}>
-                            <Input />
-                        </Form.Item>
-                        <Form.Item name="email" label="Почта" rules={[{ type: 'email', message: 'Введите корректный email' }]}>
-                            <Input />
-                        </Form.Item>
+                        {client.sign ? (
+                            <>
+                                <Form.Item name="name" label="Название организации" rules={[{ required: true, message: 'Введите название организации' }]}>
+                                    <Input />
+                                </Form.Item>
+                                <Form.Item name="phone" label="Телефон" rules={[{ required: true, message: 'Введите номер телефона' }]}>
+                                    <Input />
+                                </Form.Item>
+                                <Form.Item name="email" label="Почта" rules={[{ type: 'email', message: 'Введите корректный email' }]}>
+                                    <Input />
+                                </Form.Item>
+                                <Form.Item name="unp" label="УНП">
+                                    <Input />
+                                </Form.Item>
+                            </>
+                        ) : (
+                            <>
+                                <Form.Item name="initials" label="Имя" rules={[{ required: true, message: 'Введите имя клиента' }]}>
+                                    <Input />
+                                </Form.Item>
+                                <Form.Item name="phone" label="Телефон" rules={[{ required: true, message: 'Введите номер телефона' }]}>
+                                    <Input />
+                                </Form.Item>
+                                <Form.Item name="email" label="Почта" rules={[{ type: 'email', message: 'Введите корректный email' }]}>
+                                    <Input />
+                                </Form.Item>
+                            </>
+                        )}
                     </>
                 )}
             </Form>
