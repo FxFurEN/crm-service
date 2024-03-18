@@ -1,6 +1,7 @@
-import { Modal, Form, Input, message, Button } from 'antd';
+import { Modal, Form, Input, message, Button, Popconfirm } from 'antd';
 import { crmAPI } from '@service/api';
 import { useEffect, useState } from 'react';
+import { DeleteOutlined } from '@ant-design/icons';
 
 const AddCategoryModal = ({ visible, handleOk, handleCancel, initialCategory }) => {
   const [form] = Form.useForm();
@@ -47,7 +48,26 @@ const AddCategoryModal = ({ visible, handleOk, handleCancel, initialCategory }) 
   return (
     <Modal
       centered
-      title={initialCategory ? 'Редактировать категорию' : 'Добавить категорию'}
+      title={initialCategory ?  <span>
+        Редактирование категории
+
+        <Popconfirm
+            key="delete"
+            title="Вы уверены, что хотите удалить этого клиента?"
+            okText="Да"
+            cancelText="Отмена"
+        >
+            <Button
+            danger
+            type="link"
+            style={{ right: 50, position: 'absolute', marginTop: -8.5 }}
+            icon={<DeleteOutlined />}
+        >
+            Удалить
+        </Button>
+        </Popconfirm>
+        
+    </span> : 'Добавить категорию'}
       open={visible}
       onOk={form.submit}
       onCancel={handleCancel}
