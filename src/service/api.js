@@ -82,4 +82,7 @@ export const crmAPI = {
     updateService(serviceId, serviceData) {
         return instance.put(`/crm/updateService/${serviceId}`, serviceData);
     },
+    deleteService(serviceId) {
+        return instance.delete(`/crm/deleteService/${serviceId}`);
+    },
 }
