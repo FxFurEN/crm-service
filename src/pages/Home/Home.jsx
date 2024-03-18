@@ -1,37 +1,49 @@
 import { useState, useEffect } from 'react';
 import { Card, Flex } from 'antd';
-import { Area, Column, Line, Pie } from '@ant-design/charts';
+import { Column } from '@ant-design/charts';
 import { crmAPI } from '@service/api';
 
 const Home = () => {
-  const [services, setServices] = useState([]);
+  const [orderData, setOrderData] = useState([]);
 
   useEffect(() => {
-    asyncFetchServices();
+    asyncFetchOrders();
   }, []);
 
-  const asyncFetchServices = () => {
-    crmAPI.getAllServices()
+  const asyncFetchOrders = () => {
+    const endDate = new Date();
+    const startDate = new Date();
+    startDate.setDate(startDate.getDate() - 6); 
+
+    crmAPI.getOrders()
       .then(response => {
-        const servicesData = response.data;
-        setServices(servicesData);
+        const ordersData = response.data;
+        const ordersLast7Days = ordersData.filter(order => {
+          const orderDate = new Date(order.createdAt);
+          return orderDate >= startDate && orderDate <= endDate;
+        });
+        const ordersCountByDay = ordersLast7Days.reduce((acc, order) => {
+          const orderDate = new Date(order.createdAt);
+          const day = orderDate.toLocaleDateString();
+          acc[day] = (acc[day] || 0) + 1;
+          return acc;
+        }, {});
+        const chartData = Object.keys(ordersCountByDay).map(date => ({
+          date,
+          количество: ordersCountByDay[date],
+        }));
+        setOrderData(chartData);
       })
       .catch(error => {
-        console.error('Failed to fetch services:', error);
+        console.error('Не удалось загрузить данные о заказах:', error);
       });
   };
 
-  const priceChartData = services.map(service => ({
-    name: service.name,
-    price: service.price,
-  }));
-
   const config = {
-    data: priceChartData,
-    xField: 'name',
-    yField: 'price',
-    xAxis: { label: { autoRotate: false } },
-    tooltip: { formatter: ({ value }) => `$${value.toFixed(2)}` },
+    data: orderData,
+    xField: 'date',
+    yField: 'количество',
+    legend: false,
     height: 400,
     width: 600,
   };
@@ -40,23 +52,8 @@ const Home = () => {
     <main id="main">
       <Flex wrap="wrap" gap="large" justify="center">
         <div>
-          <Card size="small" title="Line Chart">
-            <Line {...config} />
-          </Card>
-        </div>
-        <div>
-          <Card size="small" title="Pie Chart">
-            <Pie {...config} />
-          </Card>
-        </div>
-        <div>
-          <Card size="small" title="Column Chart">
+          <Card size="small" title="Количество заказов за последние 7 дней">
             <Column {...config} />
-          </Card>
-        </div>
-        <div>
-          <Card size="small" title="Area Chart">
-            <Area {...config} />
           </Card>
         </div>
       </Flex>
