@@ -85,4 +85,13 @@ export const crmAPI = {
     deleteService(serviceId) {
         return instance.delete(`/crm/deleteService/${serviceId}`);
     },
+    getOrdersByCategory(){
+        return instance.get('/crm/ordersByCategory');
+    },
+    getCompletedOrdersByEmployee(){
+        return instance.get('/crm/completedOrdersByEmployee');
+    },
+    getClientsWithMostOrders(){
+        return instance.get('/crm/clientsWithMostOrders');
+    },
 }
