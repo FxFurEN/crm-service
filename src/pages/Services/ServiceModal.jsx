@@ -23,17 +23,39 @@ const ServiceModal = ({ visible, categories, handleOk, handleCancel, serviceData
 
   const onFinish = (values) => {
     setConfirmLoading(true); 
-    const serviceAction = serviceData ? crmAPI.updateService : crmAPI.createService;
-    serviceAction(serviceData ? serviceData.id : null, values)
+    if (serviceData) {
+      updateService(values);
+    } else {
+      createService(values);
+    }
+  };
+
+  const createService = (values) => {
+    crmAPI.createService(values)
       .then((response) => {
         handleOk(response.data);
-        
-        form.resetFields();
-        message.success(`Услуга успешно ${serviceData ? 'отредактирована' : 'добавлена'}`);
+        message.success('Услуга успешно добавлена');
         handleCancel();
+        form.resetFields();
       })
       .catch(() => {
-        message.error('Ошибка при выполнении операции');
+        message.error('Ошибка при добавлении услуги');
+      })
+      .finally(() => {
+        setConfirmLoading(false);
+      });
+  };
+
+  const updateService = (values) => {
+    crmAPI.updateService(serviceData.id, values)
+      .then((response) => {
+        handleOk(response.data);
+        message.success('Услуга успешно отредактирована');
+        handleCancel();
+        form.resetFields();
+      })
+      .catch(() => {
+        message.error('Ошибка при редактировании услуги');
       })
       .finally(() => {
         setConfirmLoading(false);
