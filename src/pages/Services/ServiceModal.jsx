@@ -11,7 +11,6 @@ const ServiceModal = ({ visible, categories, handleOk, handleCancel, serviceData
 
   useEffect(() => {
     if (visible && serviceData) {
-      console.log(serviceData.id);
       form.setFieldsValue({
         service: serviceData.service,
         category: serviceData.category,
