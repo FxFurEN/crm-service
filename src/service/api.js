@@ -78,5 +78,8 @@ export const crmAPI = {
     },
     deleteCategory(categoryId) {
         return instance.delete(`/crm/deleteCategory/${categoryId}`);
-    }
+    },
+    updateService(serviceId, serviceData) {
+        return instance.put(`/crm/updateService/${serviceId}`, serviceData);
+    },
 }

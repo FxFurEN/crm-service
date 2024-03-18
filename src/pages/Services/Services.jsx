@@ -5,7 +5,7 @@ import Highlighter from 'react-highlight-words';
 import { crmAPI } from '@service/api';
 import { setServicesData } from '@store/serviceSlice'; 
 import { useDispatch, useSelector } from 'react-redux';
-import AddServiceModal from './AddServiceModal';
+import ServiceModal from './ServiceModal';
 import CategoryModal from './CategoryModal';
 import Floatbutton from '@components/float-button/FloatButton';
 
@@ -27,6 +27,8 @@ const Services = () =>{
   const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
   const [categories, setCategories] = useState([]);
+  const [selectedService, setSelectedService] = useState(null);
+
 
   useEffect(() => {
     fetchCategories();
@@ -83,16 +85,24 @@ const Services = () =>{
 
   const showModalService = () => {
     setVisibleServiceModal(true);
+    setSelectedService(null);
   };
 
   const handleOkService = (values) => {
     fetchServices();
     setVisibleServiceModal(false);
+    
   };
 
   const handleCancelService = () => {
     setVisibleServiceModal(false);
   };
+
+  const handleRowClick = (record) => {
+    setSelectedService(record);
+    setVisibleServiceModal(true);
+  };
+  
 
   const handleSearch = (selectedKeys, confirm, dataIndex) => {
     confirm();
@@ -210,6 +220,7 @@ const Services = () =>{
     },
   ];
   const data = services.map((service, index) => ({
+    id: service.id,
     key: index + 1,
     service: service.name,
     categoryService: service.category.name,
@@ -269,6 +280,11 @@ const Services = () =>{
               pagination={{
                 position: ['right'],
               }}
+              onRow={(record, rowIndex) => {
+                return {
+                  onClick: () => handleRowClick(record),
+                };
+              }}
               summary={() => (
                 <Table.Summary>
                   <Table.Summary.Row>
@@ -287,12 +303,12 @@ const Services = () =>{
         handleCancel={handleCancelCategory}
         initialCategory={initialCategory} 
       />
-
-      <AddServiceModal
+      <ServiceModal
         visible={visibleServiceModal}
         categories={categories}
         handleOk={handleOkService}
         handleCancel={handleCancelService}
+        serviceData={selectedService}
       />
     </main>
   );
