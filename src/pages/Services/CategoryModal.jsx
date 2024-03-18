@@ -3,13 +3,13 @@ import { crmAPI } from '@service/api';
 import { useEffect, useState } from 'react';
 import { DeleteOutlined } from '@ant-design/icons';
 
-const AddCategoryModal = ({ visible, handleOk, handleCancel, initialCategory }) => {
+const CategoryModal = ({ visible, handleOk, handleCancel, initialCategory }) => {
   const [form] = Form.useForm();
   const [confirmLoading, setConfirmLoading] = useState(false); 
 
   useEffect(() => {
     if (visible && initialCategory) {
-      form.setFieldsValue({ category: initialCategory.name});
+      form.setFieldsValue({ category: initialCategory.name });
     }
   }, [visible, initialCategory, form]);
 
@@ -38,7 +38,24 @@ const AddCategoryModal = ({ visible, handleOk, handleCancel, initialCategory }) 
         setConfirmLoading(false);
       });
   };
-  
+
+  const handleDelete = () => {
+    setConfirmLoading(true);
+    crmAPI.deleteCategory(initialCategory.id)
+      .then(() => {
+        message.success('Категория успешно удалена');
+        handleOk();
+        handleCancel();
+      })
+      .catch((error) => {
+        console.error('Error deleting category:', error);
+        message.error('Ошибка при удалении категории');
+        setConfirmLoading(false);
+      })
+      .finally(() => {
+        setConfirmLoading(false);
+      });
+  };
 
   const baseStyle = {
     width: 'clamp(200px, 100%, 500px)',
@@ -48,37 +65,40 @@ const AddCategoryModal = ({ visible, handleOk, handleCancel, initialCategory }) 
   return (
     <Modal
       centered
-      title={initialCategory ?  <span>
-        Редактирование категории
-
-        <Popconfirm
+      title={
+        initialCategory ?  
+        <span>
+          Редактирование категории
+          <Popconfirm
             key="delete"
-            title="Вы уверены, что хотите удалить этого клиента?"
+            title="Вы уверены, что хотите удалить эту категорию?"
             okText="Да"
             cancelText="Отмена"
-        >
+            onConfirm={handleDelete}
+          >
             <Button
-            danger
-            type="link"
-            style={{ right: 50, position: 'absolute', marginTop: -8.5 }}
-            icon={<DeleteOutlined />}
-        >
-            Удалить
-        </Button>
-        </Popconfirm>
-        
-    </span> : 'Добавить категорию'}
+              danger
+              type="link"
+              style={{ right: 50, position: 'absolute', marginTop: -8.5 }}
+              icon={<DeleteOutlined />}
+            >
+              Удалить
+            </Button>
+          </Popconfirm>
+        </span> : 
+        'Добавить категорию'
+      }
       open={visible}
       onOk={form.submit}
       onCancel={handleCancel}
       confirmLoading={confirmLoading} 
       footer={[
         <Button key="submit" style={{ ...baseStyle }} loading={confirmLoading} onClick={() => form.submit()}>
-            {initialCategory ? 'Сохранить' : 'Добавить'}
+          {initialCategory ? 'Сохранить' : 'Добавить'}
         </Button>
-    ]}
+      ]}
     >
-      <Form form={form} onFinish={onFinish}    layout="vertical">
+      <Form form={form} onFinish={onFinish} layout="vertical">
         <Form.Item
           name="category"
           label="Категория"
@@ -86,8 +106,8 @@ const AddCategoryModal = ({ visible, handleOk, handleCancel, initialCategory }) 
           style={{ marginBottom: -5 }} 
         >
           <Input
-               style={{ ...baseStyle }}
-               placeholder="Название категории" 
+            style={{ ...baseStyle }}
+            placeholder="Название категории" 
           />
         </Form.Item>
       </Form>
@@ -95,4 +115,4 @@ const AddCategoryModal = ({ visible, handleOk, handleCancel, initialCategory }) 
   );
 };
 
-export default AddCategoryModal;
+export default CategoryModal;

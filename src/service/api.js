@@ -76,4 +76,7 @@ export const crmAPI = {
     updateCategory(categoryId, categoryData) {
         return instance.put(`/crm/updateCategory/${categoryId}`, categoryData);
     },
+    deleteCategory(categoryId) {
+        return instance.delete(`/crm/deleteCategory/${categoryId}`);
+    }
 }
