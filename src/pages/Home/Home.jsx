@@ -4,16 +4,18 @@ import { Column } from '@ant-design/charts';
 import { crmAPI } from '@service/api';
 
 const Home = () => {
-  const [orderData, setOrderData] = useState([]);
+  const [orderDataLast7Days, setOrderDataLast7Days] = useState([]);
+  const [orderDataByEmployee, setOrderDataByEmployee] = useState([]);
 
   useEffect(() => {
-    asyncFetchOrders();
+    asyncFetchOrdersLast7Days();
+    asyncFetchOrdersByEmployee();
   }, []);
 
-  const asyncFetchOrders = () => {
+  const asyncFetchOrdersLast7Days = () => {
     const endDate = new Date();
     const startDate = new Date();
-    startDate.setDate(startDate.getDate() - 6); 
+    startDate.setDate(startDate.getDate() - 6);
 
     crmAPI.getOrders()
       .then(response => {
@@ -32,16 +34,45 @@ const Home = () => {
           date,
           количество: ordersCountByDay[date],
         }));
-        setOrderData(chartData);
+        setOrderDataLast7Days(chartData);
       })
       .catch(error => {
         console.error('Не удалось загрузить данные о заказах:', error);
       });
   };
 
-  const config = {
-    data: orderData,
+  const asyncFetchOrdersByEmployee = () => {
+    crmAPI.getOrders()
+      .then(response => {
+        const ordersData = response.data;
+        const ordersCountByEmployee = ordersData.reduce((acc, order) => {
+          const employee = order.employee.initials;
+          acc[employee] = (acc[employee] || 0) + 1;
+          return acc;
+        }, {});
+        const chartData = Object.keys(ordersCountByEmployee).map(employee => ({
+          employee,
+          количество: ordersCountByEmployee[employee],
+        }));
+        setOrderDataByEmployee(chartData);
+      })
+      .catch(error => {
+        console.error('Не удалось загрузить данные о заказах:', error);
+      });
+  };
+
+  const configLast7Days = {
+    data: orderDataLast7Days,
     xField: 'date',
+    yField: 'количество',
+    legend: false,
+    height: 400,
+    width: 600,
+  };
+
+  const configByEmployee = {
+    data: orderDataByEmployee,
+    xField: 'employee',
     yField: 'количество',
     legend: false,
     height: 400,
@@ -53,7 +84,12 @@ const Home = () => {
       <Flex wrap="wrap" gap="large" justify="center">
         <div>
           <Card size="small" title="Количество заказов за последние 7 дней">
-            <Column {...config} />
+            <Column {...configLast7Days} />
+          </Card>
+        </div>
+        <div>
+          <Card size="small" title="Количество заказов по сотрудникам">
+            <Column {...configByEmployee} />
           </Card>
         </div>
       </Flex>
