@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect } from 'react';
 import { Button, Flex, Space, Tooltip, Input, Table, List } from 'antd';
-import { PlusOutlined, SearchOutlined } from '@ant-design/icons';
+import { EditOutlined, PlusOutlined, SearchOutlined } from '@ant-design/icons';
 import Highlighter from 'react-highlight-words';
 import { crmAPI } from '@service/api';
 import { setServicesData } from '@store/serviceSlice'; 
@@ -85,6 +85,7 @@ const Services = () =>{
   };
 
   const handleOkService = (values) => {
+    fetchServices();
     setVisibleServiceModal(false);
   };
 
@@ -245,11 +246,12 @@ const Services = () =>{
                     <Button
                       type="text"
                       block
+                      icon={<EditOutlined/>}
                       key={index}
                       style={{ textAlign: 'left', color: 'white', position: 'relative', paddingLeft: '0' }}
                       onClick={() => showModalCategory(category)} 
                     >
-                      {category.name}
+                      {category.name} 
                     </Button>
                   ))}
                 />
