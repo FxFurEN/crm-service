@@ -73,4 +73,7 @@ export const crmAPI = {
     updateEmployee(id, employeeData) {
         return instance.put(`/crm/updateEmployee/${id}`, employeeData);
     },     
+    updateCategory(categoryId, categoryData) {
+        return instance.put(`/crm/updateCategory/${categoryId}`, categoryData);
+    },
 }

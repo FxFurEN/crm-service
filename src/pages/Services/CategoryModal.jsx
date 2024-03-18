@@ -1,28 +1,43 @@
 import { Modal, Form, Input, message, Button } from 'antd';
 import { crmAPI } from '@service/api';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
-const AddCategoryModal = ({ visible, handleOk, handleCancel }) => {
+const AddCategoryModal = ({ visible, handleOk, handleCancel, initialCategory }) => {
   const [form] = Form.useForm();
   const [confirmLoading, setConfirmLoading] = useState(false); 
 
+  useEffect(() => {
+    if (visible && initialCategory) {
+      form.setFieldsValue({ category: initialCategory.name});
+    }
+  }, [visible, initialCategory, form]);
+
   const onFinish = (values) => {
     setConfirmLoading(true); 
-    crmAPI.createCategory(values)
+    const requestData = initialCategory 
+      ? { id: initialCategory.id, name: values.category }
+      : { name: values.category };
+  
+    const request = initialCategory 
+      ? crmAPI.updateCategory(initialCategory.id, requestData)
+      : crmAPI.createCategory(values); 
+  
+    request
       .then((response) => {
         handleOk(response.data);
         form.resetFields();
-        message.success('Категория успешно добавлена');
+        message.success(initialCategory ? 'Категория успешно обновлена' : 'Категория успешно добавлена');
         handleCancel();
       })
       .catch((error) => {
-        console.error('Error creating category:', error);
-        message.error('Ошибка при добавлении категории');
+        console.error('Error creating/updating category:', error);
+        message.error('Ошибка при добавлении/обновлении категории');
       })
       .finally(() => {
         setConfirmLoading(false);
       });
   };
+  
 
   const baseStyle = {
     width: 'clamp(200px, 100%, 500px)',
@@ -32,14 +47,14 @@ const AddCategoryModal = ({ visible, handleOk, handleCancel }) => {
   return (
     <Modal
       centered
-      title="Добавить категорию"
+      title={initialCategory ? 'Редактировать категорию' : 'Добавить категорию'}
       open={visible}
       onOk={form.submit}
       onCancel={handleCancel}
       confirmLoading={confirmLoading} 
       footer={[
         <Button key="submit" style={{ ...baseStyle }} loading={confirmLoading} onClick={() => form.submit()}>
-            Добавить
+            {initialCategory ? 'Сохранить' : 'Добавить'}
         </Button>
     ]}
     >
@@ -49,7 +64,6 @@ const AddCategoryModal = ({ visible, handleOk, handleCancel }) => {
           label="Категория"
           rules={[{ required: true, message: 'Пожалуйста, введите название категории!' }]}
           style={{ marginBottom: -5 }} 
-          
         >
           <Input
                style={{ ...baseStyle }}
