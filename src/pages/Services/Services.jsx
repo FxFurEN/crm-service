@@ -72,6 +72,7 @@ const Services = () =>{
 
   const handleOkCategory = (values) => {
     fetchCategories();
+    fetchServices();
     setVisibleCategoryModal(false);
   };
 
