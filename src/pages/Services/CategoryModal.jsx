@@ -31,7 +31,6 @@ const CategoryModal = ({ visible, handleOk, handleCancel, initialCategory }) => 
         handleCancel();
       })
       .catch((error) => {
-        console.error('Error creating/updating category:', error);
         message.error('Ошибка при добавлении/обновлении категории');
       })
       .finally(() => {
@@ -48,7 +47,6 @@ const CategoryModal = ({ visible, handleOk, handleCancel, initialCategory }) => 
         handleCancel();
       })
       .catch((error) => {
-        console.error('Error deleting category:', error);
         message.error('Ошибка при удалении категории');
         setConfirmLoading(false);
       })
