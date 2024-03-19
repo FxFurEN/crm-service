@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { Spin, Table, Select } from 'antd';
+import { Spin, Table, Select, Button } from 'antd';
 import { crmAPI } from '@service/api';
 import dayjs from 'dayjs';
+import { NoPrint, PrintProvider } from 'react-easy-print';
 
 const { Option } = Select;
 
@@ -96,28 +97,33 @@ const ReportDetails = ({ reportType }) => {
     ] : [];
 
     return (
-        <div>
-            <Select showSearch placeholder="Выберите категорию" style={{ width: 200, marginBottom: 16 }} onChange={handleCategoryChange}>
-                <Option value="">Все категории</Option>
-                {uniqueCategories.map(category => (
-                    <Option key={category} value={category}>{category}</Option>
-                ))}
-            </Select>
+        <>
+            <NoPrint>
+                <Select showSearch placeholder="Выберите категорию" style={{ width: 200, marginBottom: 16 }} onChange={handleCategoryChange}>
+                    <Option value="">Все категории</Option>
+                    {uniqueCategories.map(category => (
+                        <Option key={category} value={category}>{category}</Option>
+                    ))}
+                </Select>
+                <Button type="primary" onClick={() => window.print()} style={{ marginBottom: 16 }}>Печать</Button>
+            </NoPrint>
             {loading ? (
                 <Spin />
             ) : (
-                <Table 
-                    dataSource={filteredData}
-                    pagination={{
-                        pageSize: 50,
-                        position: ['none'],
-                    }}
-                    scroll={{
-                        y: 600,
-                    }}
-                    columns={columns} />
+                <PrintProvider>
+                    <Table 
+                        dataSource={filteredData}
+                        pagination={{
+                            position: ['none'],
+                        }}
+                        scroll={{
+                            y: 600,
+                        }}
+                        columns={columns}
+                    />
+                </PrintProvider>
             )}
-        </div>
+        </>
     );
 };
 
