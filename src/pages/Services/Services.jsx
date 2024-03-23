@@ -1,18 +1,19 @@
 import { useState, useRef, useEffect } from 'react';
 import { Button, Flex, Space, Tooltip, Input, Table, List } from 'antd';
-import {PlusOutlined, SearchOutlined} from '@ant-design/icons';
+import { EditOutlined, PlusOutlined, SearchOutlined } from '@ant-design/icons';
 import Highlighter from 'react-highlight-words';
 import { crmAPI } from '@service/api';
 import { setServicesData } from '@store/serviceSlice'; 
 import { useDispatch, useSelector } from 'react-redux';
-import AddServiceModal from './AddServiceModal';
-import AddCategoryModal from './AddCategoryModal';
+import ServiceModal from './ServiceModal';
+import CategoryModal from './CategoryModal';
 import Floatbutton from '@components/float-button/FloatButton';
 
 const Services = () =>{
   const [selectionType] = useState('checkbox');
   const [visibleCategoryModal, setVisibleCategoryModal] = useState(false);
   const [visibleServiceModal, setVisibleServiceModal] = useState(false);
+  const [initialCategory, setInitialCategory] = useState(null); 
   const rowSelection = {
     getCheckboxProps: (record) => ({
       disabled: record.name === 'Disabled User',
@@ -26,14 +27,13 @@ const Services = () =>{
   const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
   const [categories, setCategories] = useState([]);
+  const [selectedService, setSelectedService] = useState(null);
 
 
   useEffect(() => {
     fetchCategories();
     fetchServices();
   }, []);
-
-
 
   const fetchServices = () => {
     setLoading(true);
@@ -65,36 +65,44 @@ const Services = () =>{
         });
     };
 
-  
-
   const services = useSelector(state => state.services.services);
 
-
-  const showModalCategory = () => {
+  const showModalCategory = (category) => { 
+    setInitialCategory(category); 
     setVisibleCategoryModal(true);
   };
 
   const handleOkCategory = (values) => {
+    fetchCategories();
+    fetchServices();
     setVisibleCategoryModal(false);
   };
 
   const handleCancelCategory = () => {
     setVisibleCategoryModal(false);
+    setInitialCategory(null); 
   };
 
   const showModalService = () => {
     setVisibleServiceModal(true);
+    setSelectedService(null);
   };
 
   const handleOkService = (values) => {
+    fetchServices();
     setVisibleServiceModal(false);
+    
   };
 
   const handleCancelService = () => {
     setVisibleServiceModal(false);
   };
 
-
+  const handleRowClick = (record) => {
+    setSelectedService(record);
+    setVisibleServiceModal(true);
+  };
+  
 
   const handleSearch = (selectedKeys, confirm, dataIndex) => {
     confirm();
@@ -212,14 +220,17 @@ const Services = () =>{
     },
   ];
   const data = services.map((service, index) => ({
+    id: service.id,
     key: index + 1,
     service: service.name,
     categoryService: service.category.name,
     price: service.price,
   }));
   const dataCategory = categories.map(category => ({
-    description: [category.name],
+    description: [{ id: category.id, name: category.name }],
   }));
+  
+  
 
   return (
     <main id="main">
@@ -233,7 +244,7 @@ const Services = () =>{
                 icon={<PlusOutlined />}
                 type="text"
                 style={{ color: 'white' }}
-                onClick={showModalCategory}
+                onClick={() => showModalCategory()}
               />
             </Tooltip>
           </Space>
@@ -243,14 +254,16 @@ const Services = () =>{
             renderItem={(item) => (
               <List.Item>
                 <List.Item.Meta
-                  description={item.description.map((desc, index) => (
+                  description={item.description.map((category, index) => (
                     <Button
                       type="text"
                       block
+                      icon={<EditOutlined/>}
                       key={index}
                       style={{ textAlign: 'left', color: 'white', position: 'relative', paddingLeft: '0' }}
+                      onClick={() => showModalCategory(category)} 
                     >
-                      {desc}
+                      {category.name} 
                     </Button>
                   ))}
                 />
@@ -267,6 +280,11 @@ const Services = () =>{
               pagination={{
                 position: ['right'],
               }}
+              onRow={(record, rowIndex) => {
+                return {
+                  onClick: () => handleRowClick(record),
+                };
+              }}
               summary={() => (
                 <Table.Summary>
                   <Table.Summary.Row>
@@ -279,26 +297,21 @@ const Services = () =>{
       </Flex>
       <Floatbutton onClick={showModalService} icon={<PlusOutlined />} >Добавить услугу
       </Floatbutton>
-      <AddCategoryModal
+      <CategoryModal
         visible={visibleCategoryModal}
-        handleOk={() => {
-          handleOkCategory,
-          fetchCategories(); 
-        }} 
+        handleOk={handleOkCategory}
         handleCancel={handleCancelCategory}
+        initialCategory={initialCategory} 
       />
-
-      <AddServiceModal
+      <ServiceModal
         visible={visibleServiceModal}
         categories={categories}
-        handleOk={() => {
-          handleOkService,
-          fetchServices(); 
-        }} 
+        handleOk={handleOkService}
         handleCancel={handleCancelService}
+        serviceData={selectedService}
       />
     </main>
   );
 }
 
-export default Services
+export default Services;

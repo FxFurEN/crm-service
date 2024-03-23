@@ -73,4 +73,25 @@ export const crmAPI = {
     updateEmployee(id, employeeData) {
         return instance.put(`/crm/updateEmployee/${id}`, employeeData);
     },     
+    updateCategory(categoryId, categoryData) {
+        return instance.put(`/crm/updateCategory/${categoryId}`, categoryData);
+    },
+    deleteCategory(categoryId) {
+        return instance.delete(`/crm/deleteCategory/${categoryId}`);
+    },
+    updateService(serviceId, serviceData) {
+        return instance.put(`/crm/updateService/${serviceId}`, serviceData);
+    },
+    deleteService(serviceId) {
+        return instance.delete(`/crm/deleteService/${serviceId}`);
+    },
+    getOrdersByCategory(){
+        return instance.get('/crm/ordersByCategory');
+    },
+    getCompletedOrdersByEmployee(){
+        return instance.get('/crm/completedOrdersByEmployee');
+    },
+    getClientsWithMostOrders(){
+        return instance.get('/crm/clientsWithMostOrders');
+    },
 }
